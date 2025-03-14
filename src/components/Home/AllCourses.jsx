@@ -1,16 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import CourseCard from "./CourseCard";
 
 const AllCourses = () => {
-    const [loading , setLoading] = useState(true);
-    const [courses , setCourses] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [courses, setCourses] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        const fetchCourses = async () =>{
+        const fetchCourses = async () => {
             try {
                 const response = await axios.get("https://unishare-server.vercel.app/api/courses/get_all_courses");
-                console.log(response.data);
+                setCourses(response.data.courses);
+                // console.log(response.data.courses);
             } catch (err) {
                 console.log("Courses fetching error : ", err);
             } finally {
@@ -19,11 +21,23 @@ const AllCourses = () => {
         }
 
         fetchCourses();
-    },[])
+    }, [])
 
     return (
         <div>
-            <p>All Courses</p>
+            <p>Total Courses {courses.length}</p>
+
+            <div className="flex gap-4">
+                {
+                    !loading && courses.map(course => {
+                        return <div key={course._id}><CourseCard course={course} /></div>;
+                    })
+                }
+            </div>
+
+            {
+                loading && <div>Loading</div>
+            }
         </div>
     );
 };
