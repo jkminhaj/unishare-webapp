@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
+import axiosInstance from "../../config/axiosIntance";
 
 const AllCourses = () => {
     const [loading, setLoading] = useState(true);
@@ -10,7 +10,7 @@ const AllCourses = () => {
 
         const fetchCourses = async () => {
             try {
-                const response = await axios.get("https://unishare-server.vercel.app/api/courses/get_all_courses");
+                const response = await axiosInstance.get("/api/courses/get_all_courses");
                 setCourses(response.data.courses);
                 // console.log(response.data.courses);
             } catch (err) {
