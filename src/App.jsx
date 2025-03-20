@@ -4,7 +4,7 @@ const App = () => {
     <div>
       <nav className="border-b-[1px] border-slate-100">
         <div className="w-11/12 md:w-10/12 mx-auto">
-          <p></p>
+          {/* <p>Nav</p> */}
         </div>
       </nav>
       <section className="w-11/12 md:w-10/12 mx-auto">

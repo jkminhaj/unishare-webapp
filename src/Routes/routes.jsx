@@ -3,6 +3,7 @@ import App from "../App";
 import Home from "../Pages/Home/Home";
 import Course_Details from "../Pages/Course_Details/Course_Details";
 import Course_Metarial_Details from "../Pages/Course_Metarial_Details/Course_Metarial_Details";
+import UploadMaterialTest from "../components/Test/UploadMaterialTest";
 
 export const router = createBrowserRouter([
   {
@@ -18,17 +19,34 @@ export const router = createBrowserRouter([
         element: <Course_Details />
       },
       {
-        path: "/assignment/:id",
+        path: "/assignmentDetails",
         element: <Course_Metarial_Details />
       },
       {
-        path: "/note/:id",
+        path: "/noteDetails",
         element: <Course_Metarial_Details />
       },
       {
-        path: "/lab/:id",
+        path: "/labDetails",
         element: <Course_Metarial_Details />
       },
+      {
+        path : "/upload",
+        element:<UploadMaterialTest/>
+      }
+      // {
+      //   path: "/assignment/:id",
+      //   element: <Course_Metarial_Details />
+      // },
+      // {
+      //   path: "/note/:id",
+      //   element: <Course_Metarial_Details />
+      // },
+      // {
+      //   path: "/lab/:id",
+      //   element: <Course_Metarial_Details />
+      // },
     ]
   },
+
 ]);
