@@ -2,6 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../config/axiosIntance";
 import { GlobalContext } from "../../context/GlobalProvider";
+import { ImLab } from "react-icons/im";
+import { PiNotebookFill } from "react-icons/pi";
+import { MdAssignment } from "react-icons/md";
+import Sekeleton_CD_Header from "../../components/Skeletons/Course_Details/Sekeleton_CD_Header";
+
+
 
 const Course_Details = () => {
     const courseId = useParams().id;
@@ -70,21 +76,34 @@ const Course_Details = () => {
         fetchCourseMaterials();
     }, [])
 
-    const handleMaterialDetails = (route , material) => {
+    const handleMaterialDetails = (route, material) => {
         navigate(`/${route}`);
         setMaterialData(material);
     }
     return (
-        <div className="mt-5">
+        <div className="mt-3">
             {
                 !loading &&
                 <section>
-                    <p className="text-5xl font-semibold mb-3 text-center">{course?.courseName}</p>
+                    {/* assignments ,  courseName , labs , notes , semester , _id , faculty , courseCode = course ; */}
+                    <header className="bg-teal-600 text-white pt-16 p-7 rounded-lg">
+                        <p className="text-4xl font-semibold mb-3">{course?.courseName}</p>
+                        <p className="text-xl mb-3">{course?.faculty}</p>
 
-                    <header className="flex justify-center gap-4">
-                        <p className="border rounded-md p-5 my-3 max-w-max">Assignments : {course?.assignments.length}</p>
-                        <p className="border rounded-md p-5 my-3 max-w-max">Labs : {course?.labs.length}</p>
-                        <p className="border rounded-md p-5 my-3 max-w-max">Notes : {course?.notes.length}</p>
+                        <div className="flex items-center gap-3 mt-3">
+                            <div className="flex items-center gap-1">
+                            <ImLab />
+                                <p className="text-xs">{course?.labs.length}</p>
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <MdAssignment />
+                                <p className="text-xs">{course?.assignments.length}</p>
+                            </div>
+                            <div className="flex items-center gap-1">
+                            <PiNotebookFill />
+                                <p className="text-xs">{course?.notes.length}</p>
+                            </div>
+                        </div>
                     </header>
 
                     {/* main materials */}
@@ -96,8 +115,8 @@ const Course_Details = () => {
                                 assignments.map((item, idx) => {
                                     return (
                                         <div
-                                            onClick={() => { handleMaterialDetails("assignmentDetails",item) }}
-                                            className="border rounded-lg p-5 md:min-w-[800px] border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
+                                            onClick={() => { handleMaterialDetails("assignmentDetails", item) }}
+                                            className="border rounded-lg p-5 min-w-[800px] border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
                                             {/* <p>{item.createdAt}</p> */}
                                             <div className="flex justify-between items-center gap-4">
                                                 <div className="flex items-center gap-3">
@@ -120,7 +139,7 @@ const Course_Details = () => {
             }
 
             {
-                loading && <p>loading</p>
+                loading && <Sekeleton_CD_Header/>
             }
 
         </div>

@@ -6,15 +6,15 @@ import { TbLogout2 } from "react-icons/tb";
 
 const Navbar = () => {
     return (
-        <div className="py-2 shadow-gray-50-200 mb-5 shadow">
+        <div className="py-2 shadow-gray-50-200 mb-4 shadow">
             <div className="w-11/12 md:w-10/12 mx-auto flex items-center justify-between">
                 <div>
                     <p className="text-2xl  text-blue-500">Uni Share</p>
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <div className="flex gap-2 items-center">
-                        <div className="border border-gray-300 flex items-center rounded-2xl py-2 pl-3">
+                    <div className="flex flex-row-reverse gap-2 items-center">
+                        <div className="border border-gray-300 flex flex-row-reverse items-center rounded-2xl py-2 pl-2 pr-4">
                             <FiSearch className="text-xl text-gray-400" />
                             <input type="text" className="outline-none px-2" placeholder="Search materials" />
                         </div>
