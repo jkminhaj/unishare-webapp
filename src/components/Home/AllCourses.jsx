@@ -3,7 +3,6 @@ import CourseCard from "./CourseCard";
 import axiosInstance from "../../config/axiosIntance";
 import { Link } from "react-router-dom";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import Skeleton_AllCourses from "../Skeletons/Skeleton_AllCourses";
 import Skeleton_CourseCard from "../Skeletons/Skeleton_CourseCard";
 import Add_Course from "./Add_Course";
 

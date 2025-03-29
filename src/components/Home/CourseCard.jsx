@@ -23,7 +23,7 @@ const CourseCard = ({ course }) => {
 const Badge = ({ badge }) => {
 
     return (
-        <div className={`absolute text-xs bg-green-600 shadow-md text-white p-2 py-1 rounded-lg  top-0 left-0 rounded-b-none rounded-r-2xl pr-4`}>
+        <div className={`absolute text-xs bg-blue-500 shadow-md text-white p-2 py-1 rounded-lg  top-0 left-0 rounded-b-none rounded-r-2xl pr-4`}>
             <div className="flex items-center gap-1">
                 <div className="text-sm" >
                     <FaLaptopCode />
