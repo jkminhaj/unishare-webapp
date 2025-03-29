@@ -2,11 +2,11 @@ import { createContext, useState } from "react";
 
 export const GlobalContext = createContext(null);
 const GlobalProvider = ({children}) => {
-    const [search , setSearch] =useState('');
-    const test = 'hello world'
+    const [materialData , setMaterialData] = useState({});
+    const [user ,setUser] = useState(false);
+
     // pass data in global context
-    const data = {test
-    ,search,setSearch}
+    const data = { materialData , setMaterialData , user , setUser}
     return (
         <GlobalContext.Provider value = {data}>
             {children}

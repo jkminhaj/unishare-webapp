@@ -1,11 +1,10 @@
 import { Outlet } from "react-router-dom";
+import Navbar from "./components/Shared/NavBar/Navbar";
 const App = () => {
   return (
     <div>
-      <nav className="border-b-[1px] border-slate-100">
-        <div className="w-11/12 md:w-10/12 mx-auto">
-          <p>hi</p>
-        </div>
+      <nav>
+        <Navbar />
       </nav>
       <section className="w-11/12 md:w-10/12 mx-auto">
         <Outlet />
