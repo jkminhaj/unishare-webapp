@@ -108,15 +108,15 @@ const Course_Details = () => {
 
                     {/* main materials */}
                     {/* // materialName , materialNo , createdAt , data [arr] , deadline , uploader {name , email , image } , _id = material ; */}
-                    <div className="flex justify-center">
-                        <div>
+                    <div className="flex justify-between">
+                        <div className="">
                             {
                                 assignments &&
                                 assignments.map((item, idx) => {
                                     return (
                                         <div
                                             onClick={() => { handleMaterialDetails("assignmentDetails", item) }}
-                                            className="border rounded-lg p-5 min-w-[800px] border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
+                                            className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
                                             {/* <p>{item.createdAt}</p> */}
                                             <div className="flex justify-between items-center gap-4">
                                                 <div className="flex items-center gap-3">
