@@ -14,6 +14,7 @@ const Course_Details = () => {
     const courseId = useParams().id;
     const navigate = useNavigate();
     const { setMaterialData } = useContext(GlobalContext);
+    const [refetch , setRefetch] = useState(0);
 
     const [viewingCourse, setViewingCourse] = useState(true);
 
@@ -44,7 +45,7 @@ const Course_Details = () => {
 
         fetchCourse();
 
-    }, []);
+    }, [refetch]);
 
     useEffect(() => {
 
@@ -64,9 +65,9 @@ const Course_Details = () => {
                 setLabs(labsData);
                 setNotes(notesData);
 
-                console.log("Assignments Data :", assignmentsData);
-                console.log("Labs Data :", labsData);
-                console.log("Notes Data :", notesData);
+                // console.log("Assignments Data :", assignmentsData);
+                // console.log("Labs Data :", labsData);
+                // console.log("Notes Data :", notesData);
 
             } catch (err) {
                 console.log("Course material fetching error : ", err);
@@ -77,7 +78,7 @@ const Course_Details = () => {
         }
 
         fetchCourseMaterials();
-    }, [])
+    }, [refetch])
 
     const handleMaterialDetails = (route, material) => {
         navigate(`/${route}`);
@@ -179,7 +180,7 @@ const Course_Details = () => {
                         }
 
                         {
-                            !viewingCourse && <Add_Materials courseId={course._id} />
+                            !viewingCourse && <Add_Materials setRefetch={setRefetch} refetch={refetch} courseId={course._id} />
                         }
 
                     </section>

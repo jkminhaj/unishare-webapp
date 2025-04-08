@@ -1,10 +1,13 @@
 import { useState } from "react";
 import axiosInstance from "../../config/axiosIntance";
 
-const Add_Materials = ({ courseId }) => {
+const Add_Materials = ({ courseId , setRefetch , refetch}) => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [isInitialPage, setIsInitialPage] = useState(true);
     const [data, setData] = useState([]);
+
+    const [imageUploading , setImageUploading] = useState(false);
+    const [loading , setLoading] = useState(false);
 
     const isAssignment = selectedOption === "assignment";
     const isLab = selectedOption === "lab";
@@ -29,47 +32,46 @@ const Add_Materials = ({ courseId }) => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
+
+        // Getting files to upload it on google drive
+
         const files = formData.getAll("files");
-
         const imageFormData = new FormData();
-
         for (let i = 0; i < files.length; i++) {
             imageFormData.append('file', files[i]);
         }
 
+        setImageUploading(true);
         try {
             const response = await axiosInstance.post('/uploadToDrive', imageFormData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log(response.data.files);
+            // console.log(response.data.files);
             setData(response.data.files);
         } catch (error) {
             console.error('Error uploading file:', error);
+        } finally {
+            setImageUploading(false);
         }
 
+
+        // Uploader data
         const uploader = {
             name: "Minhaj",
             email: "mmminhaj221@gmail.com",
             image: "https://lh3.googleusercontent.com/a/ACg8ocL6P9DblykuGNOEoWW66u3OcagbR7lGWApRBFWg2350J8qeYBa3pg=s288-c-no"
         }
 
-
         const apiData = new FormData();
-        console.log("data" , data);
-        // const course = courseId ;
         apiData.append("data",JSON.stringify(data));
         apiData.append("uploader",JSON.stringify(uploader));
         apiData.append("course",courseId);
-        // console.log("CourseId " , course);
-        // console.log(files);
-        console.log("data2" , data);
-
         
 
+        setLoading(true);
         if (isLab) {
-
             apiData.append('labName', formData.get('lab_name'));
             apiData.append('labNo', formData.get('lab_no'));
             apiData.append('details', formData.get('lab_description'));
@@ -77,12 +79,14 @@ const Add_Materials = ({ courseId }) => {
 
             try {
                 const res = await axiosInstance.post("/api/labs/create",apiData);
-                console.log('Response:', res.data);
+                setRefetch(!refetch);
                 alert("Successs Bro")
 
             } catch(err){
                 console.log("error",err);
                 alert("Failed")
+            } finally {
+                setLoading(false);
             }
         }
 
@@ -91,6 +95,18 @@ const Add_Materials = ({ courseId }) => {
             apiData.append('title', formData.get('note_title'));
             apiData.append('details', formData.get('note_description'));
 
+            try {
+                const res = await axiosInstance.post("/api/notes/create",apiData);
+                setRefetch(!refetch);
+                alert("Successs Bro")
+
+
+            } catch(err){
+                console.log("error",err);
+                alert("Failed")
+            } finally {
+                setLoading(false);
+            }
         }
 
         if (isAssignment) {
@@ -100,6 +116,17 @@ const Add_Materials = ({ courseId }) => {
             apiData.append('deadline', formData.get('assignment_deadline'));
             apiData.append('details', formData.get('assignment_description'));
 
+            try {
+                const res = await axiosInstance.post("/api/assignments/create",apiData);
+                setRefetch(!refetch);
+                alert("Successs Bro")
+
+            } catch(err){
+                console.log("error",err);
+                alert("Failed")
+            } finally {
+                setLoading(false);
+            }
 
         }
 
@@ -167,6 +194,7 @@ const Add_Materials = ({ courseId }) => {
                         type="file"
                         name="files"
                         multiple
+                        required
                         // onChange={handleFileUpload}
                         // use another 
                         className={`${styles.input} mt-3 w-full opacity-35`}
