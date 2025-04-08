@@ -6,6 +6,7 @@ import { ImLab } from "react-icons/im";
 import { PiNotebookFill } from "react-icons/pi";
 import { MdAssignment } from "react-icons/md";
 import Sekeleton_CD_Header from "../../components/Skeletons/Course_Details/Sekeleton_CD_Header";
+import Add_Materials from "../Add_Materials/Add_Materials";
 
 
 
@@ -13,6 +14,9 @@ const Course_Details = () => {
     const courseId = useParams().id;
     const navigate = useNavigate();
     const { setMaterialData } = useContext(GlobalContext);
+    const [refetch , setRefetch] = useState(0);
+
+    const [viewingCourse, setViewingCourse] = useState(true);
 
     const [loading, setLoading] = useState(true);
     const [materialLoading, setMaterialLoading] = useState(true);
@@ -41,7 +45,7 @@ const Course_Details = () => {
 
         fetchCourse();
 
-    }, []);
+    }, [refetch]);
 
     useEffect(() => {
 
@@ -61,9 +65,9 @@ const Course_Details = () => {
                 setLabs(labsData);
                 setNotes(notesData);
 
-                console.log("Assignments Data :", assignmentsData);
-                console.log("Labs Data :", labsData);
-                console.log("Notes Data :", notesData);
+                // console.log("Assignments Data :", assignmentsData);
+                // console.log("Labs Data :", labsData);
+                // console.log("Notes Data :", notesData);
 
             } catch (err) {
                 console.log("Course material fetching error : ", err);
@@ -74,75 +78,120 @@ const Course_Details = () => {
         }
 
         fetchCourseMaterials();
-    }, [])
+    }, [refetch])
 
     const handleMaterialDetails = (route, material) => {
         navigate(`/${route}`);
         setMaterialData(material);
     }
     return (
-        <div className="mt-3">
-            {
-                !loading &&
-                <section>
-                    {/* assignments ,  courseName , labs , notes , semester , _id , faculty , courseCode = course ; */}
-                    <header className="bg-teal-600 text-white pt-16 p-7 rounded-lg">
-                        <p className="text-4xl font-semibold mb-3">{course?.courseName}</p>
-                        <p className="text-xl mb-3">{course?.faculty}</p>
+        <section>
+            <div className="mt-3">
+                {
+                    !loading &&
+                    <section>
+                        {/* assignments ,  courseName , labs , notes , semester , _id , faculty , courseCode = course ; */}
+                        <header className={`bg-teal-600 ease-in-out duration-300 transform transition-all
+                            ${viewingCourse ? "p-7" : "p-4 px-7" }
+                             text-white   rounded-lg ${viewingCourse ? "pt-16" : "pt-7" }`}>
+                            <p className="text-4xl font-semibold mb-3">{course?.courseName}</p>
 
-                        <div className="flex items-center gap-3 mt-3">
-                            <div className="flex items-center gap-1">
-                            <ImLab />
-                                <p className="text-xs">{course?.labs.length}</p>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <MdAssignment />
-                                <p className="text-xs">{course?.assignments.length}</p>
-                            </div>
-                            <div className="flex items-center gap-1">
-                            <PiNotebookFill />
-                                <p className="text-xs">{course?.notes.length}</p>
-                            </div>
-                        </div>
-                    </header>
-
-                    {/* main materials */}
-                    {/* // materialName , materialNo , createdAt , data [arr] , deadline , uploader {name , email , image } , _id = material ; */}
-                    <div className="flex justify-between">
-                        <div className="">
                             {
-                                assignments &&
-                                assignments.map((item, idx) => {
-                                    return (
-                                        <div
-                                            onClick={() => { handleMaterialDetails("assignmentDetails", item) }}
-                                            className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
-                                            {/* <p>{item.createdAt}</p> */}
-                                            <div className="flex justify-between items-center gap-4">
-                                                <div className="flex items-center gap-3">
-                                                    <p className="text-base font-normal">{item.assignmentName}</p>
-                                                    <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl">Assignment {item.assignmentNo}</p>
-                                                </div>
-                                                <div className="flex items-center gap-3">
-                                                    <p className="text-sm">uploaded by</p>
-                                                    <img title={item.uploader.name} className="w-6 rounded-full" src={item.uploader.image} alt="" />
-                                                </div>
-                                            </div>
+                                viewingCourse &&
+                                <div className="ease-in-out duration-300 transform transition-all">
+                                    <p className="text-xl mb-3 transition-all">{course?.faculty}</p>
+                                    <div className="flex items-center gap-3 mt-3">
+                                        <div className="flex items-center gap-1">
+                                            <ImLab />
+                                            <p className="text-xs">{course?.labs.length}</p>
                                         </div>
-                                    )
-                                })
+                                        <div className="flex items-center gap-1">
+                                            <MdAssignment />
+                                            <p className="text-xs">{course?.assignments.length}</p>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <PiNotebookFill />
+                                            <p className="text-xs">{course?.notes.length}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             }
-                        </div>
-                    </div>
 
-                </section>
-            }
+                        </header>
 
-            {
-                loading && <Sekeleton_CD_Header/>
-            }
+                        <button className="btn font-normal my-2" onClick={() => { setViewingCourse(!viewingCourse) }}>Add Materials</button>
 
-        </div>
+                        {/* main materials */}
+                        {/* // materialName , materialNo , createdAt , data [arr] , deadline , uploader {name , email , image } , _id = material ; */}
+                        {
+                            viewingCourse &&
+                            <section>
+                                <div className="flex justify-between">
+                                    <div className="">
+                                        {
+                                            assignments &&
+                                            assignments.map((item, idx) => {
+                                                return (
+                                                    <div
+                                                        onClick={() => { handleMaterialDetails("assignmentDetails", item) }}
+                                                        className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
+                                                        {/* <p>{item.createdAt}</p> */}
+                                                        <div className="flex justify-between items-center gap-4">
+                                                            <div className="flex items-center gap-3">
+                                                                <p className="text-base font-normal">{item.assignmentName}</p>
+                                                                <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl">Assignment {item.assignmentNo}</p>
+                                                            </div>
+                                                            <div className="flex items-center gap-3">
+                                                                <p className="text-sm">uploaded by</p>
+                                                                <img title={item.uploader.name} className="w-6 rounded-full" src={item.uploader.image} alt="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                    <div className="">
+                                        {
+                                            labs &&
+                                            labs.map((item, idx) => {
+                                                return (
+                                                    <div
+                                                        onClick={() => { handleMaterialDetails("labDetails", item) }}
+                                                        className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
+                                                        {/* <p>{item.createdAt}</p> */}
+                                                        <div className="flex justify-between items-center gap-4">
+                                                            <div className="flex items-center gap-3">
+                                                                <p className="text-base font-normal">{item.labName}</p>
+                                                                <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl">Lab {item.labNo}</p>
+                                                            </div>
+                                                            <div className="flex items-center gap-3">
+                                                                <p className="text-sm">uploaded by</p>
+                                                                <img title={item.uploader.name} className="w-6 rounded-full" src={item.uploader.image} alt="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                            </section>
+                        }
+
+                        {
+                            !viewingCourse && <Add_Materials setRefetch={setRefetch} refetch={refetch} courseId={course._id} />
+                        }
+
+                    </section>
+                }
+
+                {
+                    loading && <Sekeleton_CD_Header />
+                }
+
+            </div>
+        </section>
     );
 };
 
