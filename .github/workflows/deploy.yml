@@ -24,6 +24,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Add CNAME
+        run: echo "unishare.me" > dist/CNAME
+
       - name: Deploy to prod branch
         uses: peaceiris/actions-gh-pages@v3
         with:
