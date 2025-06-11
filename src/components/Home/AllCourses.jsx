@@ -33,7 +33,7 @@ const AllCourses = () => {
             <div className="flex mb-7 items-center justify-between">
                 <p>Total Courses {courses.length}</p>
                 <Link to="/upload">
-                    <div className="flex border items-center gap-2  p-3 py-1  rounded-xl hover:text-white transition-all hover:bg-green-600">
+                    <div className="flex border items-center gap-2  p-3 py-1  rounded-xl hover:text-white transition-all hover:bg-blue-500">
                         <p>Ci/Cd</p>
                         <AiOutlineCloudUpload className="text-lg" />
                     </div>
