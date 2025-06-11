@@ -3,13 +3,14 @@ import { FiSearch } from "react-icons/fi";
 import { GoBellFill } from "react-icons/go";
 import { LiaRandomSolid } from "react-icons/lia";
 import { TbLogout2 } from "react-icons/tb";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
     return (
         <div className="py-2 shadow-gray-50-200 mb-4 shadow">
             <div className="w-11/12 md:w-10/12 mx-auto flex items-center justify-between">
                 <div>
-                    <p className="text-2xl  text-blue-500">Uni Share</p>
+                    <NavLink to="/" className="text-2xl hover:underline text-blue-500">Uni Share</NavLink>
                 </div>
 
                 <div className="flex items-center gap-3">
