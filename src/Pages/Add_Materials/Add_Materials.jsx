@@ -4,7 +4,6 @@ import axiosInstance from "../../config/axiosIntance";
 const Add_Materials = ({ courseId , setRefetch , refetch}) => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [isInitialPage, setIsInitialPage] = useState(true);
-    const [data, setData] = useState([]);
 
     const [imageUploading , setImageUploading] = useState(false);
     const [loading , setLoading] = useState(false);
@@ -42,14 +41,16 @@ const Add_Materials = ({ courseId , setRefetch , refetch}) => {
         }
 
         setImageUploading(true);
+        let uploadedFiles = [];
         try {
             const response = await axiosInstance.post('/uploadToDrive', imageFormData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            // console.log(response.data.files);
-            setData(response.data.files);
+            console.log(response.data.files);
+            uploadedFiles = response.data.files ;
+
         } catch (error) {
             console.error('Error uploading file:', error);
         } finally {
@@ -65,10 +66,13 @@ const Add_Materials = ({ courseId , setRefetch , refetch}) => {
         }
 
         const apiData = new FormData();
-        apiData.append("data",JSON.stringify(data));
+        // console.log("data" , uploadedFiles);
+        apiData.append("data",JSON.stringify(uploadedFiles));
         apiData.append("uploader",JSON.stringify(uploader));
         apiData.append("course",courseId);
         
+
+        // console.log([...apiData.entries()]);
 
         setLoading(true);
         if (isLab) {
@@ -97,6 +101,7 @@ const Add_Materials = ({ courseId , setRefetch , refetch}) => {
 
             try {
                 const res = await axiosInstance.post("/api/notes/create",apiData);
+                console.log(res)
                 setRefetch(!refetch);
                 alert("Successs Bro")
 

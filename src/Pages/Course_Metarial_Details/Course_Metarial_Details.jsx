@@ -1,56 +1,54 @@
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalProvider";
 
+const materialtype = (material) => {
+    if (Object.keys(material).includes("assignmentName")) {
+        return "assignment";
+    } else if (Object.keys(material).includes("labName")) {
+        return "lab";
+    } else {
+        return "note";
+    }
+}
+
 const Course_Metarial_Details = () => {
-    // const id = useParams().id;
-    // const location = useLocation();
-    // const [materials, setMaterials] = useState({});
-    // const [loading, setLoading] = useState(true);
-
-    // let type = "";
-    // if (location.pathname.startsWith("/assignment")) {
-    //     type = "assignments";
-    // } else if (location.pathname.startsWith("/note")) {
-    //     type = "notes";
-    // } else if (location.pathname.startsWith("/lab")) {
-    //     type = "labs";
-    // }
-    // get_notes
-
-    // useEffect(() => {
-
-    //     const fetchMaterials = async () => {
-    //         try {
-    //             const response = await axiosInstance.get(`/api/${type}/get_${type}/${id}`);
-    //             console.log(response.data);
-    //         } catch (err) {
-    //             console.log(`${type} fetching error : `, err);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     }
-
-    //     fetchMaterials();
-
-    // }, [])
-
 
     const { materialData } = useContext(GlobalContext);
     {/* // materialName , materialNo , createdAt , data [arr] , deadline , uploader {name , email , image } , _id = material ; */ }
-    console.log("material data : ", materialData);
+
+
+
+    console.log("material data : ", materialData.data);
     return (
         <div>
-            {/* <p>{materialData.assignmentName}</p>
-            {materialData.data[0]} */}
-            
-            <div className="w-full h-[500px] border border-gray-300 rounded-lg overflow-hidden">
-                <iframe
-                    src="https://drive.google.com/file/d/15Dgm5iugODhidJWRIJbkrqow14iwESMv/preview"
-                    width="100%"
-                    height="500px"
-                    allow="autoplay"
-                ></iframe>
-            </div>
+            {/* <div className="w-full h-[500px] border-gray-300 rounded-lg overflow-hidden">
+                    <iframe
+                        src="https://drive.google.com/file/d/15Dgm5iugODhidJWRIJbkrqow14iwESMv/preview"
+                        width="100%"
+                        height="500px"
+                        allow="autoplay"
+                    ></iframe>
+            </div> */}
+
+            <section className="max-w-[800px] mx-auto pt-3">
+                <h1 className="text-4xl text-gray-700">General</h1>
+                <p className="mt-3 text-gray-500">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam inventore omnis obcaecati quis, vitae quos corporis libero explicabo facilis impedit, id dicta deleniti unde, nulla vel vero sint tempora labore?</p>
+                <hr className="my-4  border-[1.5px]" />
+                <div className="flex gap-3">
+                    {
+                        materialData.data.map((item, indx) => {
+                            return (
+                                <div key={indx} className="border rounded w-full">
+                                    {/* <p>{item.viewLink}</p> */}
+                                    <p>Item</p>
+                                    <a href={item.viewLink} target="_blank">View</a>
+                                    
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </section>
 
         </div>
     );
