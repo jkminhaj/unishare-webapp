@@ -14,7 +14,7 @@ const Course_Details = () => {
     const courseId = useParams().id;
     const navigate = useNavigate();
     const { setMaterialData } = useContext(GlobalContext);
-    const [refetch , setRefetch] = useState(0);
+    const [refetch, setRefetch] = useState(0);
 
     const [viewingCourse, setViewingCourse] = useState(true);
 
@@ -86,14 +86,14 @@ const Course_Details = () => {
     }
     return (
         <section>
-            <div className="mt-3">
+            <div className="mt-3  mb-8">
                 {
                     !loading &&
                     <section>
                         {/* assignments ,  courseName , labs , notes , semester , _id , faculty , courseCode = course ; */}
                         <header className={`bg-teal-600 ease-in-out duration-300 transform transition-all
-                            ${viewingCourse ? "p-7" : "p-4 px-7" }
-                             text-white   rounded-lg ${viewingCourse ? "pt-16" : "pt-7" }`}>
+                            ${viewingCourse ? "p-7" : "p-4 px-7"}
+                             text-white   rounded-lg ${viewingCourse ? "pt-16" : "pt-7"}`}>
                             <p className="text-4xl font-semibold mb-3">{course?.courseName}</p>
 
                             {
@@ -126,8 +126,8 @@ const Course_Details = () => {
                         {
                             viewingCourse &&
                             <section>
-                                <div className="flex justify-between">
-                                    <div className="">
+                                <div className="flex gap-3 justify-between">
+                                    <div className="max-h-80 overflow-y-auto pr-3">
                                         {
                                             assignments &&
                                             assignments.map((item, idx) => {
@@ -150,8 +150,6 @@ const Course_Details = () => {
                                                 )
                                             })
                                         }
-                                    </div>
-                                    <div className="">
                                         {
                                             labs &&
                                             labs.map((item, idx) => {
@@ -174,6 +172,33 @@ const Course_Details = () => {
                                                 )
                                             })
                                         }
+                                        {
+                                            notes &&
+                                            notes.map((item, idx) => {
+                                                return (
+                                                    <div
+                                                        onClick={() => { handleMaterialDetails("labDetails", item) }}
+                                                        className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
+                                                        {/* <p>{item.createdAt}</p> */}
+                                                        <div className="flex justify-between items-center gap-4">
+                                                            <div className="flex items-center gap-3">
+                                                                <p className="text-base font-normal">{item.title}</p>
+                                                                <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl">Note</p>
+                                                            </div>
+                                                            <div className="flex items-center gap-3">
+                                                                <p className="text-sm">uploaded by</p>
+                                                                <img title={item.uploader.name} className="w-6 rounded-full" src={item.uploader.image} alt="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                        
+                                    </div>
+
+                                    <div className="flex-1 border  m-3 rounded-lg p-5">
+                                        <p className="text-center underline">Notices</p>
                                     </div>
                                 </div>
                             </section>
