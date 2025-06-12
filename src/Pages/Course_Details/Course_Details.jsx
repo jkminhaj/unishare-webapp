@@ -133,6 +133,7 @@ const Course_Details = () => {
                                             assignments.map((item, idx) => {
                                                 return (
                                                     <div
+                                                        
                                                         onClick={() => { handleMaterialDetails("assignmentDetails", item) }}
                                                         className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
                                                         {/* <p>{item.createdAt}</p> */}
@@ -142,7 +143,7 @@ const Course_Details = () => {
                                                                 <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl">Assignment {item.assignmentNo}</p>
                                                             </div>
                                                             <div className="flex items-center gap-3">
-                                                                <p className="text-sm">uploaded by</p>
+                                                                <p className="text-sm hidden md:block">uploaded by</p>
                                                                 <img title={item.uploader.name} className="w-6 rounded-full" src={item.uploader.image} alt="" />
                                                             </div>
                                                         </div>
@@ -155,6 +156,7 @@ const Course_Details = () => {
                                             labs.map((item, idx) => {
                                                 return (
                                                     <div
+                                                        
                                                         onClick={() => { handleMaterialDetails("labDetails", item) }}
                                                         className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
                                                         {/* <p>{item.createdAt}</p> */}
@@ -164,7 +166,7 @@ const Course_Details = () => {
                                                                 <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl">Lab {item.labNo}</p>
                                                             </div>
                                                             <div className="flex items-center gap-3">
-                                                                <p className="text-sm">uploaded by</p>
+                                                                <p className="text-sm hidden md:block">uploaded by</p>
                                                                 <img title={item.uploader.name} className="w-6 rounded-full" src={item.uploader.image} alt="" />
                                                             </div>
                                                         </div>
@@ -177,6 +179,7 @@ const Course_Details = () => {
                                             notes.map((item, idx) => {
                                                 return (
                                                     <div
+                                                        
                                                         onClick={() => { handleMaterialDetails("labDetails", item) }}
                                                         className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
                                                         {/* <p>{item.createdAt}</p> */}
@@ -186,7 +189,7 @@ const Course_Details = () => {
                                                                 <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl">Note</p>
                                                             </div>
                                                             <div className="flex items-center gap-3">
-                                                                <p className="text-sm">uploaded by</p>
+                                                                <p className="text-sm hidden md:block">uploaded by</p>
                                                                 <img title={item.uploader.name} className="w-6 rounded-full" src={item.uploader.image} alt="" />
                                                             </div>
                                                         </div>
@@ -194,10 +197,10 @@ const Course_Details = () => {
                                                 )
                                             })
                                         }
-                                        
+
                                     </div>
 
-                                    <div className="flex-1 border  m-3 rounded-lg p-5">
+                                    <div className="flex-1 border hidden md:block  m-3 rounded-lg p-5">
                                         <p className="text-center underline">Notices</p>
                                     </div>
                                 </div>

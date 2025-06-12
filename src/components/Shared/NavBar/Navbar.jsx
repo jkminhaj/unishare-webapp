@@ -10,16 +10,22 @@ const Navbar = () => {
         <div className="py-2 shadow-gray-50-200 mb-4 shadow">
             <div className="w-11/12 md:w-10/12 mx-auto flex items-center justify-between">
                 <div>
-                    <NavLink to="/" className="text-2xl hover:underline text-blue-500">Uni Share</NavLink>
+                    <NavLink data-aos="fade-right"
+                        data-aos-offset="300"
+                        data-aos-easing="ease-in-sine"
+                        to="/" className="text-2xl hover:underline text-blue-500"
+                    >Uni Share</NavLink>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div data-aos="fade-left"
+                    data-aos-offset="300"
+                    data-aos-easing="ease-in-sine" className="flex items-center gap-3">
                     <div className="flex flex-row-reverse gap-2 items-center">
-                        <div className="border border-gray-300 flex flex-row-reverse items-center rounded-2xl py-2 pl-2 pr-4">
+                        <div className="border border-gray-300 flex flex-row-reverse items-center rounded-2xl py-2 pl-2 pr-2 md:pr-4">
                             <FiSearch className="text-xl text-gray-400" />
-                            <input type="text" className="outline-none px-2" placeholder="Search materials" />
+                            <input type="text" className="outline-none px-2 hidden md:block" placeholder="Search materials" />
                         </div>
-        
+
                         <div className="bg-blue-500 flex items-center rounded-2xl p-2">
                             <GoBellFill className="text-xl text-white" />
                         </div>

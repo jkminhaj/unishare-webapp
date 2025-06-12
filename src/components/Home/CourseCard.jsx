@@ -7,8 +7,8 @@ const CourseCard = ({ course }) => {
     const navigate = useNavigate();
 
     return (
-        <div onClick={() => { navigate(`/course/${_id}`) }} className="cursor-pointer">
-            <div className="border relative md:min-h-36 flex items-center justify-center hover:shadow transition duration-300 rounded-lg ">
+        <div data-aos="zoom-in" onClick={() => { navigate(`/course/${_id}`) }} className="cursor-pointer">
+            <div className="border relative min-h-36 flex items-center justify-center hover:shadow transition duration-300 rounded-lg ">
                 <div className="px-5">
                     <Badge/>
                     <p className="text-center">{courseName}</p>
