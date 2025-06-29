@@ -44,12 +44,12 @@ const Course_Metarial_Details = () => {
 
             <section className="max-w-[800px] mx-auto pt-3">
                 <div className="flex gap-3 items-center">
-                    <div className="text-2xl text-white border rounded-full p-2 bg-blue-500">
+                    <div className="md:text-2xl text-white border rounded-full p-2 bg-blue-500">
                         <MdAssignment />
                     </div>
-                    <h1 className="text-4xl text-gray-700">{type == "assignment" && materialData?.assignmentName}</h1>
+                    <h1 className="md:text-4xl text-gray-700">{type == "assignment" && materialData?.assignmentName}</h1>
                 </div>
-                <p className="mt-3 text-gray-500">No description provided </p>
+                <p className="mt-3 text-gray-500">{materialData?.details ? materialData.details : "No description provided"}</p>
                 <div className="flex justify-between items-center">
                     <p className="mt-3 text-gray-500 font-normal font-sans">{materialData?.createdAt && formatDate(materialData.createdAt)}</p>
                     <div className="flex items-center gap-3">
@@ -68,7 +68,7 @@ const Course_Metarial_Details = () => {
                                     <div className="flex px-1 items-center justify-between">
                                         <a href={item.viewLink} className="hover:text-blue-700 cursor-pointer text-sm" target="_blank">Open</a>
                                         <div className="flex items-center gap-1 duration-100 ease-in-out transition-all hover:text-blue-500 cursor-pointer text-base border rounded-lg p-1">
-                                            <LiaDownloadSolid />
+                                            {/* <LiaDownloadSolid /> */}
                                         </div>
                                     </div>
 

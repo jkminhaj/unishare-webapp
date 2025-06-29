@@ -124,7 +124,7 @@ const Course_Details = () => {
                         {/* main materials */}
                         {/* // materialName , materialNo , createdAt , data [arr] , deadline , uploader {name , email , image } , _id = material ; */}
                         {
-                            viewingCourse &&
+                            viewingCourse && !materialLoading &&
                             <section>
                                 <div className="flex gap-3 justify-between">
                                     <div className="max-h-80 overflow-y-auto pr-3">
@@ -135,12 +135,13 @@ const Course_Details = () => {
                                                     <div
                                                         
                                                         onClick={() => { handleMaterialDetails("assignmentDetails", item) }}
-                                                        className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
+                                                        className="border w-full rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
                                                         {/* <p>{item.createdAt}</p> */}
                                                         <div className="flex justify-between items-center gap-4">
                                                             <div className="flex items-center gap-3">
                                                                 <p className="text-base font-normal">{item.assignmentName}</p>
-                                                                <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl">Assignment {item.assignmentNo}</p>
+                                                                {/* <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl md:hidden block">Assig. {item.assignmentNo}</p> */}
+                                                                <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl md:block hidden">Assignment {item.assignmentNo}</p>
                                                             </div>
                                                             <div className="flex items-center gap-3">
                                                                 <p className="text-sm hidden md:block">uploaded by</p>
@@ -206,6 +207,10 @@ const Course_Details = () => {
                                 </div>
                             </section>
                         }
+
+                        {/* {
+                             viewingCourse && materialLoading && 
+                        } */}
 
                         {
                             !viewingCourse && <Add_Materials setRefetch={setRefetch} refetch={refetch} courseId={course._id} />
