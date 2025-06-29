@@ -66,7 +66,7 @@ const Course_Metarial_Details = () => {
                                     {/* <p>{item.viewLink}</p> */}
                                     {/* <p>Title</p>     */}
                                     <div className="flex px-1 items-center justify-between">
-                                        <a href={item.viewLink} className="hover:text-blue-700 cursor-pointer text-sm" target="_blank">Open</a>
+                                        <a href={item.viewLink} className="hover:text-blue-700 cursor-pointer text-sm" target="_blank">file {indx}</a>
                                         <div className="flex items-center gap-1 duration-100 ease-in-out transition-all hover:text-blue-500 cursor-pointer text-base border rounded-lg p-1">
                                             {/* <LiaDownloadSolid /> */}
                                         </div>
