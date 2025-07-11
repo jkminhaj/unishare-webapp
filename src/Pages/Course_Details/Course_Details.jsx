@@ -7,6 +7,7 @@ import { PiNotebookFill } from "react-icons/pi";
 import { MdAssignment } from "react-icons/md";
 import Sekeleton_CD_Header from "../../components/Skeletons/Course_Details/Sekeleton_CD_Header";
 import Add_Materials from "../Add_Materials/Add_Materials";
+import { FaPlus } from "react-icons/fa";
 
 
 
@@ -94,46 +95,50 @@ const Course_Details = () => {
                         <header className={`bg-teal-600 ease-in-out duration-300 transform transition-all
                             ${viewingCourse ? "p-7" : "p-4 px-7"}
                              text-white   rounded-lg ${viewingCourse ? "pt-16" : "pt-7"}`}>
-                            <p className="text-4xl font-semibold mb-3">{course?.courseName}</p>
+                            <div className="flex justify-between items-end">
+                                <div>
+                                    <p className="text-4xl font-semibold mb-3">{course?.courseName}</p>
 
-                            {
-                                viewingCourse &&
-                                <div className="ease-in-out duration-300 transform transition-all">
-                                    <p className="text-xl mb-3 transition-all">{course?.faculty}</p>
-                                    <div className="flex items-center gap-3 mt-3">
-                                        <div className="flex items-center gap-1">
-                                            <ImLab />
-                                            <p className="text-xs">{course?.labs.length}</p>
+                                    {
+                                        viewingCourse &&
+                                        <div className="ease-in-out duration-300 transform transition-all">
+                                            <p className="text-xl mb-3 transition-all">{course?.faculty}</p>
+                                            <div className="flex items-center gap-3 mt-3">
+                                                <div className="flex items-center gap-1">
+                                                    <ImLab />
+                                                    <p className="text-xs">{course?.labs.length}</p>
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    <MdAssignment />
+                                                    <p className="text-xs">{course?.assignments.length}</p>
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    <PiNotebookFill />
+                                                    <p className="text-xs">{course?.notes.length}</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center gap-1">
-                                            <MdAssignment />
-                                            <p className="text-xs">{course?.assignments.length}</p>
-                                        </div>
-                                        <div className="flex items-center gap-1">
-                                            <PiNotebookFill />
-                                            <p className="text-xs">{course?.notes.length}</p>
-                                        </div>
-                                    </div>
+                                    }
                                 </div>
-                            }
-
+                                <button className="flex items-center gap-2" onClick={() => { setViewingCourse(!viewingCourse) }}><FaPlus className="text-xs"/> Add Materials</button>
+                            </div>
                         </header>
 
-                        <button className="btn font-normal my-2" onClick={() => { setViewingCourse(!viewingCourse) }}>Add Materials</button>
+
 
                         {/* main materials */}
                         {/* // materialName , materialNo , createdAt , data [arr] , deadline , uploader {name , email , image } , _id = material ; */}
                         {
                             viewingCourse && !materialLoading &&
                             <section>
-                                <div className="flex gap-3 justify-between">
-                                    <div className="max-h-80 overflow-y-auto pr-3">
+                                <div className="mt-5">
+                                    <div className="max-h-80 overflow-y-auto pr-2">
                                         {
                                             assignments &&
                                             assignments.map((item, idx) => {
                                                 return (
                                                     <div
-                                                        
+
                                                         onClick={() => { handleMaterialDetails("assignmentDetails", item) }}
                                                         className="border w-full rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
                                                         {/* <p>{item.createdAt}</p> */}
@@ -157,7 +162,7 @@ const Course_Details = () => {
                                             labs.map((item, idx) => {
                                                 return (
                                                     <div
-                                                        
+
                                                         onClick={() => { handleMaterialDetails("labDetails", item) }}
                                                         className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
                                                         {/* <p>{item.createdAt}</p> */}
@@ -180,7 +185,7 @@ const Course_Details = () => {
                                             notes.map((item, idx) => {
                                                 return (
                                                     <div
-                                                        
+
                                                         onClick={() => { handleMaterialDetails("labDetails", item) }}
                                                         className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
                                                         {/* <p>{item.createdAt}</p> */}
@@ -201,9 +206,9 @@ const Course_Details = () => {
 
                                     </div>
 
-                                    <div className="flex-1 border hidden md:block  m-3 rounded-lg p-5">
+                                    {/* <div className="flex-1 border hidden md:block  m-3 rounded-lg p-5">
                                         <p className="text-center underline">Notices</p>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </section>
                         }

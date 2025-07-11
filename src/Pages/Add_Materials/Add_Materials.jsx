@@ -138,7 +138,7 @@ const Add_Materials = ({ courseId , setRefetch , refetch}) => {
     }
 
     return (
-        <div>
+        <div className="mt-10">
             {isInitialPage && (
                 <section>
                     <p className="my-3 mb-9 text-xl text-center">What do you want to share ?</p>
