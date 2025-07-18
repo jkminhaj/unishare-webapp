@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
     return (
-        <div className="py-2 shadow-gray-50-200 mb-4 shadow">
+        <div className="py-2 bg-white border-b border-gray-200 text-gray-800  shadow-gray-50-200 mb-4 shadow-sm">
             <div className="w-11/12 md:w-10/12 mx-auto flex items-center justify-between">
                 <div>
                     <NavLink data-aos="fade-right"

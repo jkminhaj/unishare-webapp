@@ -1,12 +1,12 @@
 import { useState } from "react";
 import axiosInstance from "../../config/axiosIntance";
 
-const Add_Materials = ({ courseId , setRefetch , refetch}) => {
+const Add_Materials = ({ courseId, setRefetch, refetch }) => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [isInitialPage, setIsInitialPage] = useState(true);
 
-    const [imageUploading , setImageUploading] = useState(false);
-    const [loading , setLoading] = useState(false);
+    const [imageUploading, setImageUploading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const isAssignment = selectedOption === "assignment";
     const isLab = selectedOption === "lab";
@@ -32,8 +32,6 @@ const Add_Materials = ({ courseId , setRefetch , refetch}) => {
         const form = e.target;
         const formData = new FormData(form);
 
-        // Getting files to upload it on google drive
-
         const files = formData.getAll("files");
         const imageFormData = new FormData();
         for (let i = 0; i < files.length; i++) {
@@ -49,7 +47,7 @@ const Add_Materials = ({ courseId , setRefetch , refetch}) => {
                 },
             });
             console.log(response.data.files);
-            uploadedFiles = response.data.files ;
+            uploadedFiles = response.data.files;
 
         } catch (error) {
             console.error('Error uploading file:', error);
@@ -67,10 +65,10 @@ const Add_Materials = ({ courseId , setRefetch , refetch}) => {
 
         const apiData = new FormData();
         // console.log("data" , uploadedFiles);
-        apiData.append("data",JSON.stringify(uploadedFiles));
-        apiData.append("uploader",JSON.stringify(uploader));
-        apiData.append("course",courseId);
-        
+        apiData.append("data", JSON.stringify(uploadedFiles));
+        apiData.append("uploader", JSON.stringify(uploader));
+        apiData.append("course", courseId);
+
 
         // console.log([...apiData.entries()]);
 
@@ -82,12 +80,12 @@ const Add_Materials = ({ courseId , setRefetch , refetch}) => {
             apiData.append('deadline', formData.get('lab_deadline'));
 
             try {
-                const res = await axiosInstance.post("/api/labs/create",apiData);
+                const res = await axiosInstance.post("/api/labs/create", apiData);
                 setRefetch(!refetch);
                 alert("Successs Bro")
 
-            } catch(err){
-                console.log("error",err);
+            } catch (err) {
+                console.log("error", err);
                 alert("Failed")
             } finally {
                 setLoading(false);
@@ -95,19 +93,19 @@ const Add_Materials = ({ courseId , setRefetch , refetch}) => {
         }
 
         if (isNote) {
-            
+
             apiData.append('title', formData.get('note_title'));
             apiData.append('details', formData.get('note_description'));
 
             try {
-                const res = await axiosInstance.post("/api/notes/create",apiData);
+                const res = await axiosInstance.post("/api/notes/create", apiData);
                 console.log(res)
                 setRefetch(!refetch);
                 alert("Successs Bro")
 
 
-            } catch(err){
-                console.log("error",err);
+            } catch (err) {
+                console.log("error", err);
                 alert("Failed")
             } finally {
                 setLoading(false);
@@ -122,12 +120,12 @@ const Add_Materials = ({ courseId , setRefetch , refetch}) => {
             apiData.append('details', formData.get('assignment_description'));
 
             try {
-                const res = await axiosInstance.post("/api/assignments/create",apiData);
+                const res = await axiosInstance.post("/api/assignments/create", apiData);
                 setRefetch(!refetch);
                 alert("Successs Bro")
 
-            } catch(err){
-                console.log("error",err);
+            } catch (err) {
+                console.log("error", err);
                 alert("Failed")
             } finally {
                 setLoading(false);
@@ -142,22 +140,28 @@ const Add_Materials = ({ courseId , setRefetch , refetch}) => {
             {isInitialPage && (
                 <section>
                     <p className="my-3 mb-9 text-xl text-center">What do you want to share ?</p>
-                    <div className="flex justify-between gap-3 mb-4">
+                    <div className="flex flex-col md:flex-row  justify-between gap-3 mb-4">
                         <div
+                            data-aos="fade-right"
+                            data-aos-duration="1000"
                             onClick={() => handleOptionClick('assignment')}
-                            className={`cursor-pointer py-9 p-4 w-1/3 text-center border rounded ${selectedOption === 'assignment' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+                            className={`cursor-pointer py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'assignment' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
                         >
                             Assignment
                         </div>
                         <div
+                            data-aos="fade-up"
+                            data-aos-duration="1000"
                             onClick={() => handleOptionClick('note')}
-                            className={`cursor-pointer py-9 p-4 w-1/3 text-center border rounded ${selectedOption === 'note' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+                            className={`cursor-pointer py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'note' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
                         >
                             Note
                         </div>
                         <div
+                            data-aos="fade-left"
+                            data-aos-duration="1000"
                             onClick={() => handleOptionClick('lab')}
-                            className={`cursor-pointer py-9 p-4 w-1/3 text-center border rounded ${selectedOption === 'lab' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+                            className={`cursor-pointer py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'lab' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
                         >
                             Lab
                         </div>

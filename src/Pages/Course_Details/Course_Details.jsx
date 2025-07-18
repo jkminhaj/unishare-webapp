@@ -8,7 +8,7 @@ import { MdAssignment } from "react-icons/md";
 import Sekeleton_CD_Header from "../../components/Skeletons/Course_Details/Sekeleton_CD_Header";
 import Add_Materials from "../Add_Materials/Add_Materials";
 import { FaPlus } from "react-icons/fa";
-
+import messages from "../../noFilesMessages.json"
 
 
 const Course_Details = () => {
@@ -16,7 +16,9 @@ const Course_Details = () => {
     const navigate = useNavigate();
     const { setMaterialData } = useContext(GlobalContext);
     const [refetch, setRefetch] = useState(0);
-
+    const [random] = useState(() => {
+        return messages[Math.floor(Math.random() * messages.length)];
+    });
     const [viewingCourse, setViewingCourse] = useState(true);
 
     const [loading, setLoading] = useState(true);
@@ -49,7 +51,6 @@ const Course_Details = () => {
     }, [refetch]);
 
     useEffect(() => {
-
         const fetchCourseMaterials = async () => {
             try {
                 const [assignmentsRes, labsRes, notesRes] = await Promise.all([
@@ -86,7 +87,7 @@ const Course_Details = () => {
         setMaterialData(material);
     }
     return (
-        <section>
+        <section className="min-h-max">
             <div className="mt-3  mb-8">
                 {
                     !loading &&
@@ -94,15 +95,15 @@ const Course_Details = () => {
                         {/* assignments ,  courseName , labs , notes , semester , _id , faculty , courseCode = course ; */}
                         <header className={`bg-teal-600 ease-in-out duration-300 transform transition-all
                             ${viewingCourse ? "p-7" : "p-4 px-7"}
-                             text-white   rounded-lg ${viewingCourse ? "pt-16" : "pt-7"}`}>
-                            <div className="flex justify-between items-end">
+                             text-white   rounded-lg ${viewingCourse ? "pt-16" : "py-10"}`}>
+                            <div className={`flex justify-between ${viewingCourse ? "items-end" : "items-center"}`}>
                                 <div>
-                                    <p className="text-4xl font-semibold mb-3">{course?.courseName}</p>
+                                    <p className="text-4xl font-semibold ">{course?.courseName}</p>
 
                                     {
                                         viewingCourse &&
-                                        <div className="ease-in-out duration-300 transform transition-all">
-                                            <p className="text-xl mb-3 transition-all">{course?.faculty}</p>
+                                        <div className=" ease-in-out duration-300 transform transition-all">
+                                            <p className="text-xl my-3 transition-all">{course?.faculty}</p>
                                             <div className="flex items-center gap-3 mt-3">
                                                 <div className="flex items-center gap-1">
                                                     <ImLab />
@@ -120,7 +121,7 @@ const Course_Details = () => {
                                         </div>
                                     }
                                 </div>
-                                <button className="flex items-center gap-2" onClick={() => { setViewingCourse(!viewingCourse) }}><FaPlus className="text-xs"/> Add Materials</button>
+                                <button className="flex items-center text-teal-600 bg-white px-3 py-2 hover:shadow rounded-xl shadow-none gap-2 " onClick={() => { setViewingCourse(!viewingCourse) }}>{viewingCourse && <FaPlus className="text-xs" />} {viewingCourse ? "Add Materials" : "Back"} </button>
                             </div>
                         </header>
 
@@ -218,7 +219,30 @@ const Course_Details = () => {
                         } */}
 
                         {
-                            !viewingCourse && <Add_Materials setRefetch={setRefetch} refetch={refetch} courseId={course._id} />
+                            !viewingCourse &&
+                            <Add_Materials setRefetch={setRefetch} refetch={refetch} courseId={course._id} />
+                        }
+
+                        {
+                            viewingCourse && assignments.length == 0 && !materialLoading && notes.length == 0 && labs.length == 0 &&
+                            <div className="flex flex-col items-center justify-center my-16 text-center px-4">
+                                {/* <h1 className="text-6xl font-bold text-gray-800 animate-bounce">Nothing to see !</h1> */}
+                                {/* <div className="mt-6 text-3xl animate-bounce">¯\_(ツ)_/¯</div> */}
+                                <p className="mt-2 text-2xl font-semibold text-gray-700">
+                                    {random.title}
+                                </p>
+                                <p className="text-gray-500 mt-1">
+                                    {random.subtitle}
+                                </p>
+                                <button
+                                    onClick={() => window.history.back()}
+                                    className="mt-6 px-6 py-2 bg-teal-600 text-white rounded-full shadow-md hover:bg-teal-700 transition duration-300"
+                                >
+                                    Go Back
+                                </button>
+
+                            </div>
+
                         }
 
                     </section>

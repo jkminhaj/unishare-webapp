@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./components/Shared/NavBar/Navbar";
 const App = () => {
   return (
-    <div>
+    <div className="bg-gray-50 text-gray-900 min-h-screen">
       <nav>
         <Navbar />
       </nav>

@@ -8,7 +8,10 @@ const CourseCard = ({ course }) => {
 
     return (
         <div data-aos="zoom-in" onClick={() => { navigate(`/course/${_id}`) }} className="cursor-pointer">
-            <div className="border relative min-h-36 flex items-center justify-center hover:shadow transition duration-300 rounded-lg ">
+            <div className="
+            border relative min-h-36 flex items-center justify-center hover:shadow transition duration-300 rounded-lg
+            bg-white
+            ">
                 <div className="px-5">
                     <Badge badge={courseCode}/>
                     <p className="text-center">{courseName}</p>
