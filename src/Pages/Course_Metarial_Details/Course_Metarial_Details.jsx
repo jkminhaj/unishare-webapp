@@ -1,12 +1,13 @@
 import { MdAssignment } from "react-icons/md";
-import { LiaDownloadSolid } from "react-icons/lia";
 import { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import axiosInstance from "../../config/axiosIntance";
 
 
-const materialtype = (material) => {
-    if (Object.keys(material).includes("assignmentName")) {
+const materialtype = (str) => {
+    if (str.includes("assignment")) {
         return "assignment";
-    } else if (Object.keys(material).includes("labName")) {
+    } else if (str.includes("lab")) {
         return "lab";
     } else {
         return "note";
@@ -22,15 +23,28 @@ const formatDate = (date) => {
 
 const Course_Metarial_Details = () => {
     const [materialData, setMaterialData] = useState({});
-    useEffect(() => {
-        let materialData = JSON.parse(localStorage.getItem("materialData"));
-        setMaterialData(materialData);
-    }, [])
-    {/* // materialName , materialNo , createdAt , data [arr] , deadline , uploader {name , email , image } , _id = material ; */ }
-    console.log(materialData)
-    let type = materialtype(materialData);
+    const location = useLocation(); 
+    const {id} = useParams();
 
-    console.log("material data : ", materialData.data);
+    // console.log(location.pathname)
+    // console.log(materialtype(location.pathname));
+
+    {/* // materialName , materialNo , createdAt , data [arr] , deadline , uploader {name , email , image } , _id = material ; */ }
+    let type = materialtype(location.pathname);
+
+    useEffect(()=>{
+        fetchMaterials();
+    },[])
+
+    const fetchMaterials = async () =>{
+        try {
+            const {data} = await axiosInstance.get(`/api/${type}s/get_${type}/${id}`);
+            setMaterialData(data[type]);
+            
+        } catch(err){
+            console.log(err);
+        }
+    }
     return (
         <div>
             {/* <div className="w-full h-[500px] border-gray-300 rounded-lg overflow-hidden">

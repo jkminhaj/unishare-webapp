@@ -82,7 +82,7 @@ const Course_Details = () => {
     }, [refetch])
 
     const handleMaterialDetails = (route, material) => {
-        navigate(`/${route}`);
+        navigate(`/${route}/${material._id}`);
         setMaterialData(material);
     }
     return (
@@ -186,7 +186,7 @@ const Course_Details = () => {
                                                 return (
                                                     <div
 
-                                                        onClick={() => { handleMaterialDetails("labDetails", item) }}
+                                                        onClick={() => { handleMaterialDetails("noteDetails", item) }}
                                                         className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
                                                         {/* <p>{item.createdAt}</p> */}
                                                         <div className="flex justify-between items-center gap-4">

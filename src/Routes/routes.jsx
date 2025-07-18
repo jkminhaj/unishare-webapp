@@ -19,15 +19,15 @@ export const router = createBrowserRouter([
         element: <Course_Details />
       },
       {
-        path: "/assignmentDetails",
+        path: "/assignmentDetails/:id",
         element: <Course_Metarial_Details />
       },
       {
-        path: "/noteDetails",
+        path: "/noteDetails/:id",
         element: <Course_Metarial_Details />
       },
       {
-        path: "/labDetails",
+        path: "/labDetails/:id",
         element: <Course_Metarial_Details />
       },
       {
