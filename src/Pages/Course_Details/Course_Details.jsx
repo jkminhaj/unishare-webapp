@@ -9,6 +9,7 @@ import Sekeleton_CD_Header from "../../components/Skeletons/Course_Details/Sekel
 import Add_Materials from "../Add_Materials/Add_Materials";
 import { FaPlus } from "react-icons/fa";
 import messages from "../../noFilesMessages.json"
+import Skeleton_Material_List from "../../components/Skeletons/Course_Details/Skeleton_Material_List";
 
 
 const Course_Details = () => {
@@ -126,7 +127,6 @@ const Course_Details = () => {
                         </header>
 
 
-
                         {/* main materials */}
                         {/* // materialName , materialNo , createdAt , data [arr] , deadline , uploader {name , email , image } , _id = material ; */}
                         {
@@ -141,7 +141,7 @@ const Course_Details = () => {
                                                     <div
 
                                                         onClick={() => { handleMaterialDetails("assignmentDetails", item) }}
-                                                        className="border w-full rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
+                                                        className=" border w-full rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
                                                         {/* <p>{item.createdAt}</p> */}
                                                         <div className="flex justify-between items-center gap-4">
                                                             <div className="flex items-center gap-3">
@@ -214,9 +214,7 @@ const Course_Details = () => {
                             </section>
                         }
 
-                        {/* {
-                             viewingCourse && materialLoading && 
-                        } */}
+
 
                         {
                             !viewingCourse &&
@@ -248,9 +246,8 @@ const Course_Details = () => {
                     </section>
                 }
 
-                {
-                    loading && <Sekeleton_CD_Header />
-                }
+                { loading && <Sekeleton_CD_Header /> }
+                { viewingCourse && materialLoading && <Skeleton_Material_List /> }
 
             </div>
         </section>

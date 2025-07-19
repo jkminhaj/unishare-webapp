@@ -13,7 +13,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
     const isNote = selectedOption === "note";
 
     const styles = {
-        input: "border rounded-lg p-3 outline-none",
+        input: "border rounded-lg p-3 py-2 outline-none",
         textarea: "border outline-none p-3 rounded-lg  h-full resize-none"
     }
 
@@ -209,7 +209,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                         className={`${styles.input} mt-3 w-full opacity-35`}
                     />
 
-                    <button className="btn mt-3 w-full">Submit</button>
+                    <button  className="btn bg-teal-600 text-white hover:bg-teal-700 mt-3 w-full"><span className="loading loading-spinner loading-sm"></span> Submit</button>
 
 
                 </form>
