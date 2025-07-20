@@ -10,6 +10,7 @@ import Add_Materials from "../Add_Materials/Add_Materials";
 import { FaPlus } from "react-icons/fa";
 import messages from "../../noFilesMessages.json"
 import Skeleton_Material_List from "../../components/Skeletons/Course_Details/Skeleton_Material_List";
+import { BsPcDisplay } from "react-icons/bs";
 
 
 const Course_Details = () => {
@@ -107,7 +108,8 @@ const Course_Details = () => {
                                             <p className="text-xl my-3 transition-all">{course?.faculty}</p>
                                             <div className="flex items-center gap-3 mt-3">
                                                 <div className="flex items-center gap-1">
-                                                    <ImLab />
+                                                    {/* <ImLab /> */}
+                                                    <BsPcDisplay />
                                                     <p className="text-xs">{course?.labs.length}</p>
                                                 </div>
                                                 <div className="flex items-center gap-1">
