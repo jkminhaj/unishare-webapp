@@ -30,6 +30,7 @@ const AllCourses = () => {
 
     return (
         <div>
+            <p className="text-center md:text-2xl animate-pulse text-red-400 my-3">Website Under Construction</p>
             <div className="flex mb-7 items-center justify-between">
                 <p>Total Courses {courses.length}</p>
                 <Link to="/upload">
