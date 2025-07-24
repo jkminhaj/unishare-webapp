@@ -74,7 +74,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
         });
     };
 
-    notify("h")
+    
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
@@ -220,10 +220,10 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                             // data-aos="fade-right"
                             // data-aos-duration="1000"
                             onClick={() => handleOptionClick('assignment')}
-                            className={`cursor-pointer py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'assignment' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500'}`}
+                            className={`cursor-pointer md:py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'assignment' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500'}`}
                         >
                             <div className="flex justify-center gap-3 flex-col items-center">
-                                <MdAssignment className="text-5xl text-teal-500" />
+                                <MdAssignment className="text-2xl md:text-5xl text-teal-500" />
                                 Assignment
                             </div>
                         </div>
@@ -231,10 +231,10 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                             // data-aos="fade-up"
                             // data-aos-duration="1000"
                             onClick={() => handleOptionClick('note')}
-                            className={`cursor-pointer py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'note' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500'}`}
+                            className={`cursor-pointer md:py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'note' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500'}`}
                         >
                             <div className="flex justify-center gap-3 flex-col items-center">
-                                <PiNotebookFill className="text-5xl text-teal-500" />
+                                <PiNotebookFill className="text-2xl md:text-5xl text-teal-500" />
                                 Note
                             </div>
                         </div>
@@ -242,10 +242,10 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                             // data-aos="fade-left"
                             // data-aos-duration="1000"
                             onClick={() => handleOptionClick('lab')}
-                            className={`cursor-pointer py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'lab' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500'}`}
+                            className={`cursor-pointer md:py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'lab' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500'}`}
                         >
                             <div className="flex justify-center gap-3 flex-col items-center">
-                                <BsPcDisplay className="text-5xl text-teal-500" />
+                                <BsPcDisplay className="text-2xl md:text-5xl text-teal-500" />
                                 Lab
                             </div>
 
@@ -260,7 +260,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                 !isInitialPage &&
                 <form onSubmit={handleSubmit}>
                     {isAssignment && (
-                        <div className="gap-3 flex flex-col mt-2">
+                        <div className="gap-3 flex flex-col md:mt-2">
                             <input type="text" required={isAssignment} name="assignment_name" className={styles.input} placeholder="assignment name" />
                             <input type="number" required={isAssignment} name="assignment_no" className={styles.input} placeholder="assignment no" />
                             <input type="date" required={isAssignment} name="assignment_deadline" className={styles.input} placeholder="deadline" />
@@ -269,14 +269,14 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                     )}
 
                     {isNote && (
-                        <div className="gap-3 flex flex-col mt-2">
+                        <div className="gap-3 flex flex-col md:mt-2">
                             <input type="text" name="note_title" required={isNote} className={styles.input} placeholder="note title" />
                             <textarea name="note_description" className={styles.textarea} placeholder="description" id=""></textarea>
                         </div>
                     )}
 
                     {isLab && (
-                        <div className="gap-3 flex flex-col mt-2">
+                        <div className="gap-3 flex flex-col md:mt-2">
                             <input type="text" required={isLab} name="lab_name" className={styles.input} placeholder="lab name" />
                             <input type="number" required={isLab} name="lab_no" className={styles.input} placeholder="lab no" />
                             <input type="date" required={isLab} name="lab_deadline" className={styles.input} placeholder="deadline" />

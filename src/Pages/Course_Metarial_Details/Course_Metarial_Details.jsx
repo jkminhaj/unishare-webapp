@@ -72,7 +72,7 @@ const Course_Metarial_Details = () => {
                             {type === 'note' && <PiNotebookFill />}
                         </div>
 
-                        <h1 className="md:text-4xl text-gray-700">
+                        <h1 className="text-2xl md:text-4xl text-gray-700">
                             {type === 'assignment' && materialData?.assignmentName}
                             {type === 'lab' && materialData?.labName}
                             {type === 'note' && materialData?.title}

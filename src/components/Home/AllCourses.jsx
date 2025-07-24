@@ -31,20 +31,21 @@ const AllCourses = () => {
     return (
         <div>
             <p className="text-center md:text-2xl animate-pulse text-red-400 my-3">Website Under Construction</p>
-            <div className="flex mb-7 items-center justify-between">
+            {/* <div className="flex mb-7 items-center justify-between">
                 <p>Total Courses {courses.length}</p>
-                <Link to="/upload">
+                <Link to="/">
+                
                     <div className="flex border items-center gap-2  p-3 py-1  rounded-xl hover:text-white transition-all hover:bg-blue-500">
                         <p>test</p>
                         <AiOutlineCloudUpload className="text-lg" />
                     </div>
                 </Link>
 
-            </div>
+            </div> */}
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {
                     !loading ?
-                        courses.map(course => {
+                        courses.slice().reverse().map(course => {
                             return <CourseCard course={course} key={course._id} />;
                         })
                         :
