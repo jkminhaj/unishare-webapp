@@ -23,56 +23,65 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
         textarea: "border outline-none p-3 rounded-lg  h-full resize-none"
     }
 
-    const notify = (message, type = 'default') => {
-        return toast(message, {
-            duration: 4000,
-            position: 'center',
+    const notify = (message, type = 'success') => {
+    return toast(message, {
+        duration: 4000,
+        position: 'top-right',
 
-            icon:
+        icon:
+            type === 'success'
+                ? '✅'
+                : type === 'error'
+                    ? '❌'
+                    : type === 'loading'
+                        ? '⏳'
+                        : '🔔',
+
+        iconTheme: {
+            primary:
                 type === 'success'
-                    ? '✅'
+                    ? '#14B8A6' // teal-500
                     : type === 'error'
-                        ? '❌'
-                        : type === 'loading'
-                            ? '⏳'
-                            : '🔔',
+                        ? '#F87171' // red-400
+                        : '#0EA5E9', // sky-500 for default
 
-            iconTheme: {
-                primary:
-                    type === 'success'
-                        ? '#10B981' // emerald
-                        : type === 'error'
-                            ? '#EF4444' // red
-                            : '#3B82F6', // blue for default
+            secondary: '#ffffff',
+        },
 
-                secondary: '#fff',
-            },
+        style: {
+            background:
+                type === 'success'
+                    ? '#F0FDFA' // teal-50
+                    : type === 'error'
+                        ? '#FEF2F2' // red-50
+                        : '#F0F9FF', // sky-50
+            color:
+                type === 'success'
+                    ? '#115E59' // teal-800
+                    : type === 'error'
+                        ? '#991B1B' // red-800
+                        : '#0C4A6E', // sky-900
+            borderLeft: `4px solid ${
+                type === 'success'
+                    ? '#14B8A6'
+                    : type === 'error'
+                        ? '#F87171'
+                        : '#0EA5E9'
+            }`,
+            borderRadius: '10px',
+            padding: '14px 20px',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+            fontWeight: 500,
+            fontSize: '15px',
+        },
 
-            style: {
-                background:
-                    type === 'success'
-                        ? '#ECFDF5'
-                        : type === 'error'
-                            ? '#FEF2F2'
-                            : '#EFF6FF',
-                color:
-                    type === 'success'
-                        ? '#065F46'
-                        : type === 'error'
-                            ? '#991B1B'
-                            : '#1E40AF',
-                borderRadius: '8px',
-                padding: '12px 16px',
-                boxShadow: '0 4px 14px rgba(0,0,0,0.1)',
-                fontWeight: '500',
-            },
+        ariaProps: {
+            role: 'status',
+            'aria-live': 'polite',
+        },
+    });
+};
 
-            ariaProps: {
-                role: 'status',
-                'aria-live': 'polite',
-            },
-        });
-    };
 
     
 
@@ -157,11 +166,13 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
             try {
                 const res = await axiosInstance.post("/api/labs/create", apiData);
                 setRefetch(!refetch);
-                alert("Successs Bro")
+                notify("Lab uploaded successfully");
+                form.reset();
+                setSelectedFiles([]);
 
             } catch (err) {
                 console.log("error", err);
-                alert("Failed")
+                notify("Something went wrong!","error")
             } finally {
                 setLoading(false);
             }
@@ -176,12 +187,14 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                 const res = await axiosInstance.post("/api/notes/create", apiData);
                 console.log(res)
                 setRefetch(!refetch);
-                alert("Successs Bro")
+                notify("Note uploaded successfully")
+                form.reset();
+                setSelectedFiles([]);
 
 
             } catch (err) {
                 console.log("error", err);
-                alert("Failed")
+                notify("Something went wrong!","error")
             } finally {
                 setLoading(false);
             }
@@ -197,11 +210,13 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
             try {
                 const res = await axiosInstance.post("/api/assignments/create", apiData);
                 setRefetch(!refetch);
-                alert("Successs Bro")
+                notify("Assignment uploaded successfully")
+                form.reset();
+                setSelectedFiles([]);
 
             } catch (err) {
                 console.log("error", err);
-                alert("Failed")
+                notify("Something went wrong!","error")
             } finally {
                 setLoading(false);
             }
@@ -209,6 +224,10 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
         }
 
     }
+
+    // const handleCheck =()=>{
+    //     notify("ssignment uploaded successfully","error")
+    // }
 
     return (
         <div className="mt-10 pb-5">
@@ -220,7 +239,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                             // data-aos="fade-right"
                             // data-aos-duration="1000"
                             onClick={() => handleOptionClick('assignment')}
-                            className={`cursor-pointer md:py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'assignment' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500'}`}
+                            className={`cursor-pointer md:py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'assignment' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500 hover:bg-teal-50'}`}
                         >
                             <div className="flex justify-center gap-3 flex-col items-center">
                                 <MdAssignment className="text-2xl md:text-5xl text-teal-500" />
@@ -231,7 +250,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                             // data-aos="fade-up"
                             // data-aos-duration="1000"
                             onClick={() => handleOptionClick('note')}
-                            className={`cursor-pointer md:py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'note' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500'}`}
+                            className={`cursor-pointer md:py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'note' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500 hover:bg-teal-50'}`}
                         >
                             <div className="flex justify-center gap-3 flex-col items-center">
                                 <PiNotebookFill className="text-2xl md:text-5xl text-teal-500" />
@@ -242,7 +261,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                             // data-aos="fade-left"
                             // data-aos-duration="1000"
                             onClick={() => handleOptionClick('lab')}
-                            className={`cursor-pointer md:py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'lab' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500'}`}
+                            className={`cursor-pointer md:py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'lab' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500 hover:bg-teal-50'}`}
                         >
                             <div className="flex justify-center gap-3 flex-col items-center">
                                 <BsPcDisplay className="text-2xl md:text-5xl text-teal-500" />
