@@ -4,6 +4,7 @@ import Home from "../Pages/Home/Home";
 import Course_Details from "../Pages/Course_Details/Course_Details";
 import Course_Metarial_Details from "../Pages/Course_Metarial_Details/Course_Metarial_Details";
 import UploadMaterialTest from "../components/Test/UploadMaterialTest";
+import Login from "../Pages/Auth/Login";
 
 export const router = createBrowserRouter([
   {
@@ -48,5 +49,9 @@ export const router = createBrowserRouter([
       // },
     ]
   },
+  {
+    path:"/login",
+    element: <Login/>
+  }
 
 ]);
