@@ -43,7 +43,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                     ? '#14B8A6' // teal-500
                     : type === 'error'
                         ? '#F87171' // red-400
-                        : '#0EA5E9', // sky-500 for default
+                        : '#0EA5E9', // sky-500 
 
             secondary: '#ffffff',
         },

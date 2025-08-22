@@ -5,11 +5,12 @@ import Course_Details from "../Pages/Course_Details/Course_Details";
 import Course_Metarial_Details from "../Pages/Course_Metarial_Details/Course_Metarial_Details";
 import UploadMaterialTest from "../components/Test/UploadMaterialTest";
 import Login from "../Pages/Auth/Login";
+import Protected_Route from "../Protected/Protected_Route";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <App></App>,
+    element: <Protected_Route><App/></Protected_Route>,
     children: [
       {
         path: "/",

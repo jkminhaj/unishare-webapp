@@ -3,15 +3,14 @@ import { createContext, useEffect, useState } from "react";
 export const GlobalContext = createContext(null);
 const GlobalProvider = ({ children }) => {
     const [materialData, setMaterialData] = useState(null);
-    const [user, setUser] = useState(false);
-    
+    const user = localStorage.getItem("user")
     // storing the material data in local
     useEffect(() => {
         if(materialData) localStorage.setItem("materialData", JSON.stringify(materialData));
     }, [materialData])
 
     // pass data in global context
-    const data = { materialData, setMaterialData, user, setUser }
+    const data = { materialData, setMaterialData, user }
     return (
         <GlobalContext.Provider value={data}>
             {children}
