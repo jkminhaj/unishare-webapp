@@ -9,6 +9,7 @@ import Sekeleton_Materials_Details from "../../components/Skeletons/Sekeleton_Ma
 import { SlOptionsVertical } from "react-icons/sl";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FiLink } from "react-icons/fi";
+import { MdContentCopy } from "react-icons/md";
 
 
 const materialtype = (str) => {
@@ -39,8 +40,9 @@ const Course_Metarial_Details = () => {
     const [materialData, setMaterialData] = useState({});
     const [loading, setLoading] = useState(true);
     const location = useLocation();
-    const [delLoading , setDelLoading] = useState(false);
+    const [delLoading, setDelLoading] = useState(false);
     const { id } = useParams();
+    const [copied, setCopied] = useState(false);
 
     // console.log(location.pathname)
     // console.log(materialtype(location.pathname));
@@ -63,23 +65,46 @@ const Course_Metarial_Details = () => {
             setLoading(false);
         }
     }
+    const domain = "http://localhost:5173"
     console.log(materialData)
-    const handleMaterialDelete = async() =>{
-        try{
+    const handleMaterialDelete = async () => {
+        try {
             setDelLoading(true);
             const res = await axiosInstance.delete(`/api/${type}s/delete/${materialData.course}/${id}`);
             window.history.back();
-        } catch(err){
+        } catch (err) {
             alert("Something went wrong!")
-        } finally{
+        } finally {
             setDelLoading(false);
         }
     }
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(`${domain}/${type}Details/${id}`)
+            .then(() => {
+                setCopied(true);
+                setTimeout(() => {
+                    setCopied(false);
+                }, 2000);
+            }).catch(() => {
+                alert("something wernt wront")
+            })
+    }
+
     return (
         <div>
             {
                 !loading &&
-                <section className="max-w-[800px] mx-auto pt-3">
+                <section className="max-w-[800px] mx-auto pt-3 relative">
+                    {
+                        copied &&
+                        <div
+                            data-aos="zoom-in"
+                            className="absolute flex items-center gap-2 -bottom-8 left-1/2 -translate-x-1/2  border text-sm px-3 py-1 rounded-full shadow"
+                        >
+                            <MdContentCopy />Copied
+                        </div>
+                    }
                     <div className="flex justify-between items-start">
                         <div className="flex items-start md:items-center gap-3">
                             <div className="md:text-2xl text-white border rounded-full p-2 bg-blue-500">
@@ -102,9 +127,9 @@ const Course_Metarial_Details = () => {
                                 </div>
                             </label>
 
-                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 border bg-base-100 rounded-xl w-52">
-                                <li onClick={()=>{handleMaterialDelete()}}><a className="flex items-center gap-2"><AiOutlineDelete /> {delLoading? "Deleting..":"Delete"}</a></li>
-                                <li><a className="flex items-center gap-2"><FiLink /> Copy link</a></li>
+                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 border bg-base-100 rounded-xl min-w-52">
+                                <li onClick={() => { handleMaterialDelete() }}><a className="flex items-center gap-2"><AiOutlineDelete /> {delLoading ? "Deleting.." : "Delete"}</a></li>
+                                <li onClick={() => { handleCopy() }}><a className="flex items-center gap-2"><FiLink /> Copy link</a></li>
                             </ul>
                         </div>
                     </div>
@@ -127,7 +152,6 @@ const Course_Metarial_Details = () => {
                             <img title={materialData?.uploader?.name} className="w-7 rounded-full" src={materialData?.uploader?.image} alt="" />
                         </div>
                     </div>
-
 
 
                     <hr className="my-4  border-[1.5px]" />
