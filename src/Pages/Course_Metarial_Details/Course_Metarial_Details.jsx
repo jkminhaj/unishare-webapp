@@ -6,6 +6,9 @@ import { BsPcDisplay } from "react-icons/bs";
 import { PiNotebookFill } from "react-icons/pi";
 import { LiaDownloadSolid } from "react-icons/lia";
 import Sekeleton_Materials_Details from "../../components/Skeletons/Sekeleton_Materials_Details";
+import { SlOptionsVertical } from "react-icons/sl";
+import { AiOutlineDelete } from "react-icons/ai";
+import { FiLink } from "react-icons/fi";
 
 
 const materialtype = (str) => {
@@ -36,6 +39,7 @@ const Course_Metarial_Details = () => {
     const [materialData, setMaterialData] = useState({});
     const [loading, setLoading] = useState(true);
     const location = useLocation();
+    const [delLoading , setDelLoading] = useState(false);
     const { id } = useParams();
 
     // console.log(location.pathname)
@@ -60,24 +64,51 @@ const Course_Metarial_Details = () => {
         }
     }
     console.log(materialData)
+    const handleMaterialDelete = async() =>{
+        try{
+            setDelLoading(true);
+            const res = await axiosInstance.delete(`/api/${type}s/delete/${materialData.course}/${id}`);
+            window.history.back();
+        } catch(err){
+            alert("Something went wrong!")
+        } finally{
+            setDelLoading(false);
+        }
+    }
     return (
         <div>
             {
                 !loading &&
                 <section className="max-w-[800px] mx-auto pt-3">
-                    <div className="flex gap-3 items-center">
-                        <div className="md:text-2xl text-white border rounded-full p-2 bg-blue-500">
-                            {type === 'assignment' && <MdAssignment />}
-                            {type === 'lab' && <BsPcDisplay />}
-                            {type === 'note' && <PiNotebookFill />}
+                    <div className="flex justify-between items-start">
+                        <div className="flex items-start md:items-center gap-3">
+                            <div className="md:text-2xl text-white border rounded-full p-2 bg-blue-500">
+                                {type === 'assignment' && <MdAssignment />}
+                                {type === 'lab' && <BsPcDisplay />}
+                                {type === 'note' && <PiNotebookFill />}
+                            </div>
+
+                            <h1 className="text-2xl md:text-4xl text-gray-700">
+                                {type === 'assignment' && materialData?.assignmentName}
+                                {type === 'lab' && materialData?.labName}
+                                {type === 'note' && materialData?.title}
+                            </h1>
                         </div>
 
-                        <h1 className="text-2xl md:text-4xl text-gray-700">
-                            {type === 'assignment' && materialData?.assignmentName}
-                            {type === 'lab' && materialData?.labName}
-                            {type === 'note' && materialData?.title}
-                        </h1>
+                        <div className="dropdown dropdown-end">
+                            <label tabIndex={0} className="cursor-pointer">
+                                <div className="border border-transparent  transition duration-300 ease-in-out active:scale-110 hover:border-gray-200 rounded-full p-2">
+                                    <SlOptionsVertical />
+                                </div>
+                            </label>
+
+                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 border bg-base-100 rounded-xl w-52">
+                                <li onClick={()=>{handleMaterialDelete()}}><a className="flex items-center gap-2"><AiOutlineDelete /> {delLoading? "Deleting..":"Delete"}</a></li>
+                                <li><a className="flex items-center gap-2"><FiLink /> Copy link</a></li>
+                            </ul>
+                        </div>
                     </div>
+
 
                     {/* {type === 'assignment' && materialData?.assignmentNo}
                 {type === 'lab' && materialData?.labNo} */}
