@@ -65,7 +65,7 @@ const Course_Metarial_Details = () => {
             setLoading(false);
         }
     }
-    const domain = "http://localhost:5173"
+    const domain = "unishare.me"
     console.log(materialData)
     const handleMaterialDelete = async () => {
         try {
@@ -80,7 +80,7 @@ const Course_Metarial_Details = () => {
     }
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(`${domain}/${type}Details/${id}`)
+        navigator.clipboard.writeText(`${domain}/#/${type}Details/${id}`)
             .then(() => {
                 setCopied(true);
                 setTimeout(() => {
