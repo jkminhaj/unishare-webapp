@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../Pages/Home/Home";
 import Course_Details from "../Pages/Course_Details/Course_Details";
@@ -7,7 +7,7 @@ import UploadMaterialTest from "../components/Test/UploadMaterialTest";
 import Login from "../Pages/Auth/Login";
 import Protected_Route from "../Protected/Protected_Route";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: "/",
     element: <Protected_Route><App/></Protected_Route>,

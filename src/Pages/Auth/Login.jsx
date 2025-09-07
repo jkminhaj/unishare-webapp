@@ -5,6 +5,7 @@ import { LuUser } from "react-icons/lu";
 import { MdLockOutline } from "react-icons/md";
 import { GlobalContext } from "../../context/GlobalProvider";
 import toast, { Toaster } from "react-hot-toast";
+import MetaData from "../../config/MetaData";
 
 
 const Login = () => {
@@ -54,6 +55,7 @@ const Login = () => {
     }
     return (
         <div className="flex mt-20 md:mt-36  items-center justify-center">
+            <MetaData title="Unishare • Login"/>
             <form
                 onSubmit={handleSubmit}
                 className="w-full max-w-[400px] bg-white p-8"

@@ -11,6 +11,7 @@ import { FaPlus } from "react-icons/fa";
 import messages from "../../noFilesMessages.json"
 import Skeleton_Material_List from "../../components/Skeletons/Course_Details/Skeleton_Material_List";
 import { BsPcDisplay } from "react-icons/bs";
+import MetaData from "../../config/MetaData";
 
 
 const Course_Details = () => {
@@ -90,6 +91,7 @@ const Course_Details = () => {
     }
     return (
         <section className="min-h-max">
+            <MetaData title={course?.courseName}/>
             <div className="mt-3  mb-8">
                 {
                     !loading &&
