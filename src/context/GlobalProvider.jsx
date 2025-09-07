@@ -1,16 +1,13 @@
 import { createContext, useEffect, useState } from "react";
-
+import {app} from "../../firebase.config";
+import { getAuth } from "firebase/auth";
 export const GlobalContext = createContext(null);
 const GlobalProvider = ({ children }) => {
-    const [materialData, setMaterialData] = useState(null);
-    const user = localStorage.getItem("user")
-    // storing the material data in local
-    useEffect(() => {
-        if(materialData) localStorage.setItem("materialData", JSON.stringify(materialData));
-    }, [materialData])
-
+    const user = localStorage.getItem("user") ;
+    const auth = getAuth(app) ;
+    
     // pass data in global context
-    const data = { materialData, setMaterialData, user }
+    const data = {  user }
     return (
         <GlobalContext.Provider value={data}>
             {children}

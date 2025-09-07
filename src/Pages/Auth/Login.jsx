@@ -1,6 +1,7 @@
 import { useContext, useRef, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { MdOutlineFacebook } from "react-icons/md";
 import { LuUser } from "react-icons/lu";
 import { MdLockOutline } from "react-icons/md";
 import { GlobalContext } from "../../context/GlobalProvider";
@@ -54,7 +55,7 @@ const Login = () => {
         setLoading(false);
     }
     return (
-        <div className="flex mt-20 md:mt-36  items-center justify-center">
+        <div className="flex mt-20 md:mt-24  items-center justify-center">
             <MetaData title="Unishare • Login"/>
             <form
                 onSubmit={handleSubmit}
@@ -112,6 +113,13 @@ const Login = () => {
                     <div className="flex items-center gap-1">
                         <FcGoogle className="text-2xl" />
                         <p className="text-sm">Login with <span className="font-semibold">Google</span></p>
+                    </div>
+                </div>
+
+                <div onClick={()=>{handleGoogleLogin()}} className="border rounded-xl mt-3 border-gray-200 py-2 flex justify-center cursor-pointer hover:shadow-sm">
+                    <div className="flex items-center gap-1">
+                        <MdOutlineFacebook className="text-2xl text-blue-500" />
+                        <p className="text-sm">Login with <span className="font-semibold">Facebook</span></p>
                     </div>
                 </div>
 
