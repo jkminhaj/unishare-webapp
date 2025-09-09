@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineFacebook } from "react-icons/md";
 import { LuUser } from "react-icons/lu";
@@ -11,52 +11,66 @@ import MetaData from "../../config/MetaData";
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
-    const {user} = useContext(GlobalContext);
+    const { user, login_user } = useContext(GlobalContext);
     const navigate = useNavigate();
-    const [error , setError] = useState(false);
-
+    const location = useLocation();
+    const [error, setError] = useState(false);
+    const from = location.state?.from || "/";
     const timeoutRef = useRef(null);
     const handleGoogleLogin = () => {
-    if (timeoutRef.current) return;
-    toast("Coming soon!", {
-        icon: "🌟",
-        style: {
-        background: "white", 
-        color: "black",     
-        fontSize: "0.85rem",  
-        padding: "12px 20px",
-        borderRadius: "12px",
-        border:"1px solid #e5e7eb",
-        boxShadow: "0 0 0 rgba(0,0,0,0.2)",
-        maxWidth: "300px",
-        textAlign: "right",
-        },
-        duration: 3000,
-    });
-    timeoutRef.current = setTimeout(() => {
-      timeoutRef.current = null; 
-    }, 3000);
+        if (timeoutRef.current) return;
+        toast("Coming soon!", {
+            icon: "🌟",
+            style: {
+                background: "white",
+                color: "black",
+                fontSize: "0.85rem",
+                padding: "12px 20px",
+                borderRadius: "12px",
+                border: "1px solid #e5e7eb",
+                boxShadow: "0 0 0 rgba(0,0,0,0.2)",
+                maxWidth: "300px",
+                textAlign: "right",
+            },
+            duration: 3000,
+        });
+        timeoutRef.current = setTimeout(() => {
+            timeoutRef.current = null;
+        }, 3000);
     };
-
 
     const handleSubmit = e => {
         e.preventDefault();
         setLoading(true);
 
-        const form = e.target ;
+        const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email , password);
+        console.log(email, password);
 
-        if(email == "test@gmail.com" && password == 1234){
-            navigate("/");
-            localStorage.setItem("user",email);
+        // login_user(email, password)
+        //     .then((userCredential) => {
+        //         // Signed up 
+        //         const user = userCredential.user;
+        //         // ...
+        //     })
+        //     .catch((error) => {
+        //         const errorCode = error.code;
+        //         const errorMessage = error.message;
+        //         console.log(errorMessage);
+        //         // ..
+        //     });
+
+        if (email == "test@gmail.com" && password == 1234) {
+            localStorage.setItem("user", email);
+            console.log(location);
+            navigate(from,{replace:true});
         } else setError("Incorrect email or password");
         setLoading(false);
     }
     return (
         <div className="flex mt-20 md:mt-24  items-center justify-center">
-            <MetaData title="Unishare • Login"/>
+            <MetaData title="Unishare • Login" />
             <form
                 onSubmit={handleSubmit}
                 className="w-full max-w-[400px] bg-white p-8"
@@ -109,14 +123,14 @@ const Login = () => {
                     <div className="flex-grow border-t border-gray-300"></div>
                 </div>
 
-                <div onClick={()=>{handleGoogleLogin()}} className="border rounded-xl border-gray-200 py-2 flex justify-center cursor-pointer hover:shadow-sm">
+                <div onClick={() => { handleGoogleLogin() }} className="border rounded-xl border-gray-200 py-2 flex justify-center cursor-pointer hover:shadow-sm">
                     <div className="flex items-center gap-1">
                         <FcGoogle className="text-2xl" />
                         <p className="text-sm">Login with <span className="font-semibold">Google</span></p>
                     </div>
                 </div>
 
-                <div onClick={()=>{handleGoogleLogin()}} className="border rounded-xl mt-3 border-gray-200 py-2 flex justify-center cursor-pointer hover:shadow-sm">
+                <div onClick={() => { handleGoogleLogin() }} className="border rounded-xl mt-3 border-gray-200 py-2 flex justify-center cursor-pointer hover:shadow-sm">
                     <div className="flex items-center gap-1">
                         <MdOutlineFacebook className="text-2xl text-blue-500" />
                         <p className="text-sm">Login with <span className="font-semibold">Facebook</span></p>
@@ -128,8 +142,8 @@ const Login = () => {
                     New Here ? <span><Link to="/signup" className="text-[#5f45ba] hover:underline">Create an account</Link></span>
                 </div> */}
             </form>
-            <Toaster/>
-            
+            <Toaster />
+
         </div>
     );
 };

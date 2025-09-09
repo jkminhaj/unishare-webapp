@@ -10,44 +10,32 @@ import Protected_Route from "../Protected/Protected_Route";
 export const router = createHashRouter([
   {
     path: "/",
-    element: <Protected_Route><App/></Protected_Route>,
+    element: <App/>,
     children: [
       {
         path: "/",
-        element: <Home />
+        element:<Protected_Route><Home /></Protected_Route> 
       },
       {
         path: "/course/:id",
-        element: <Course_Details />
+        element: <Protected_Route><Course_Details /></Protected_Route>
       },
       {
         path: "/assignmentDetails/:id",
-        element: <Course_Metarial_Details />
+        element: <Protected_Route><Course_Metarial_Details /></Protected_Route>
       },
       {
         path: "/noteDetails/:id",
-        element: <Course_Metarial_Details />
+        element: <Protected_Route><Course_Metarial_Details /></Protected_Route>
       },
       {
         path: "/labDetails/:id",
-        element: <Course_Metarial_Details />
+        element: <Protected_Route><Course_Metarial_Details /></Protected_Route>
       },
       {
         path : "/upload",
         element:<UploadMaterialTest/>
       }
-      // {
-      //   path: "/assignment/:id",
-      //   element: <Course_Metarial_Details />
-      // },
-      // {
-      //   path: "/note/:id",
-      //   element: <Course_Metarial_Details />
-      // },
-      // {
-      //   path: "/lab/:id",
-      //   element: <Course_Metarial_Details />
-      // },
     ]
   },
   {
