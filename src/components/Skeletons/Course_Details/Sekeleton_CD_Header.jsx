@@ -2,9 +2,9 @@ import React from 'react';
 
 const Sekeleton_CD_Header = () => {
     return (
-        <header className="bg-gray-200 text-white pt-16 p-7 rounded-lg animate-pulse">
-            <div className="h-10 w-2/3 bg-gray-100 rounded mb-3"></div>
-            <div className="h-6 w-1/3 bg-gray-100 rounded mb-3"></div>
+        <header className="bg-gray-200 text-white md:pt-16 p-6 md:p-7 rounded-lg animate-pulse">
+            <div className="h-7 md:h-10 w-2/3 bg-gray-100 rounded mb-3"></div>
+            <div className="h-5 md:h-6 w-1/3 bg-gray-100 rounded mb-3"></div>
 
             <div className="flex items-center gap-3 mt-3">
                 <div className="flex items-center gap-1">
