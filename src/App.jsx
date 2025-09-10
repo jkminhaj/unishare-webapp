@@ -6,7 +6,7 @@ const App = () => {
       <nav>
         <Navbar />
       </nav>
-      <section className="w-11/12 md:w-10/12 mx-auto">
+      <section className="w-11/12 md:w-10/12 pt-[4.3rem] mx-auto">
         <Outlet />
       </section>
     </div>

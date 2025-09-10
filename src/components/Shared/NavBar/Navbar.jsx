@@ -13,7 +13,7 @@ const Navbar = () => {
         localStorage.removeItem("user");
     }
     return (
-        <div className="py-2 bg-white border-b border-gray-200 text-gray-800  shadow-gray-50-200 mb-4 shadow-sm">
+        <div className="py-2 fixed top-0 z-50 w-full bg-white border-b border-gray-200 text-gray-800  shadow-gray-50-200 mb-4 shadow-sm">
             <div className="w-11/12 md:w-10/12 mx-auto flex items-center justify-between">
                 <div>
                     <NavLink data-aos="fade-right"

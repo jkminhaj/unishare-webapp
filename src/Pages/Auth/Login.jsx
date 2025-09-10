@@ -75,11 +75,11 @@ const Login = () => {
                 onSubmit={handleSubmit}
                 className="w-full max-w-[400px] bg-white p-8"
             >
-                <h2 className=" text-2xl text-center font-bold text-black">LOGIN</h2>
+                <h2 className=" text-2xl text-center font-bold text-black">Unishare</h2>
                 <p className="mb-8 text-center">Connect, contribute, and collaborate</p>
 
                 <div className="relative">
-                    <LuUser className="absolute left-3 text-gray-500 top-[12px]" />
+                    <LuUser className="absolute left-3 text-gray-500 top-[11px]" />
                     <input
                         className="mb-3 w-full text-sm outline-0  rounded-xl  border pl-8 px-4 p-2"
                         type="email"
@@ -92,7 +92,7 @@ const Login = () => {
                 </div>
 
                 <div className="relative">
-                    <MdLockOutline className="absolute left-3 text-gray-500 top-[12px]" />
+                    <MdLockOutline className="absolute left-3 text-gray-500 top-[11px]" />
                     <input
                         className="mb-3 w-full text-sm outline-0  rounded-xl  border pl-8 px-4 p-2"
                         type="password"
@@ -124,17 +124,21 @@ const Login = () => {
                 </div>
 
                 <div onClick={() => { handleGoogleLogin() }} className="border rounded-xl border-gray-200 py-2 flex justify-center cursor-pointer hover:shadow-sm">
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2">
                         <FcGoogle className="text-2xl" />
                         <p className="text-sm">Login with <span className="font-semibold">Google</span></p>
                     </div>
                 </div>
 
                 <div onClick={() => { handleGoogleLogin() }} className="border rounded-xl mt-3 border-gray-200 py-2 flex justify-center cursor-pointer hover:shadow-sm">
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2">
                         <MdOutlineFacebook className="text-2xl text-blue-500" />
                         <p className="text-sm">Login with <span className="font-semibold">Facebook</span></p>
                     </div>
+                </div>
+
+                <div className="text-center text-sm mt-16">
+                    <p>New here ? <span className="font-semibold underline cursor-pointer text-blue-600">Sign up</span></p>
                 </div>
 
 

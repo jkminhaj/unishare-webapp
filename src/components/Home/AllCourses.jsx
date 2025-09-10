@@ -42,7 +42,7 @@ const AllCourses = () => {
                 </Link>
 
             </div> */}
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid overscroll-contain grid-cols-1 md:grid-cols-3 pt-3 lg:grid-cols-4 gap-4">
                 {
                     !loading ?
                         courses.slice().reverse().map(course => {

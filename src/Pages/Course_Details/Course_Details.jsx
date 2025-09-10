@@ -149,7 +149,7 @@ const Course_Details = () => {
                                                         {/* <p>{item.createdAt}</p> */}
                                                         <div className="flex justify-between items-center gap-4">
                                                             <div className="flex items-center gap-3">
-                                                                <p className="text-base font-normal">{item.assignmentName}</p>
+                                                                <p className="text-xs md:text-base font-normal">{item.assignmentName}</p>
                                                                 {/* <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl md:hidden block">Assig. {item.assignmentNo}</p> */}
                                                                 <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl md:block hidden">Assignment {item.assignmentNo}</p>
                                                             </div>
@@ -173,7 +173,7 @@ const Course_Details = () => {
                                                         {/* <p>{item.createdAt}</p> */}
                                                         <div className="flex justify-between items-center gap-4">
                                                             <div className="flex items-center gap-3">
-                                                                <p className="text-base font-normal">{item.labName}</p>
+                                                                <p className="text-xs md:text-base font-normal">{item.labName}</p>
                                                                 <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl">Lab {item.labNo}</p>
                                                             </div>
                                                             <div className="flex items-center gap-3">
@@ -196,7 +196,7 @@ const Course_Details = () => {
                                                         {/* <p>{item.createdAt}</p> */}
                                                         <div className="flex justify-between items-center gap-4">
                                                             <div className="flex items-center gap-3">
-                                                                <p className="text-base font-normal">{item.title}</p>
+                                                                <p className="text-xs md:text-base font-normal">{item.title}</p>
                                                                 <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl">Note</p>
                                                             </div>
                                                             <div className="flex items-center gap-3">
