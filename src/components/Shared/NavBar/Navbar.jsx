@@ -1,14 +1,21 @@
+import { useContext, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { GoBellFill } from "react-icons/go";
 import { LiaRandomSolid } from "react-icons/lia";
 import { TbLogout2 } from "react-icons/tb";
 import { NavLink, useNavigate } from "react-router-dom";
+import { GlobalContext } from "../../../context/GlobalProvider";
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const {log_out} = useContext(GlobalContext);
+    const [loading , setLoading] = useState(false);
     const handleSignOut = () =>{
+        setLoading(true);
         // localStorage.clear();
+        log_out();
+        setLoading(false);
         navigate("/login");
         localStorage.removeItem("user");
     }
@@ -49,7 +56,7 @@ const Navbar = () => {
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 border bg-base-100 rounded-xl w-52">
                             <li><a className="flex items-center gap-2"><FaUser /> Test User</a></li>
                             <li><a className="flex items-center gap-2"><LiaRandomSolid /> Change theme </a></li>
-                            <li onClick={()=>{handleSignOut()}}><a className="flex items-center gap-2"><TbLogout2 />Sign out </a></li>
+                            <li onClick={()=>{handleSignOut()}}><a className="flex items-center gap-2"><TbLogout2 />{loading? "Signing out ..":"Sign out"} </a></li>
                         </ul>
                     </div>
                 </div>
