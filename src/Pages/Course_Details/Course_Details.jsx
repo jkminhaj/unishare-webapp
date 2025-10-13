@@ -8,7 +8,7 @@ import { MdAssignment } from "react-icons/md";
 import Sekeleton_CD_Header from "../../components/Skeletons/Course_Details/Sekeleton_CD_Header";
 import Add_Materials from "../Add_Materials/Add_Materials";
 import { FaPlus } from "react-icons/fa";
-import messages from "../../noFilesMessages.json"
+import messages from "../../noFilesMessages.json";
 import Skeleton_Material_List from "../../components/Skeletons/Course_Details/Skeleton_Material_List";
 import { BsPcDisplay } from "react-icons/bs";
 import MetaData from "../../config/MetaData";
@@ -178,7 +178,7 @@ const Course_Details = () => {
                                                             </div>
                                                             <div className="flex items-center gap-3">
                                                                 <p className="text-sm hidden md:block">uploaded by</p>
-                                                                <img title={item.uploader.name} className="w-6 rounded-full" src={item.uploader.image} alt="" />
+                                                                <img title={item.uploader.name} className="w-6 rounded" src={item.uploader.image} alt="" />
                                                             </div>
                                                         </div>
                                                     </div>

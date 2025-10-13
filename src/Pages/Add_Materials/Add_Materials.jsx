@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axiosInstance from "../../config/axiosIntance";
 import toast, { Toaster } from 'react-hot-toast';
 import { TbCloudUpload } from "react-icons/tb";
 import { MdAssignment } from "react-icons/md";
 import { PiNotebookFill } from "react-icons/pi";
 import { BsPcDisplay } from "react-icons/bs";
+import { GlobalContext } from "../../context/GlobalProvider";
 
 const Add_Materials = ({ courseId, setRefetch, refetch }) => {
+    const {user} = useContext(GlobalContext);
     const [selectedOption, setSelectedOption] = useState(null);
     const [isInitialPage, setIsInitialPage] = useState(true);
 
@@ -142,9 +144,9 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
 
         // Uploader data
         const uploader = {
-            name: "Minhaj",
-            email: "mmminhaj221@gmail.com",
-            image: "https://lh3.googleusercontent.com/a/ACg8ocL6P9DblykuGNOEoWW66u3OcagbR7lGWApRBFWg2350J8qeYBa3pg=s288-c-no"
+            name: user.displayName ,
+            email: user.email ,
+            image: user?.photoURL
         }
 
         const apiData = new FormData();

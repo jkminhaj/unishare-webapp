@@ -11,6 +11,7 @@ const AllCourses = () => {
     const [loading, setLoading] = useState(true);
     const [courses, setCourses] = useState([]);
 
+
     useEffect(() => {
 
         const fetchCourses = async () => {
@@ -27,7 +28,7 @@ const AllCourses = () => {
 
         fetchCourses();
     }, [])
-
+    
     return (
         <div>
             {/* <p className="text-center md:text-2xl animate-pulse text-red-400 my-3">Website Under Construction</p> */}
@@ -53,9 +54,9 @@ const AllCourses = () => {
                             <Skeleton_CourseCard key={index} />
                         ))
                 }
-                
+
                 {/* add more course  */}
-                {!loading && <Add_Course/>}
+                {!loading && <Add_Course />}
             </div>
         </div>
     );

@@ -8,6 +8,7 @@ import { GlobalContext } from "../../context/GlobalProvider";
 import toast, { Toaster } from "react-hot-toast";
 import MetaData from "../../config/MetaData";
 import { LuMailSearch } from "react-icons/lu";
+import axiosInstance from "../../config/axiosIntance";
 
 
 const Login = () => {
@@ -42,37 +43,44 @@ const Login = () => {
     };
 
 
-    const handleGoogleLogin = () => {
-        setLoading(true);
-        setIsCheckingEmail(true);
-        connect_google()
-            .then((result) => {
-                // navigate(from, { replace: true });
-                console.log("Connected to google");
-                console.log(result.user.email.endsWith("@uttarauniversity.edu.bd"));
-                if (!result.user.email.endsWith("@uttarauniversity.edu.bd")) {
-                    setIsCheckingEmail(false);
-                    log_out();
-                    setError("Please use your university account");
-                } else {
-                    // move further
-                    setIsCheckingEmail(false);
-                    console.log("move further");
-                }
-                setLoading(false);
-            }).catch((error) => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // The email of the user's account used.
-                // const email = error.customData.email;
-                // The AuthCredential type that was used.
-                // const credential = GoogleAuthProvider.credentialFromError(error);
-                // console.log(error)
-                // ...
-                setLoading(false);
+    const handleGoogleLogin = async () => {
+        try {
+            setLoading(true);
+
+            // wait for google connection
+            const result = await connect_google();
+            navigate(from, { replace: true });
+            console.log("Connected to google");
+
+            const user = result.user;
+
+            // wait for backend user creation
+            await axiosInstance.post("/api/users/create", {
+                name: user.displayName,
+                email: user.email,
+                photo: user.photoURL,
             });
-    }
+
+            // console.log(res.status);
+            // // console.log(res.data.status);
+            // console.log(user.email.endsWith("@uttarauniversity.edu.bd"));
+
+            // if (!user.email.endsWith("@uttarauniversity.edu.bd")) {
+            //   log_out();
+            //   setError("Please use your university account");
+            //   console.log("Logged out due to invalid email domain");
+            // } else {
+            //   console.log("move further");
+            // }
+
+        } catch (error) {
+            if (error.message == "Firebase: Error (auth/popup-closed-by-user).") setError("Pop up closed , Please try again.")
+                else setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -83,25 +91,32 @@ const Login = () => {
         const password = form.password.value;
         console.log(email, password);
 
-        // login_user(email, password)
-        //     .then((userCredential) => {
-        //         // Signed up 
-        //         const user = userCredential.user;
-        //         // ...
-        //     })
-        //     .catch((error) => {
-        //         const errorCode = error.code;
-        //         const errorMessage = error.message;
-        //         console.log(errorMessage);
-        //         // ..
-        //     });
+        login_user(email, password)
+            .then((userCredential) => {
+                // Signed up 
+                const user = userCredential.user;
+                navigate(from, { replace: true });
+                setLoading(false);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setLoading(false);
+                console.log(errorMessage)
+                if (errorMessage == "Firebase: Error (auth/invalid-credential).") setError("Incorrect email or password");
+                if (errorMessage == "Firebase: Error (auth/too-many-requests).") setError("Too many attempts. Try again later.");
+                if (errorMessage == "Firebase: Error (auth/network-request-failed).") setError("Please check your internet connection");
+                if (errorMessage == "Firebase: Error (auth/popup-blocked).") setError("Pop up blocked , Please refresh the page");
+                if (errorMessage == "Firebase: Error (auth/popup-closed-by-user).") setError("Pop up closed , Please try again.");
+                // ..
+            });
 
-        if (email == "test@gmail.com" && password == 1234) {
-            localStorage.setItem("user", email);
-            console.log(location);
-            navigate(from, { replace: true });
-        } else setError("Incorrect email or password");
-        setLoading(false);
+        // if (email == "test@gmail.com" && password == 1234) {
+        //     localStorage.setItem("user", email);
+        //     console.log(location);
+
+        // } else setError("Incorrect email or password");
+
     }
     return (
         <section>
@@ -148,7 +163,7 @@ const Login = () => {
                                     disabled={loading}
                                     className="cursor-pointer font-semibold shadow-xl bg-blue-600 px-4 rounded-xl py-2 text-white hover:bg-blue-700"
                                 >
-                                    {loading ? "Logging in..." : "Login"}
+                                    {loading ? <span className="flex flex-row-reverse justify-center gap-3 min-w-11"><span className="loading-spinner text-sm loading " /></span> : "Login"} 
                                 </button>
                             </div>
                         </form>
@@ -165,7 +180,7 @@ const Login = () => {
                             </div>
                         </button>
 
-                        <div onClick={() => { handleGoogleLogin() }} className="border rounded-xl mt-3 border-gray-200 py-2 flex justify-center cursor-pointer hover:shadow-sm">
+                        <div onClick={() => { handleFacebookLogin() }} className="border rounded-xl mt-3 border-gray-200 py-2 flex justify-center cursor-pointer hover:shadow-sm">
                             <div className="flex items-center gap-2">
                                 <MdOutlineFacebook className="text-2xl text-blue-500" />
                                 <p className="text-sm">Continue with <span className="font-semibold">Facebook</span></p>
