@@ -1,6 +1,6 @@
 const Sekeleton_Materials_Details = () => {
     return (
-        <section className="max-w-[800px] mx-auto pt-4 animate-pulse">
+        <section className="max-w-[800px] mx-auto pt-5 animate-pulse">
             <div className="flex gap-3 items-center">
                 <div className="md:text-2xl text-white border rounded-full p-5 bg-gray-300" />
                 <div className="h-8 w-2/3 bg-gray-300 rounded" />
@@ -19,10 +19,10 @@ const Sekeleton_Materials_Details = () => {
 
             <hr className="my-4 border-[1.5px]" />
 
-            <div className="grid gap-3 grid-cols-4">
-                {[1, 2].map((_, idx) => (
+            <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
+                {[1].map((_, idx) => (
                     <div key={idx} className="border bg-gray-200 p-2 rounded-xl w-full">
-                        <div className="h-4 w-2/3 rounded mx-auto" />
+                        <div className="h-10 md:h-16 w-2/3 rounded mx-auto" />
                     </div>
                 ))}
             </div>

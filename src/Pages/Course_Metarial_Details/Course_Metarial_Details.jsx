@@ -8,8 +8,10 @@ import { LiaDownloadSolid } from "react-icons/lia";
 import Sekeleton_Materials_Details from "../../components/Skeletons/Sekeleton_Materials_Details";
 import { SlOptionsVertical } from "react-icons/sl";
 import { AiOutlineDelete } from "react-icons/ai";
-import { FiLink } from "react-icons/fi";
+import { FiEdit3, FiLink } from "react-icons/fi";
 import { MdContentCopy } from "react-icons/md";
+import extractUser from "../../Helper/ExtractUser";
+import { FaFilePdf } from "react-icons/fa";
 
 
 const materialtype = (str) => {
@@ -90,12 +92,14 @@ const Course_Metarial_Details = () => {
                 alert("something wernt wront")
             })
     }
-
+    function isUniName(str) {
+        return /\d/.test(str);
+    }
     return (
         <div>
             {
                 !loading &&
-                <section className="max-w-[800px] mx-auto pt-3 relative">
+                <section className="max-w-[800px] mx-auto pt-5 relative">
                     {
                         copied &&
                         <div
@@ -128,6 +132,7 @@ const Course_Metarial_Details = () => {
                             </label>
 
                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 border bg-base-100 rounded-xl min-w-52">
+                                <li><a className="flex items-center gap-2"><FiEdit3 /> Edit {type}</a></li>
                                 <li onClick={() => { handleMaterialDelete() }}><a className="flex items-center gap-2"><AiOutlineDelete /> {delLoading ? "Deleting.." : "Delete"}</a></li>
                                 <li onClick={() => { handleCopy() }}><a className="flex items-center gap-2"><FiLink /> Copy link</a></li>
                             </ul>
@@ -148,29 +153,54 @@ const Course_Metarial_Details = () => {
                         <p className="mt-3 text-sm text-gray-500 font-normal font-sans">{materialData?.createdAt && formatDate(materialData.createdAt)} • <span className="text-sm">{formatTime(materialData?.createdAt)}</span>
                         </p>
                         <div className="flex items-center gap-3">
-                            <p className="text-base text-gray-600">{materialData?.uploader?.name}</p>
-                            <img title={materialData?.uploader?.name} className="w-7 rounded-full" src={materialData?.uploader?.image} alt="" />
+                            <p className="text-base text-gray-600 hidden md:block">{isUniName(materialData?.uploader?.name) ? extractUser(materialData?.uploader?.name).fullName : materialData?.uploader?.name}</p>
+                            {
+                                isUniName(materialData?.uploader?.name) &&
+                                <p className="text-sm md:text-base text-gray-600 block md:hidden ">{extractUser(materialData?.uploader?.name).nickName}
+                                </p>
+                            }
+                            <img referrerPolicy="no-referrer" title={materialData?.uploader?.name} className="w-7 rounded-xl" src={materialData?.uploader?.image} alt="" />
                         </div>
                     </div>
 
 
                     <hr className="my-4  border-[1.5px]" />
-                    <div className="grid gap-3 grid-cols-4">
-                        {
-                            materialData?.data?.map((item, indx) => {
-                                return (
-                                    <div key={indx} className="border p-2 rounded-xl w-full">
-                                        {/* <p>{item.viewLink}</p> */}
-                                        {/* <p>Title</p>     */}
-                                        <div className="flex px-1 items-center justify-between">
-                                            <a href={item.viewLink} className="hover:text-blue-700 cursor-pointer text-sm" target="_blank">file {indx + 1}</a>
+                    <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {materialData?.data?.map((item, indx) => (
+                            <a
+                                key={indx}
+                                href={item.viewLink}
+                                target="_blank"
+                                className="flex border cursor-pointer rounded-xl overflow-hidden15 hover:shadow-sm transition"
+                            >
+                                {/* Left Side with bg image */}
+                                {
+                                    item.thumbnailLink ?
+                                        <img
+                                            referrerPolicy="no-referrer"
+                                            src={item?.thumbnailLink}
+                                            className="w-1/2 max-h-16 md:max-h-20  md:h-24 rounded-l-xl  bg-cover bg-center"
+                                        // style={{ backgroundImage: `url(${item?.thumbnailLink || "/fallback.jpg"})` }}
+                                        >
+                                        </img>
+                                        :
+                                        <div className="w-1/2 h-16 md:max-h-20 flex justify-center items-center  md:h-24 rounded-l-xl bg-blue-500 text-white">
+                                            <p className="text-xl font-semibold">PDF</p>
                                         </div>
+                                }
 
-                                    </div>
-                                )
-                            })
-                        }
+                                {/* Right Side with text */}
+                                <div className="w-1/2 flex items-center justify-center p-2">
+                                    <a
+                                        className="text-sm text-gray-700 hover:text-blue-600 transition"
+                                    >
+                                        Doc {indx + 1}
+                                    </a>
+                                </div>
+                            </a>
+                        ))}
                     </div>
+
                 </section>
             }
             {loading && <Sekeleton_Materials_Details />}
