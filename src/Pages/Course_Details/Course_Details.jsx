@@ -126,7 +126,7 @@ const Course_Details = () => {
                                         </div>
                                     }
                                 </div>
-                                <button className="flex items-center text-teal-600 bg-white md:px-3 p-2  md:py-2 hover:shadow rounded-xl text-xs md:text-base shadow-none gap-2 " onClick={() => { setViewingCourse(!viewingCourse) }}>{viewingCourse && <FaPlus className="text-xs" />} {viewingCourse ? "Add Materials" : "Back"} </button>
+                                <button className="flex items-center text-teal-600 bg-white md:px-3 p-2  md:py-2 hover:shadow rounded-xl text-xs md:text-base shadow-none gap-2 " onClick={() => { setViewingCourse(!viewingCourse) }}>{viewingCourse && <FaPlus className="text-xs" />} {viewingCourse ? "Upload" : "Back"} </button>
                             </div>
                         </header>
 
@@ -137,7 +137,7 @@ const Course_Details = () => {
                             viewingCourse && !materialLoading &&
                             <section>
                                 <div className="mt-5">
-                                    <div className="max-h-80 overflow-y-auto pr-2">
+                                    <div className=" overflow-y-auto pr-2">
                                         {
                                             assignments &&
                                             assignments.map((item, idx) => {
@@ -230,15 +230,15 @@ const Course_Details = () => {
                             <div className="flex flex-col items-center justify-center my-16 text-center px-4">
                                 {/* <h1 className="text-6xl font-bold text-gray-800 animate-bounce">Nothing to see !</h1> */}
                                 {/* <div className="mt-6 text-3xl animate-bounce">¯\_(ツ)_/¯</div> */}
-                                <p className="mt-2 text-2xl font-semibold text-gray-700">
+                                <p className="mt-2 md:text-2xl font-semibold text-gray-700">
                                     {random.title}
                                 </p>
-                                <p className="text-gray-500 mt-1">
+                                <p className="text-gray-500 md:text-base text-sm mt-1">
                                     {random.subtitle}
                                 </p>
                                 <button
                                     onClick={() => window.history.back()}
-                                    className="mt-6 px-6 py-2 bg-teal-600 text-white rounded-full shadow-md hover:bg-teal-700 transition duration-300"
+                                    className="mt-6 px-4 md:px-6 py-2 bg-teal-600 text-white md:text-base text-xs    rounded-full shadow-md hover:bg-teal-700 transition duration-300"
                                 >
                                     Go Back
                                 </button>

@@ -163,7 +163,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
             apiData.append('labName', formData.get('lab_name'));
             apiData.append('labNo', formData.get('lab_no'));
             apiData.append('details', formData.get('lab_description'));
-            apiData.append('deadline', formData.get('lab_deadline'));
+            // apiData.append('deadline', formData.get('lab_deadline'));
 
             try {
                 const res = await axiosInstance.post("/api/labs/create", apiData);
@@ -206,7 +206,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
 
             apiData.append('assignmentName', formData.get('assignment_name'));
             apiData.append('assignmentNo', formData.get('assignment_no'));
-            apiData.append('deadline', formData.get('assignment_deadline'));
+            // apiData.append('deadline', formData.get('assignment_deadline'));
             apiData.append('details', formData.get('assignment_description'));
 
             try {
@@ -284,7 +284,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                         <div className="gap-3 flex flex-col md:mt-2">
                             <input type="text" required={isAssignment} name="assignment_name" className={styles.input} placeholder="assignment name" />
                             <input type="number" required={isAssignment} name="assignment_no" className={styles.input} placeholder="assignment no" />
-                            <input type="date" required={isAssignment} name="assignment_deadline" className={styles.input} placeholder="deadline" />
+                            {/* <input type="date" required={isAssignment} name="assignment_deadline" className={styles.input} placeholder="deadline" /> */}
                             <textarea name="assignment_description" placeholder="description (optional)" className={styles.textarea} id=""></textarea>
                         </div>
                     )}
@@ -300,7 +300,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                         <div className="gap-3 flex flex-col md:mt-2">
                             <input type="text" required={isLab} name="lab_name" className={styles.input} placeholder="lab name" />
                             <input type="number" required={isLab} name="lab_no" className={styles.input} placeholder="lab no" />
-                            <input type="date" required={isLab} name="lab_deadline" className={styles.input} placeholder="deadline" />
+                            {/* <input type="date" required={isLab} name="lab_deadline" className={styles.input} placeholder="deadline" /> */}
                             <textarea name="lab_description" className={styles.textarea} placeholder="description" id=""></textarea>
                         </div>
                     )}
