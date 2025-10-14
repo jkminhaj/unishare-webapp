@@ -137,7 +137,7 @@ const Login = () => {
                                     className="mb-3 w-full text-sm outline-0  rounded-xl  border pl-8 px-4 p-2"
                                     type="email"
                                     name="email"
-                                    defaultValue="test@gmail.com"
+                                    defaultValue=""
                                     placeholder="Email"
                                     required
 
@@ -150,7 +150,7 @@ const Login = () => {
                                     className="mb-3 w-full text-sm outline-0  rounded-xl  border pl-8 px-4 p-2"
                                     type="password"
                                     name="password"
-                                    defaultValue="1234"
+                                    defaultValue=""
                                     placeholder="Password"
                                     required
 
@@ -188,7 +188,7 @@ const Login = () => {
                         </div>
 
                         <div className="text-center text-sm mt-16">
-                            <p>New here ? <span className="font-semibold underline cursor-pointer text-blue-600">Sign up</span></p>
+                            <p>New here ? <span  onClick={() => { handleFacebookLogin() }}  className="font-semibold underline cursor-pointer text-blue-600">Sign up</span></p>
                         </div>
                     </div>
                 }
