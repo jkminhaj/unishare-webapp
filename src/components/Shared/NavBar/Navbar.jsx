@@ -32,9 +32,9 @@ const Navbar = () => {
                         to="/" className="text-2xl hover:underline text-blue-500"
                     >Uni Share</NavLink>
 
-                    <div>
+                    {/* <div>
                         Back
-                    </div>
+                    </div> */}
                 </div>
 
                 <div data-aos="fade-left"
