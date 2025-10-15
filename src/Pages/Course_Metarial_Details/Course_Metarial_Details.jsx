@@ -178,7 +178,7 @@ const Course_Metarial_Details = () => {
                                     item.thumbnailLink ?
                                         <img
                                             referrerPolicy="no-referrer"
-                                            src={item?.thumbnailLink}
+                                            src={"https://www.staceyeburke.com/wp-content/uploads/2019/04/Folders-770x484.jpg"||item.thumbnailLink}
                                             className="w-1/2 max-h-16 md:max-h-20  md:h-24 rounded-l-xl  bg-cover bg-center"
                                         // style={{ backgroundImage: `url(${item?.thumbnailLink || "/fallback.jpg"})` }}
                                         >

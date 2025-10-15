@@ -155,7 +155,7 @@ const Course_Details = () => {
                                                             </div>
                                                             <div className="flex items-center gap-3">
                                                                 <p className="text-sm hidden md:block">uploaded by</p>
-                                                                <img title={item.uploader.name} className="w-6 rounded-full" src={item.uploader.image} alt="" />
+                                                                <img title={item.uploader.name} className="w-8 md:w-6 rounded-full" src={item.uploader.image} alt="" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -178,7 +178,7 @@ const Course_Details = () => {
                                                             </div>
                                                             <div className="flex items-center gap-3">
                                                                 <p className="text-sm hidden md:block">uploaded by</p>
-                                                                <img title={item.uploader.name} className="w-6 rounded" src={item.uploader.image} alt="" />
+                                                                <img title={item.uploader.name} className="w-8 md:w-6 rounded" src={item.uploader.image} alt="" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -201,7 +201,7 @@ const Course_Details = () => {
                                                             </div>
                                                             <div className="flex items-center gap-3">
                                                                 <p className="text-sm hidden md:block">uploaded by</p>
-                                                                <img title={item.uploader.name} className="w-6 rounded-full" src={item.uploader.image} alt="" />
+                                                                <img title={item.uploader.name} className="w-8 md:w-6 rounded-full" src={item.uploader.image} alt="" />
                                                             </div>
                                                         </div>
                                                     </div>
