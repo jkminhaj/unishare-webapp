@@ -4,7 +4,6 @@ import { useLocation, useParams } from "react-router-dom";
 import axiosInstance from "../../config/axiosIntance";
 import { BsPcDisplay } from "react-icons/bs";
 import { PiNotebookFill } from "react-icons/pi";
-import { LiaDownloadSolid } from "react-icons/lia";
 import Sekeleton_Materials_Details from "../../components/Skeletons/Sekeleton_Materials_Details";
 import { SlOptionsVertical } from "react-icons/sl";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -12,6 +11,8 @@ import { FiEdit3, FiLink } from "react-icons/fi";
 import { MdContentCopy } from "react-icons/md";
 import extractUser from "../../Helper/ExtractUser";
 import { FaFilePdf } from "react-icons/fa";
+import { TbMessageReport } from "react-icons/tb";
+
 
 
 const materialtype = (str) => {
@@ -69,6 +70,7 @@ const Course_Metarial_Details = () => {
     }
     const domain = "unishare.me"
     console.log(materialData)
+    const isContentAuthor = materialData?.uploader?.email == JSON.parse(localStorage.getItem("user")).email;
     const handleMaterialDelete = async () => {
         try {
             setDelLoading(true);
@@ -132,8 +134,16 @@ const Course_Metarial_Details = () => {
                             </label>
 
                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 border bg-base-100 rounded-xl min-w-52">
-                                <li><a className="flex items-center gap-2"><FiEdit3 /> Edit {type}</a></li>
-                                <li onClick={() => { handleMaterialDelete() }}><a className="flex items-center gap-2"><AiOutlineDelete /> {delLoading ? "Deleting.." : "Delete"}</a></li>
+                                {
+                                    isContentAuthor ?
+                                        <>
+                                            <li><a className="flex items-center gap-2"><FiEdit3 /> Edit {type}</a></li>
+                                            <li onClick={() => { handleMaterialDelete() }}><a className="flex items-center gap-2"><AiOutlineDelete /> {delLoading ? "Deleting.." : "Delete"}</a></li>
+                                        </> :
+                                        <>
+                                            <li><a className="flex items-center gap-2"><TbMessageReport /> Report</a></li>
+                                        </>
+                                }
                                 <li onClick={() => { handleCopy() }}><a className="flex items-center gap-2"><FiLink /> Copy link</a></li>
                             </ul>
                         </div>
@@ -178,8 +188,8 @@ const Course_Metarial_Details = () => {
                                     item.thumbnailLink ?
                                         <img
                                             referrerPolicy="no-referrer"
-                                            src={"https://www.staceyeburke.com/wp-content/uploads/2019/04/Folders-770x484.jpg"||item.thumbnailLink}
-                                            className="w-1/2 max-h-16 md:max-h-20  md:h-24 rounded-l-xl  bg-cover bg-center"
+                                            src={"https://img.icons8.com/ios11/512/228BE6/document.png" || item.thumbnailLink}
+                                            className="w-1/2 max-h-16 md:max-h-20  md:h-24 rounded-l-xl md:max-w-20 bg-cover bg-center"
                                         // style={{ backgroundImage: `url(${item?.thumbnailLink || "/fallback.jpg"})` }}
                                         >
                                         </img>
