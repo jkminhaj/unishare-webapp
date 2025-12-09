@@ -195,7 +195,7 @@ const Course_Metarial_Details = () => {
                                         </img>
                                         :
                                         <div className="w-1/2 h-16 md:max-h-20 flex justify-center items-center  md:h-24 rounded-l-xl bg-blue-500 text-white">
-                                            <p className="text-xl font-semibold">PDF</p>
+                                            <p className="text-xl font-semibold">PDF/D</p>
                                         </div>
                                 }
 
