@@ -100,7 +100,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
     const handleFiles = (files) => {
         const fileList = Array.from(files);
         setSelectedFiles(fileList);
-        if (onFilesSelected) onFilesSelected(fileList);
+        // if (onFilesSelected) onFilesSelected(fileList);
     };
 
     const handleDrop = (e) => {
