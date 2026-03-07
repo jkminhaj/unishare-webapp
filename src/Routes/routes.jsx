@@ -6,6 +6,8 @@ import Course_Metarial_Details from "../Pages/Course_Metarial_Details/Course_Met
 import UploadMaterialTest from "../components/Test/UploadMaterialTest";
 import Login from "../Pages/Auth/Login";
 import Protected_Route from "../Protected/Protected_Route";
+import Question_Bank_Home from "../Pages/Question_Bank/Question_Bank_Home";
+import Question_Bank_Details from "../Pages/Question_Bank/Question_Bank_Details";
 
 export const router = createHashRouter([
   {
@@ -15,6 +17,14 @@ export const router = createHashRouter([
       {
         path: "/",
         element:<Protected_Route><Home /></Protected_Route> 
+      },
+      {
+        path: "/questionBank",
+        element:<Protected_Route><Question_Bank_Home/></Protected_Route> 
+      },
+      {
+        path: "/questionBank/:id",
+        element:<Protected_Route><Question_Bank_Details/></Protected_Route> 
       },
       {
         path: "/course/:id",

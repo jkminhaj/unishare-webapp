@@ -7,6 +7,7 @@ import { TbLogout2 } from "react-icons/tb";
 import { NavLink, useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../../context/GlobalProvider";
 import extractUser from "../../../Helper/ExtractUser";
+import { FaQuestion } from "react-icons/fa";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -46,6 +47,9 @@ const Navbar = () => {
                             <input type="text" className="outline-none px-2 hidden md:block" placeholder="Search materials" />
                         </div>
 
+                        <div onClick={()=>{navigate("/questionBank")}} className="bg-blue-500 cursor-pointer flex items-center rounded-2xl p-2">
+                            <FaQuestion className="text-xl text-white" />
+                        </div>
                         <div className="bg-blue-500 flex items-center rounded-2xl p-2">
                             <GoBellFill className="text-xl text-white" />
                         </div>
