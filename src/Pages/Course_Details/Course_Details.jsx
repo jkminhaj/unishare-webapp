@@ -12,7 +12,7 @@ import messages from "../../noFilesMessages.json";
 import Skeleton_Material_List from "../../components/Skeletons/Course_Details/Skeleton_Material_List";
 import { BsPcDisplay } from "react-icons/bs";
 import MetaData from "../../config/MetaData";
-
+import { IoIosArrowBack } from "react-icons/io";
 
 const Course_Details = () => {
     const courseId = useParams().id;
@@ -91,13 +91,13 @@ const Course_Details = () => {
     }
     return (
         <section className="min-h-max">
-            <MetaData title={course?.courseName}/>
-            <div className="mt-3  mb-8">
+            <MetaData title={course?.courseName} />
+            <div className="mt-3 pb-5">
                 {
                     !loading &&
                     <section>
                         {/* assignments ,  courseName , labs , notes , semester , _id , faculty , courseCode = course ; */}
-                        <header className={`bg-teal-600 ease-in-out duration-300 transform transition-all
+                        <header className={`bg-gradient-to-r from-blue-600 to-blue-500 ease-in-out duration-300 transform transition-all
                             ${viewingCourse ? "md:p-7 p-5" : "p-4 px-7"}
                              text-white   rounded-lg ${viewingCourse ? "pt-5 md:pt-16" : "py-5 md:py-10"}`}>
                             <div className={`flex justify-between ${viewingCourse ? "items-end" : "items-center"}`}>
@@ -126,7 +126,7 @@ const Course_Details = () => {
                                         </div>
                                     }
                                 </div>
-                                <button className="flex items-center text-teal-600 bg-white md:px-3 p-2  md:py-2 hover:shadow rounded-xl text-xs md:text-base shadow-none gap-2 " onClick={() => { setViewingCourse(!viewingCourse) }}>{viewingCourse && <FaPlus className="text-xs" />} {viewingCourse ? "Upload" : "Back"} </button>
+                                <button className="flex items-center  bg-white text-blue-600 font-medium px-4 py-2 rounded-xl hover:bg-blue-50 transition md:px-3 p-2  md:py-2 hover:shadow text-xs md:text-base shadow-none gap-2 " onClick={() => { setViewingCourse(!viewingCourse) }}>{viewingCourse ? <FaPlus className="text-xs" /> : <IoIosArrowBack />} {viewingCourse ? "Upload" : "Back"} </button>
                             </div>
                         </header>
 
@@ -137,7 +137,7 @@ const Course_Details = () => {
                             viewingCourse && !materialLoading &&
                             <section>
                                 <div className="mt-5">
-                                    <div className=" overflow-y-auto pr-2">
+                                    <div className=" pr-2">
                                         {
                                             assignments &&
                                             assignments.map((item, idx) => {
@@ -145,16 +145,16 @@ const Course_Details = () => {
                                                     <div
 
                                                         onClick={() => { handleMaterialDetails("assignmentDetails", item) }}
-                                                        className=" border w-full rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
+                                                        className=" rounded-lg p-5 bg-[#131920] cursor-pointer  hover:ml-5 transition-all duration-300 ease-in-out border border-transparent my-3" key={idx}>
                                                         {/* <p>{item.createdAt}</p> */}
                                                         <div className="flex justify-between items-center gap-4">
                                                             <div className="flex items-center gap-3">
                                                                 <p className="text-xs md:text-base font-normal">{item.assignmentName}</p>
-                                                                {/* <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl md:hidden block">Assig. {item.assignmentNo}</p> */}
-                                                                <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl md:block hidden">Assignment {item.assignmentNo}</p>
+                                                                {/* <p className="text-xs text-white bg-blue-500 px-2 py-1 rounded-2xl md:hidden block">Assig. {item.assignmentNo}</p> */}
+                                                                <p className="text-xs text-white bg-[#FF595A] px-2 py-1 rounded-2xl md:block hidden">Assignment {item.assignmentNo}</p>
                                                             </div>
                                                             <div className="flex items-center gap-3">
-                                                                <p className="text-sm hidden md:block">uploaded by</p>
+                                                                <p className="text-sm hidden md:block">Uploaded by</p>
                                                                 <img title={item.uploader.name} className="w-8 md:w-6 rounded-xl" src={item.uploader.image} alt="" />
                                                             </div>
                                                         </div>
@@ -169,15 +169,15 @@ const Course_Details = () => {
                                                     <div
 
                                                         onClick={() => { handleMaterialDetails("labDetails", item) }}
-                                                        className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
+                                                        className="rounded-lg p-5 bg-[#131920] cursor-pointer  hover:ml-5 transition-all duration-300 ease-in-out border border-transparent my-3" key={idx}>
                                                         {/* <p>{item.createdAt}</p> */}
                                                         <div className="flex justify-between items-center gap-4">
                                                             <div className="flex items-center gap-3">
                                                                 <p className="text-xs md:text-base font-normal">{item.labName}</p>
-                                                                <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl">Lab {item.labNo}</p>
+                                                                <p className="text-xs  text-white bg-[#34C759] px-2 py-1 rounded-2xl">Lab {item.labNo}</p>
                                                             </div>
                                                             <div className="flex items-center gap-3">
-                                                                <p className="text-sm hidden md:block">uploaded by</p>
+                                                                <p className="text-sm hidden md:block">Uploaded by</p>
                                                                 <img title={item.uploader.name} className="w-8 md:w-6 rounded-xl" src={item.uploader.image} alt="" />
                                                             </div>
                                                         </div>
@@ -190,17 +190,16 @@ const Course_Details = () => {
                                             notes.map((item, idx) => {
                                                 return (
                                                     <div
-
                                                         onClick={() => { handleMaterialDetails("noteDetails", item) }}
-                                                        className="border rounded-lg p-5 border-gray-200 cursor-pointer hover:bg-gray-50 my-3" key={idx}>
+                                                        className="rounded-lg p-5 bg-[#131920] cursor-pointer  hover:ml-5 transition-all duration-300 ease-in-out border border-transparent my-3" key={idx}>
                                                         {/* <p>{item.createdAt}</p> */}
                                                         <div className="flex justify-between items-center gap-4">
                                                             <div className="flex items-center gap-3">
                                                                 <p className="text-xs md:text-base font-normal">{item.title}</p>
-                                                                <p className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-2xl">Note</p>
+                                                                <p className="text-xs text-white bg-[#248BED] px-2 py-1 rounded-2xl">Note</p>
                                                             </div>
                                                             <div className="flex items-center gap-3">
-                                                                <p className="text-sm hidden md:block">uploaded by</p>
+                                                                <p className="text-sm hidden md:block">Uploaded by</p>
                                                                 <img title={item.uploader.name} className="w-8 md:w-6 rounded-xl" src={item.uploader.image} alt="" />
                                                             </div>
                                                         </div>
@@ -227,20 +226,23 @@ const Course_Details = () => {
 
                         {
                             viewingCourse && assignments.length == 0 && !materialLoading && notes.length == 0 && labs.length == 0 &&
-                            <div className="flex flex-col items-center justify-center my-16 text-center px-4">
+                            <div className="flex text-gray-200 flex-col items-center justify-center my-16 text-center px-4">
                                 {/* <h1 className="text-6xl font-bold text-gray-800 animate-bounce">Nothing to see !</h1> */}
                                 {/* <div className="mt-6 text-3xl animate-bounce">¯\_(ツ)_/¯</div> */}
-                                <p className="mt-2 md:text-2xl font-semibold text-gray-700">
+                                <p className="mt-2 md:text-2xl font-semibold ">
                                     {random.title}
                                 </p>
-                                <p className="text-gray-500 md:text-base text-sm mt-1">
+                                <p className=" md:text-base text-sm mt-1">
                                     {random.subtitle}
                                 </p>
                                 <button
                                     onClick={() => window.history.back()}
-                                    className="mt-6 px-4 md:px-6 py-2 bg-teal-600 text-white md:text-base text-xs    rounded-full shadow-md hover:bg-teal-700 transition duration-300"
+                                    className="mt-6 md:px-6 py-2 text-white md:text-base text-xs rounded-xl shadow-md bg-[#2399f0] transition duration-300 px-3"
                                 >
-                                    Go Back
+                                    <span className="flex items-center gap-1">
+                                        <IoIosArrowBack />
+                                        Go Back
+                                    </span>
                                 </button>
 
                             </div>
@@ -250,8 +252,8 @@ const Course_Details = () => {
                     </section>
                 }
 
-                { loading && <Sekeleton_CD_Header /> }
-                { viewingCourse && materialLoading && <Skeleton_Material_List /> }
+                {loading && <Sekeleton_CD_Header />}
+                {viewingCourse && materialLoading && <Skeleton_Material_List />}
 
             </div>
         </section>

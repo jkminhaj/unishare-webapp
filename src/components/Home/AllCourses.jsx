@@ -30,7 +30,7 @@ const AllCourses = () => {
     }, [])
     
     return (
-        <div>
+        <div className="pb-5">
             {/* <p className="text-center md:text-2xl animate-pulse text-red-400 my-3">Website Under Construction</p> */}
             {/* <div className="flex mb-7 items-center justify-between">
                 <p>Total Courses {courses.length}</p>
@@ -50,7 +50,7 @@ const AllCourses = () => {
                             return <CourseCard course={course} key={course._id} />;
                         })
                         :
-                        Array.from({ length: 5 }).map((_, index) => (
+                        Array.from({ length: 10 }).map((_, index) => (
                             <Skeleton_CourseCard key={index} />
                         ))
                 }

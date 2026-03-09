@@ -8,7 +8,7 @@ import { BsPcDisplay } from "react-icons/bs";
 import { GlobalContext } from "../../context/GlobalProvider";
 
 const Add_Materials = ({ courseId, setRefetch, refetch }) => {
-    const {user} = useContext(GlobalContext);
+    const { user } = useContext(GlobalContext);
     const [selectedOption, setSelectedOption] = useState(null);
     const [isInitialPage, setIsInitialPage] = useState(true);
 
@@ -21,71 +21,70 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
 
     const [selectedFiles, setSelectedFiles] = useState([]);
     const styles = {
-        input: "border rounded-lg p-3 py-2 outline-none",
-        textarea: "border outline-none p-3 rounded-lg  h-full resize-none"
+        input: "bg-[#131920] rounded-lg p-3 py-2 outline-none ",
+        textarea: "outline-none bg-[#131920] p-3 rounded-lg  h-full resize-none"
     }
 
     const notify = (message, type = 'success') => {
-    return toast(message, {
-        duration: 4000,
-        position: 'top-right',
+        return toast(message, {
+            duration: 4000,
+            position: 'top-right',
 
-        icon:
-            type === 'success'
-                ? '✅'
-                : type === 'error'
-                    ? '❌'
-                    : type === 'loading'
-                        ? '⏳'
-                        : '🔔',
-
-        iconTheme: {
-            primary:
+            icon:
                 type === 'success'
-                    ? '#14B8A6' // teal-500
+                    ? '✅'
                     : type === 'error'
-                        ? '#F87171' // red-400
-                        : '#0EA5E9', // sky-500 
+                        ? '❌'
+                        : type === 'loading'
+                            ? '⏳'
+                            : '🔔',
 
-            secondary: '#ffffff',
-        },
+            iconTheme: {
+                primary:
+                    type === 'success'
+                        ? '#14B8A6' // teal-500
+                        : type === 'error'
+                            ? '#F87171' // red-400
+                            : '#0EA5E9', // sky-500 
 
-        style: {
-            background:
-                type === 'success'
-                    ? '#F0FDFA' // teal-50
-                    : type === 'error'
-                        ? '#FEF2F2' // red-50
-                        : '#F0F9FF', // sky-50
-            color:
-                type === 'success'
-                    ? '#115E59' // teal-800
-                    : type === 'error'
-                        ? '#991B1B' // red-800
-                        : '#0C4A6E', // sky-900
-            borderLeft: `4px solid ${
-                type === 'success'
-                    ? '#14B8A6'
-                    : type === 'error'
-                        ? '#F87171'
-                        : '#0EA5E9'
-            }`,
-            borderRadius: '10px',
-            padding: '14px 20px',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
-            fontWeight: 500,
-            fontSize: '15px',
-        },
+                secondary: '#ffffff',
+            },
 
-        ariaProps: {
-            role: 'status',
-            'aria-live': 'polite',
-        },
-    });
-};
+            style: {
+                background:
+                    type === 'success'
+                        ? '#F0FDFA' // teal-50
+                        : type === 'error'
+                            ? '#FEF2F2' // red-50
+                            : '#F0F9FF', // sky-50
+                color:
+                    type === 'success'
+                        ? '#115E59' // teal-800
+                        : type === 'error'
+                            ? '#991B1B' // red-800
+                            : '#0C4A6E', // sky-900
+                borderLeft: `4px solid ${type === 'success'
+                        ? '#14B8A6'
+                        : type === 'error'
+                            ? '#F87171'
+                            : '#0EA5E9'
+                    }`,
+                borderRadius: '10px',
+                padding: '14px 20px',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+                fontWeight: 500,
+                fontSize: '15px',
+            },
+
+            ariaProps: {
+                role: 'status',
+                'aria-live': 'polite',
+            },
+        });
+    };
 
 
-    
+
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
@@ -144,8 +143,8 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
 
         // Uploader data
         const uploader = {
-            name: user.displayName ,
-            email: user.email ,
+            name: user.displayName,
+            email: user.email,
             image: user?.photoURL
         }
 
@@ -174,7 +173,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
 
             } catch (err) {
                 console.log("error", err);
-                notify("Something went wrong!","error")
+                notify("Something went wrong!", "error")
             } finally {
                 setLoading(false);
             }
@@ -196,7 +195,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
 
             } catch (err) {
                 console.log("error", err);
-                notify("Something went wrong!","error")
+                notify("Something went wrong!", "error")
             } finally {
                 setLoading(false);
             }
@@ -218,7 +217,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
 
             } catch (err) {
                 console.log("error", err);
-                notify("Something went wrong!","error")
+                notify("Something went wrong!", "error")
             } finally {
                 setLoading(false);
             }
@@ -236,40 +235,47 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
             {isInitialPage && (
                 <section>
                     <p className="my-3 mb-9 text-xl text-center">What do you want to share ?</p>
-                    <div className="flex flex-col md:flex-row  justify-between gap-3 mb-4">
+                    <div className="flex flex-col md:flex-row justify-between gap-3 mb-4">
+                        {/* Assignment Card - Red Theme */}
                         <div
-                            // data-aos="fade-right"
-                            // data-aos-duration="1000"
                             onClick={() => handleOptionClick('assignment')}
-                            className={`cursor-pointer md:py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'assignment' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500 hover:bg-teal-50'}`}
+                            className={`cursor-pointer transition-all duration-300 ease-in-out md:py-32 p-4 w-full md:w-1/3 text-center border rounded-xl 
+                                    ${selectedOption === 'assignment'
+                                    ? 'border-[#FF595A] bg-[#FF595A]/20 text-[#FF595A] shadow-[0_0_15px_rgba(255,89,90,0.2)]'
+                                    : 'border-dashed border-gray-600 text-gray-200 hover:border-[#FF595A] hover:bg-[#FF595A]/10 hover:text-[#FF595A]'}`}
                         >
                             <div className="flex justify-center gap-3 flex-col items-center">
-                                <MdAssignment className="text-2xl md:text-5xl text-teal-500" />
-                                Assignment
+                                <MdAssignment className={`text-2xl md:text-5xl ${selectedOption === 'assignment' ? 'text-[#FF595A]' : 'text-gray-300'}`} />
+                                <span className="font-medium">Assignment</span>
                             </div>
                         </div>
-                        <div
-                            // data-aos="fade-up"
-                            // data-aos-duration="1000"
-                            onClick={() => handleOptionClick('note')}
-                            className={`cursor-pointer md:py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'note' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500 hover:bg-teal-50'}`}
-                        >
-                            <div className="flex justify-center gap-3 flex-col items-center">
-                                <PiNotebookFill className="text-2xl md:text-5xl text-teal-500" />
-                                Note
-                            </div>
-                        </div>
-                        <div
-                            // data-aos="fade-left"
-                            // data-aos-duration="1000"
-                            onClick={() => handleOptionClick('lab')}
-                            className={`cursor-pointer md:py-32 p-4 w-full md:w-1/3 text-center border rounded ${selectedOption === 'lab' ? 'bg-blue-600 text-white' : 'border-dashed border-teal-500 hover:bg-teal-50'}`}
-                        >
-                            <div className="flex justify-center gap-3 flex-col items-center">
-                                <BsPcDisplay className="text-2xl md:text-5xl text-teal-500" />
-                                Lab
-                            </div>
 
+                        {/* Note Card - Blue Theme */}
+                        <div
+                            onClick={() => handleOptionClick('note')}
+                            className={`cursor-pointer transition-all duration-300 ease-in-out md:py-32 p-4 w-full md:w-1/3 text-center border rounded-xl 
+                                    ${selectedOption === 'note'
+                                    ? 'border-[#248BED] bg-[#248BED]/20 text-[#248BED] shadow-[0_0_15px_rgba(36,139,237,0.2)]'
+                                    : 'border-dashed border-gray-600 text-gray-200 hover:border-[#248BED] hover:bg-[#248BED]/10 hover:text-[#248BED]'}`}
+                        >
+                            <div className="flex justify-center gap-3 flex-col items-center">
+                                <PiNotebookFill className={`text-2xl md:text-5xl ${selectedOption === 'note' ? 'text-[#248BED]' : 'text-gray-300'}`} />
+                                <span className="font-medium">Note</span>
+                            </div>
+                        </div>
+
+                        {/* Lab Card - Green Theme */}
+                        <div
+                            onClick={() => handleOptionClick('lab')}
+                            className={`cursor-pointer transition-all duration-300 ease-in-out md:py-32 p-4 w-full md:w-1/3 text-center border rounded-xl 
+                                     ${selectedOption === 'lab'
+                                    ? 'border-[#34C759] bg-[#34C759]/20 text-[#34C759] shadow-[0_0_15px_rgba(52,199,89,0.2)]'
+                                    : 'border-dashed border-gray-600 text-gray-200 hover:border-[#34C759] hover:bg-[#34C759]/10 hover:text-[#34C759]'}`}
+                        >
+                            <div className="flex justify-center gap-3 flex-col items-center">
+                                <BsPcDisplay className={`text-2xl md:text-5xl ${selectedOption === 'lab' ? 'text-[#34C759]' : 'text-gray-300'}`} />
+                                <span className="font-medium">Lab</span>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -321,7 +327,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                         >
                             <TbCloudUpload className="text-4xl text-teal-600 mb-2" />
                             <p className="text-sm text-gray-600">Click to upload files</p>
-                            <p className="text-xs text-gray-400">(You can select multiple files)</p>
+                            <p className="text-xs text-gray-200">(You can select multiple files)</p>
                         </label>
                         <input
                             type="file"
@@ -339,11 +345,11 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                             htmlFor="fileUpload"
                             onDrop={handleDrop}
                             onDragOver={(e) => e.preventDefault()}
-                            className="flex flex-col items-center justify-center h-36 w-full cursor-pointer border-2 border-dashed border-teal-400 rounded-lg bg-teal-50 hover:bg-teal-100 transition text-center"
+                            className="flex flex-col items-center justify-center h-36 w-full cursor-pointer  hover:bg-[#0e1318] border-[#131920] rounded-lg  bg-[#131920] transition text-center"
                         >
-                            <TbCloudUpload className="text-4xl text-teal-600 mb-2" />
-                            <p className="text-sm text-gray-600">Click or drag files to upload</p>
-                            <p className="text-xs text-gray-400">(Multiple files allowed)</p>
+                            <TbCloudUpload className="text-4xl animate-pulse text-white mb-2" />
+                            <p className="text-sm text-gray-200">Click or drag files to upload</p>
+                            <p className="text-xs text-gray-200">(Multiple files allowed)</p>
                             <input
                                 type="file"
                                 id="fileUpload"
@@ -366,7 +372,7 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                         )}
                     </div>
 
-                    <button disabled={imageUploading || loading} className="btn disabled:cursor-not-allowed disabled:bg-teal-600 disabled:text-white bg-teal-600 text-white hover:bg-teal-700 mt-6 w-full">
+                    <button disabled={imageUploading || loading} className="btn border-0 disabled:cursor-not-allowed disabled:bg-[#131920] disabled:text-white bg-blue-500 text-white hover:bg-[#131920] mt-6 w-full">
                         {!imageUploading && !loading && "Upload"}
                         {imageUploading && <div className="flex items-center gap-3" ><span className="loading loading-spinner loading-sm"></span> Uploading file ... </div>}
                         {!imageUploading && loading && <div className="flex items-center gap-3"><span className="loading loading-spinner loading-sm"></span> <span>Finalizing data...</span></div>}

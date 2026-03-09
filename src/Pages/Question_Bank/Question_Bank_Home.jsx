@@ -42,7 +42,7 @@ const Question_Bank_Home = () => {
                         );
                     })}
                     <div
-                        className="group mt-3 relative bg-white rounded-2xl shadow-md p-5 border border-gray-200 hover:shadow-xl hover:-translate-y-1 flex items-center justify-between transition-all duration-300 cursor-pointer"
+                        className="group mt-3 relative bg-[#131920] rounded-2xl shadow-md p-5 hover:shadow-xl hover:-translate-y-1 flex items-center justify-between transition-all duration-300 cursor-pointer"
                     >
                         Add a course
                         <FiPlus className="font-bold" />

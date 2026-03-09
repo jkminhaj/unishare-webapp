@@ -24,13 +24,11 @@ const Navbar = () => {
         return /\d/.test(str);
     }
     return (
-        <div className="py-2 fixed top-0 z-50 w-full bg-white border-b border-gray-200 text-gray-800  shadow-gray-50-200 mb-4 shadow-sm">
+        <div className="py-2 fixed top-0 z-50 w-full bg-[#1d2733] text-gray-800  shadow-gray-50-200 mb-4 shadow-xl border-b border-[#9999990c]">
             <div className="w-11/12 md:w-10/12 mx-auto flex items-center justify-between">
                 <div className="flex items-center gap-5">
-                    <NavLink data-aos="fade-right"
-                        data-aos-offset="300"
-                        data-aos-easing="ease-in-sine"
-                        to="/" className="text-2xl hover:underline text-blue-500"
+                    <NavLink 
+                        to="/" className="text-2xl hover:underline text-white"
                     >Uni Share</NavLink>
 
                     {/* <div>
@@ -41,16 +39,16 @@ const Navbar = () => {
                 <div data-aos="fade-left"
                     data-aos-offset="300"
                     data-aos-easing="ease-in-sine" className="flex items-center gap-3">
-                    <div className="flex flex-row-reverse gap-2 items-center">
-                        <div className="border border-gray-300 flex flex-row-reverse items-center rounded-2xl py-2 pl-2 pr-2 md:pr-4">
+                    <div className="flex  flex-row-reverse gap-2 items-center">
+                        <div className=" flex bg-[#131920] flex-row-reverse items-center rounded-2xl py-2 pl-2 pr-2 md:pr-4">
                             <FiSearch className="text-xl text-gray-400" />
-                            <input type="text" className="outline-none px-2 hidden md:block" placeholder="Search materials" />
+                            <input type="text" className="outline-none bg-[#131920] text-white px-2 hidden md:block" placeholder="Search materials" />
                         </div>
 
-                        <div onClick={()=>{navigate("/questionBank")}} className="bg-blue-500 cursor-pointer flex items-center rounded-2xl p-2">
+                        <div onClick={()=>{navigate("/questionBank")}} className="bg-[#2399f0] cursor-pointer flex items-center rounded-2xl p-2">
                             <FaQuestion className="text-xl text-white" />
                         </div>
-                        <div className="bg-blue-500 flex items-center rounded-2xl p-2">
+                        <div className="bg-[#2399f0] flex items-center rounded-2xl p-2">
                             <GoBellFill className="text-xl text-white" />
                         </div>
                     </div>
@@ -59,7 +57,7 @@ const Navbar = () => {
                         user &&
                         <div className="dropdown dropdown-end">
                             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                                <div className="w-9 md:w-10 border  rounded-2xl">
+                                <div className="w-9 md:w-10 rounded-2xl">
                                     {user?.photoURL ? (
                                         <img
                                             referrerPolicy="no-referrer"

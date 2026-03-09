@@ -97,11 +97,16 @@ const Course_Metarial_Details = () => {
     function isUniName(str) {
         return /\d/.test(str);
     }
+    const typeColors = {
+        assignment: "bg-[#FF595A]",
+        lab: "bg-[#34C759]",
+        note: "bg-[#248BED]",
+    };
     return (
         <div>
             {
                 !loading &&
-                <section className="max-w-[800px] mx-auto pt-5 relative">
+                <section className="max-w-[800px]  mx-auto pt-5 relative">
                     {
                         copied &&
                         <div
@@ -113,13 +118,13 @@ const Course_Metarial_Details = () => {
                     }
                     <div className="flex justify-between items-start">
                         <div className="flex items-start md:items-center gap-3">
-                            <div className="md:text-2xl text-white border rounded-full p-2 bg-blue-500">
+                            <div className={`md:text-2xl text-white rounded-full p-2 ${typeColors[type]}`}>
                                 {type === 'assignment' && <MdAssignment />}
                                 {type === 'lab' && <BsPcDisplay />}
                                 {type === 'note' && <PiNotebookFill />}
                             </div>
 
-                            <h1 className="text-2xl md:text-4xl text-gray-700">
+                            <h1 className="text-2xl md:text-4xl ">
                                 {type === 'assignment' && materialData?.assignmentName}
                                 {type === 'lab' && materialData?.labName}
                                 {type === 'note' && materialData?.title}
@@ -128,8 +133,8 @@ const Course_Metarial_Details = () => {
 
                         <div className="dropdown dropdown-end">
                             <label tabIndex={0} className="cursor-pointer">
-                                <div className="border border-transparent  transition duration-300 ease-in-out active:scale-110 hover:border-gray-200 rounded-full p-2">
-                                    <SlOptionsVertical />
+                                <div className="border-transparent transition duration-300 ease-in-out active:scale-110 hover:bg-[#131920b2] rounded-full p-2">
+                                    <SlOptionsVertical className="text-gray-300" />
                                 </div>
                             </label>
 
@@ -158,15 +163,15 @@ const Course_Metarial_Details = () => {
                     <p className="text-red-500">Deadline: {formatDate(materialData.deadline)}</p>
                 )} */}
 
-                    <p className="mt-3  mb-5 text-gray-500">{materialData?.details ? materialData.details : "No description provided"}</p>
+                    <p className="mt-3  mb-5 ">{materialData?.details ? materialData.details : "No description provided"}</p>
                     <div className="flex justify-between items-center">
-                        <p className="mt-3 text-sm text-gray-500 font-normal font-sans">{materialData?.createdAt && formatDate(materialData.createdAt)} • <span className="text-sm">{formatTime(materialData?.createdAt)}</span>
+                        <p className="mt-3 text-sm  font-normal font-sans">{materialData?.createdAt && formatDate(materialData.createdAt)} • <span className="text-sm">{formatTime(materialData?.createdAt)}</span>
                         </p>
                         <div className="flex items-center gap-3">
-                            <p className="text-base text-gray-600 hidden md:block">{isUniName(materialData?.uploader?.name) ? extractUser(materialData?.uploader?.name).fullName : materialData?.uploader?.name}</p>
+                            <p className="text-base text-gray-300 hidden md:block">{isUniName(materialData?.uploader?.name) ? extractUser(materialData?.uploader?.name).fullName : materialData?.uploader?.name}</p>
                             {
                                 isUniName(materialData?.uploader?.name) &&
-                                <p className="text-sm md:text-base text-gray-600 block md:hidden ">{extractUser(materialData?.uploader?.name).nickName}
+                                <p className="text-sm md:text-base text-gray-300 block md:hidden ">{extractUser(materialData?.uploader?.name).nickName}
                                 </p>
                             }
                             <img referrerPolicy="no-referrer" title={materialData?.uploader?.name} className="w-7 rounded-xl" src={materialData?.uploader?.image} alt="" />
@@ -174,14 +179,14 @@ const Course_Metarial_Details = () => {
                     </div>
 
 
-                    <hr className="my-4  border-[1.5px]" />
+                    <hr className="my-4 border-gray-600" />
                     <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {materialData?.data?.map((item, indx) => (
                             <a
                                 key={indx}
                                 href={item.viewLink}
                                 target="_blank"
-                                className="flex border cursor-pointer rounded-xl overflow-hidden15 hover:shadow-sm transition"
+                                className="flex bg-[#131920] cursor-pointer rounded-xl overflow-hidden15 hover:shadow-sm transition"
                             >
                                 {/* Left Side with bg image */}
                                 {
@@ -194,15 +199,15 @@ const Course_Metarial_Details = () => {
                                         >
                                         </img>
                                         :
-                                        <div className="w-1/2 h-16 md:max-h-20 flex justify-center items-center  md:h-24 rounded-l-xl bg-blue-500 text-white">
-                                            <p className="text-xl font-semibold">PDF/D</p>
+                                        <div className={`w-1/2 h-16 md:max-h-20 flex justify-center items-center md:h-24 rounded-l-xl text-white ${typeColors[type]}`}>
+                                            <p className="text-xl font-semibold">PDF</p>
                                         </div>
                                 }
 
                                 {/* Right Side with text */}
                                 <div className="w-1/2 flex items-center justify-center p-2">
                                     <a
-                                        className="text-sm text-gray-700 hover:text-blue-600 transition"
+                                        className="text-sm  hover:text-blue-600 transition"
                                     >
                                         Doc {indx + 1}
                                     </a>

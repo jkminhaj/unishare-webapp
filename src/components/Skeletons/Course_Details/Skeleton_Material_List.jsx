@@ -34,7 +34,7 @@ const Skeleton_Material_List = () => {
       </div> */}
       <div className="flex items-center mt-16 justify-center min-h-[200px]">
         <div>
-          <span className="loading loading-spinner text-emerald-600 loading-lg"></span>
+          <span className="loading loading-spinner text-[#2399f0] loading-lg"></span>
         </div>
       </div>
     </section>
