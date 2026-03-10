@@ -8,23 +8,24 @@ import Login from "../Pages/Auth/Login";
 import Protected_Route from "../Protected/Protected_Route";
 import Question_Bank_Home from "../Pages/Question_Bank/Question_Bank_Home";
 import Question_Bank_Details from "../Pages/Question_Bank/Question_Bank_Details";
+import Cover_Generator from "../tools/Cover_Generator";
 
 export const router = createHashRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
     children: [
       {
         path: "/",
-        element:<Protected_Route><Home /></Protected_Route> 
+        element: <Protected_Route><Home /></Protected_Route>
       },
       {
         path: "/questionBank",
-        element:<Protected_Route><Question_Bank_Home/></Protected_Route> 
+        element: <Protected_Route><Question_Bank_Home /></Protected_Route>
       },
       {
         path: "/questionBank/:id",
-        element:<Protected_Route><Question_Bank_Details/></Protected_Route> 
+        element: <Protected_Route><Question_Bank_Details /></Protected_Route>
       },
       {
         path: "/course/:id",
@@ -43,14 +44,18 @@ export const router = createHashRouter([
         element: <Protected_Route><Course_Metarial_Details /></Protected_Route>
       },
       {
-        path : "/upload",
-        element:<UploadMaterialTest/>
+        path: "/upload",
+        element: <UploadMaterialTest />
       }
     ]
   },
   {
-    path:"/login",
-    element: <Login/>
-  }
+    path: "/login",
+    element: <Login />
+  },
+  {
+    path: "/cover-generator",
+    element: <Protected_Route><Cover_Generator /></Protected_Route>
+  },
 
 ]);
