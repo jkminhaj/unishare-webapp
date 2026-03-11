@@ -8,6 +8,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../../context/GlobalProvider";
 import extractUser from "../../../Helper/ExtractUser";
 import { FaQuestion } from "react-icons/fa";
+import { FaRegFilePdf } from "react-icons/fa6";
+
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -83,7 +85,7 @@ const Navbar = () => {
                                         isUniName(user?.displayName) ? extractUser(user?.displayName).nickName : "Demo user"
                                     }
                                 </a></li>
-                                <li><a className="flex items-center gap-2"><LiaRandomSolid /> Change theme </a></li>
+                                <li><a onClick={()=>navigate('/cover-generator')} className="flex items-center gap-2"><FaRegFilePdf />Cover generator </a></li>
                                 <li onClick={() => { handleSignOut() }}><a className="flex items-center gap-2"><TbLogout2 />{loading ? "Signing out .." : "Sign out"} </a></li>
                             </ul>
                         </div>
