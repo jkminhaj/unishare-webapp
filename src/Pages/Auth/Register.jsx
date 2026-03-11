@@ -3,19 +3,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { MdErrorOutline, MdOutlineFacebook } from "react-icons/md";
 import { LuUser } from "react-icons/lu";
-import { MdLockOutline } from "react-icons/md";
+import { MdLockOutline, MdOutlineEmail } from "react-icons/md";
 import { GlobalContext } from "../../context/GlobalProvider";
 import toast, { Toaster } from "react-hot-toast";
 import MetaData from "../../config/MetaData";
-import { LuMailSearch } from "react-icons/lu";
 import axiosInstance from "../../config/axiosIntance";
 
 
-const Login = () => {
+const Register = () => {
     const [loading, setLoading] = useState(false);
-    const { user, log_out, login_user, connect_google, connect_facebook, globalLoading } = useContext(GlobalContext);
+    const [done, setDone] = useState(false);
+    const { connect_google } = useContext(GlobalContext);
     const navigate = useNavigate();
-    const [isCheckingEmail, setIsCheckingEmail] = useState(false);
     const location = useLocation();
     const [error, setError] = useState(false);
     const from = location.state?.from || "/";
@@ -59,18 +58,6 @@ const Login = () => {
                 photo: user.photoURL,
             });
 
-            // console.log(res.status);
-            // // console.log(res.data.status);
-            // console.log(user.email.endsWith("@uttarauniversity.edu.bd"));
-
-            // if (!user.email.endsWith("@uttarauniversity.edu.bd")) {
-            //   log_out();
-            //   setError("Please use your university account");
-            //   console.log("Logged out due to invalid email domain");
-            // } else {
-            //   console.log("move further");
-            // }
-
         } catch (error) {
             if (error.message == "Firebase: Error (auth/popup-closed-by-user).") setError("Pop up closed , Please try again.")
                 else setError(error.message);
@@ -79,46 +66,20 @@ const Login = () => {
         }
     };
 
+    // show loading for 2s then show google nudge
     const handleSubmit = e => {
         e.preventDefault();
+        setError(false);
         setLoading(true);
-
-        const form = e.target;
-        const email = form.email.value;
-        const password = form.password.value;
-        console.log(email, password);
-
-        login_user(email, password)
-            .then((userCredential) => {
-                // Signed up 
-                const user = userCredential.user;
-                navigate(from, { replace: true });
-                setLoading(false);
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                setLoading(false);
-                console.log(errorMessage)
-                if (errorMessage == "Firebase: Error (auth/invalid-credential).") setError("Incorrect email or password");
-                if (errorMessage == "Firebase: Error (auth/too-many-requests).") setError("Too many attempts. Try again later.");
-                if (errorMessage == "Firebase: Error (auth/network-request-failed).") setError("Please check your internet connection");
-                if (errorMessage == "Firebase: Error (auth/popup-blocked).") setError("Pop up blocked , Please refresh the page");
-                if (errorMessage == "Firebase: Error (auth/popup-closed-by-user).") setError("Pop up closed , Please try again.");
-                // ..
-            });
-
-        // if (email == "test@gmail.com" && password == 1234) {
-        //     localStorage.setItem("user", email);
-        //     console.log(location);
-
-        // } else setError("Incorrect email or password");
-
-    }
+        setTimeout(() => {
+            setLoading(false);
+            setDone(true);
+        }, 2000);
+    };
 
     return (
         <div className="min-h-screen bg-[#1d2733] flex">
-            <MetaData title="Unishare • Login" />
+            <MetaData title="Unishare • Register" />
 
             {/* ── Left panel — desktop only ── */}
             <div className="hidden lg:flex flex-col justify-between w-[42%] bg-[#131920] p-12 border-r border-white/[0.05]">
@@ -162,36 +123,42 @@ const Login = () => {
                         <span className="text-white font-bold tracking-tight text-sm">Unishare</span>
                     </div>
 
-                    {/* Heading */}
-                    {!isCheckingEmail && (
-                        <div className="mb-6">
-                            <h1 className="text-xl font-bold text-white tracking-tight mb-1">
-                                Welcome back
-                            </h1>
-                            <p className="text-sm text-slate-500">
-                                Don't have an account?{" "}
-                                <span
-                                    onClick={() => navigate("/register")}
-                                    className="text-[#2399f0] cursor-pointer hover:underline underline-offset-2"
-                                >
-                                    Sign up
-                                </span>
-                            </p>
-                        </div>
-                    )}
+                    {/* Page heading */}
+                    <div className="mb-6">
+                        <h1 className="text-xl font-bold text-white tracking-tight mb-1">
+                            {done ? "One more step" : "Create an account"}
+                        </h1>
+                        <p className="text-sm text-slate-500">
+                            {done
+                                ? "We recommend signing up with Google."
+                                : <>Already have one?{" "}<span onClick={() => navigate("/login")} className="text-[#2399f0] cursor-pointer hover:underline underline-offset-2">Log in</span></>
+                            }
+                        </p>
+                    </div>
 
-                    {/* ── Default form ── */}
-                    {!isCheckingEmail && (
+                    {/* ── Default form state ── */}
+                    {!done && (
                         <>
                             <form onSubmit={handleSubmit} className="space-y-2.5 mb-5">
 
-                                {/* Email */}
+                                {/* Name */}
                                 <div className="relative">
                                     <LuUser className="absolute left-3 top-[11px] text-slate-600 text-[13px]" />
                                     <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="Full name"
+                                        required
+                                        className="w-full bg-[#131920] border border-white/[0.07] focus:border-[#2399f0] rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 outline-none transition-colors"
+                                    />
+                                </div>
+
+                                {/* Email */}
+                                <div className="relative">
+                                    <MdOutlineEmail className="absolute left-3 top-[11px] text-slate-600 text-[13px]" />
+                                    <input
                                         type="email"
                                         name="email"
-                                        defaultValue=""
                                         placeholder="Email"
                                         required
                                         className="w-full bg-[#131920] border border-white/[0.07] focus:border-[#2399f0] rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 outline-none transition-colors"
@@ -204,21 +171,10 @@ const Login = () => {
                                     <input
                                         type="password"
                                         name="password"
-                                        defaultValue=""
                                         placeholder="Password"
                                         required
                                         className="w-full bg-[#131920] border border-white/[0.07] focus:border-[#2399f0] rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 outline-none transition-colors"
                                     />
-                                </div>
-
-                                {/* Forgot */}
-                                <div className="flex justify-end pt-0.5">
-                                    <button
-                                        type="button"
-                                        className="text-xs text-slate-600 hover:text-slate-400 transition-colors cursor-pointer"
-                                    >
-                                        Forgot password?
-                                    </button>
                                 </div>
 
                                 {/* Error */}
@@ -232,12 +188,14 @@ const Login = () => {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full bg-[#2399f0] hover:bg-[#1d8add] disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl py-2.5 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                                    className="w-full bg-[#2399f0] hover:bg-[#1d8add] disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl py-2.5 transition-colors flex items-center justify-center gap-2 cursor-pointer mt-1"
                                 >
-                                    {loading
-                                        ? <span className="loading loading-spinner loading-xs" />
-                                        : "Login"
-                                    }
+                                    {loading ? (
+                                        <>
+                                            <span className="loading loading-spinner loading-xs" />
+                                            <span className="opacity-70 text-xs">Creating account…</span>
+                                        </>
+                                    ) : "Register"}
                                 </button>
                             </form>
 
@@ -248,33 +206,69 @@ const Login = () => {
                                 <div className="flex-1 h-px bg-white/[0.05]" />
                             </div>
 
-                            {/* Social */}
+                            {/* Social buttons */}
                             <div className="space-y-2">
                                 <button
                                     disabled={loading}
-                                    onClick={() => { handleGoogleLogin() }}
+                                    onClick={handleGoogleLogin}
                                     className="w-full bg-transparent border border-white/[0.07] hover:border-white/[0.13] hover:bg-white/[0.03] disabled:opacity-40 disabled:cursor-not-allowed rounded-xl py-2.5 flex items-center justify-center gap-2.5 text-sm text-slate-400 transition-colors cursor-pointer"
                                 >
                                     <FcGoogle className="text-base shrink-0" />
                                     Continue with <span className="font-medium text-slate-300">Google</span>
                                 </button>
 
-                                <div
-                                    onClick={() => { handleFacebookLogin() }}
+                                <button
+                                    onClick={handleFacebookLogin}
                                     className="w-full bg-transparent border border-white/[0.07] hover:border-white/[0.13] hover:bg-white/[0.03] rounded-xl py-2.5 flex items-center justify-center gap-2.5 text-sm text-slate-400 transition-colors cursor-pointer"
                                 >
                                     <MdOutlineFacebook className="text-base text-[#2399f0] shrink-0" />
                                     Continue with <span className="font-medium text-slate-300">Facebook</span>
-                                </div>
+                                </button>
                             </div>
                         </>
                     )}
 
-                    {/* ── Checking email state ── */}
-                    {isCheckingEmail && (
-                        <div className="flex items-center gap-3 text-sm text-slate-500 py-4">
-                            Checking email
-                            <LuMailSearch className="animate-bounce text-base" />
+                    {/* ── Google nudge state ── */}
+                    {done && (
+                        <div className="space-y-4">
+                            {/* Info card */}
+                            <div className="bg-[#131920] border border-white/[0.07] rounded-xl p-4 flex gap-3 items-start">
+                                <div className="w-8 h-8 rounded-lg bg-[#2399f0]/10 border border-[#2399f0]/15 flex items-center justify-center shrink-0 mt-0.5">
+                                    <FcGoogle className="text-sm" />
+                                </div>
+                                <div>
+                                    <p className="text-sm font-semibold text-white mb-0.5">
+                                        Please register with Google
+                                    </p>
+                                    <p className="text-xs text-slate-500 leading-relaxed">
+                                        We only support Google sign-up right now. It's faster and more secure.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Google CTA */}
+                            <button
+                                onClick={handleGoogleLogin}
+                                disabled={loading}
+                                className="w-full bg-[#2399f0] hover:bg-[#1d8add] disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl py-2.5 flex items-center justify-center gap-2.5 transition-colors cursor-pointer"
+                            >
+                                {loading ? (
+                                    <span className="loading loading-spinner loading-xs" />
+                                ) : (
+                                    <>
+                                        <FcGoogle className="text-base" />
+                                        Continue with Google
+                                    </>
+                                )}
+                            </button>
+
+                            {/* Back */}
+                            <button
+                                onClick={() => { setDone(false); setError(false); }}
+                                className="w-full text-xs text-slate-600 hover:text-slate-500 transition-colors py-1 cursor-pointer"
+                            >
+                                ← Go back
+                            </button>
                         </div>
                     )}
 
@@ -293,4 +287,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;

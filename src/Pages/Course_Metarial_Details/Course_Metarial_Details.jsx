@@ -111,7 +111,7 @@ const Course_Metarial_Details = () => {
                         copied &&
                         <div
                             data-aos="zoom-in"
-                            className="absolute flex items-center gap-2 -bottom-8 left-1/2 -translate-x-1/2  border text-sm px-3 py-1 rounded-full shadow"
+                            className="absolute flex items-center gap-2 -bottom-20 left-1/2 -translate-x-1/2 bg-[#131920] text-sm px-3 py-1 rounded-full shadow"
                         >
                             <MdContentCopy />Copied
                         </div>
@@ -138,18 +138,18 @@ const Course_Metarial_Details = () => {
                                 </div>
                             </label>
 
-                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 border bg-base-100 rounded-xl min-w-52">
+                            <ul tabIndex={0} className="menu bg-[#131920]  menu-sm dropdown-content mt-3 z-[1] p-2 rounded-xl min-w-52">
                                 {
                                     isContentAuthor ?
                                         <>
-                                            <li><a className="flex items-center gap-2"><FiEdit3 /> Edit {type}</a></li>
+                                            <li><a className="flex hover:bg-[#2399f0] items-center gap-2"><FiEdit3 /> Edit {type}</a></li>
                                             <li onClick={() => { handleMaterialDelete() }}><a className="flex items-center gap-2"><AiOutlineDelete /> {delLoading ? "Deleting.." : "Delete"}</a></li>
                                         </> :
                                         <>
-                                            <li><a className="flex items-center gap-2"><TbMessageReport /> Report</a></li>
+                                            <li><a className="flex hover:bg-[#2399f0] items-center gap-2"><TbMessageReport /> Report</a></li>
                                         </>
                                 }
-                                <li onClick={() => { handleCopy() }}><a className="flex items-center gap-2"><FiLink /> Copy link</a></li>
+                                <li onClick={() => { handleCopy() }}><a className="flex  hover:bg-[#2399f0] items-center gap-2"><FiLink /> Copy link</a></li>
                             </ul>
                         </div>
                     </div>

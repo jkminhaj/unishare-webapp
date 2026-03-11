@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- <meta charset="UTF-8" /> -->
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #1d2733;
+      --card: #131920;
+      --card2: #252d42;
+      --border: #2e3650;
+      --blue: #2196f3;
+      --blue2: #1976d2;
+      --text: #f0f4ff;
+      --muted: #8896b3;
+      --accent: #2196f3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      color: var(--text);
+    }
+
+    /* ── TOP NAV ── */
+    .nav {
+      background: #1d2733;
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      border: none;
+      color: #fff;
+      transition: background 0.2s;
+    }
+
+    .nav-icon:hover {
+      background: var(--blue2);
+    }
+
+    .nav-search {
+      background: #1d2733;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px 8px 36px;
+      font-size: 13px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      width: 200px;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .nav-search:focus {
+      border-color: var(--blue);
+    }
+
+    .search-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 10px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .nav-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f7cff, #7c4fff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 300px;
+      flex-shrink: 0;
+      background: #1d2733;
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    .sidebar-header {
+      padding: 18px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .download-btns {
+      max-width: 70px;
+      display: flex;
+      gap: 6px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-blue {
+      background: var(--blue);
+      color: #fff;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .btn-blue:hover {
+      background: var(--blue2);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: var(--card2);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      flex: 1;
+      justify-content: center;
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+      border-color: var(--muted);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .form-section {
+      padding: 14px 16px;
+    }
+
+    .field-group {
+      margin-bottom: 18px;
+    }
+
+    .fgt {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .fgt::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .field {
+      margin-bottom: 8px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 3px;
+      font-weight: 500;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 8px 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--text);
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.15s;
+      resize: none;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--blue);
+    }
+
+    .field select option {
+      background: #1e2436;
+    }
+
+    .row2 {
+      display: flex;
+      gap: 6px;
+    }
+
+    .row2 .field {
+      flex: 1;
+    }
+
+    .row2 .field.narrow {
+      flex: 0 0 62px;
+    }
+
+    /* ── MAIN AREA ── */
+    .main {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      background: var(--bg);
+    }
+
+    .main::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .main::-webkit-scrollbar-thumb {
+      background: var(--border);
+    }
+
+    /* course card header badge style */
+    .page-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      letter-spacing: 0.02em;
+    }
+
+    .page-badge svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .preview-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .download-sec{
+      font-size: 12px;
+      display: flex;
+      
+      
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: blink 2s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    .preview-label span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ── COVER PAPER ── */
+    .paper-wrap {
+      background: white;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6), 0 4px 20px rgba(33, 150, 243, 0.08);
+      border-radius: 6px;
+      width: 100%;
+      max-width: 500px;
+      overflow: hidden;
+    }
+
+    .paper-note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* ══════════════════════
+   CLEAN WHITE COVER
+══════════════════════ */
+    .cover {
+      width: 100%;
+      aspect-ratio: 794/1123;
+      position: relative;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .cover .inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 7% 9%;
+      text-align: center;
+    }
+
+    .cover {
+      margin-bottom: 3%;
+    }
+
+    #logo {
+      height: 7em;
+      margin-top: 15px;
+    }
+
+    .cover .uni-name {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(17px, 3.2vw, 26px);
+      color: #111;
+      letter-spacing: 0.01em;
+      margin-bottom: 3px;
+      font-weight: 600;
+    }
+
+    .cover .uni-tag {
+      font-size: clamp(8px, 1.4vw, 11px);
+      color: #555;
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+    }
+
+    .cover .divider {
+      width: 60%;
+      height: 2px;
+      background: #222;
+      margin: 3% auto;
+    }
+
+    .cover .thin-divider {
+      width: 45%;
+      height: 1px;
+      background: #ccc;
+      margin: 2.5% auto;
+    }
+
+    .cover .doc-type {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(11px, 2vw, 16px);
+      margin-top: 4%;
+      color: #333;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 1%;
+    }
+
+    .cover .topic-name {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(14px, 3.2vw, 24px);
+      color: #111;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-top: 1%;
+      margin-bottom: 2%;
+    }
+
+    .cover .course-info {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(9px, 1.5vw, 12px);
+      color: #444444;
+      margin-bottom: 3%;
+    }
+
+    .cover .sub-section {
+      width: 80%;
+      text-align: center;
+      margin-bottom: 3%;
+    }
+
+    .cover .sub-label {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(9px, 1.5vw, 13px);
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .cover .sub-line {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(9px, 1.6vw, 13px);
+      color: #333;
+      line-height: 1.9;
+    }
+
+    .cover .sub-line b {
+      font-weight: 600;
+      color: #111;
+    }
+
+    .cover .date-line {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(9px, 1.5vw, 12px);
+      color: #555;
+      font-style: italic;
+      margin-top: auto;
+      padding-top: 2%;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:820px) {
+      .layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .main {
+        padding: 16px;
+      }
+    }
+
+    @media(max-width:480px) {
+      .nav-search {
+        width: 130px;
+      }
+
+      .paper-wrap {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Cover Generator</span>
+      </div>
+
+
+      <div class="form-section">
+
+        <div class="field-group">
+          <div class="fgt">Document</div>
+          <div class="row2">
+            <div class="field">
+              <label>Type</label>
+              <select id="f-type" onchange="update()">
+                <option>Assignment</option>
+                <option>Lab Report</option>
+                <option>Bonus Task</option>
+                <option>Quiz</option>
+                <option>Project Report</option>
+                <option>Term Paper</option>
+              </select>
+            </div>
+            <div class="field narrow">
+              <label>No.</label>
+              <input id="f-no" value="1" oninput="update()" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Submission Date</label>
+            <input id="f-date" type="date" oninput="update()" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="fgt">Topic</div>
+          <div class="field">
+            <label>Topic Name</label>
+            <input id="f-topic" value="Binary Search Trees and Graph Traversal" oninput="update()"
+              style="font-weight:600;" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="fgt">Course</div>
+          <div class="field">
+            <label>Course Title</label>
+            <input id="f-ctitle" value="Data Structures and Algorithms" oninput="update()" />
+          </div>
+          <div class="field">
+            <label>Course Code</label>
+            <input id="f-ccode" value="CSE0613307" oninput="update()" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="fgt">Submitted To</div>
+          <div class="field"><label>Teacher Name</label><input id="f-tname" value="Pranta Banik" oninput="update()" />
+          </div>
+          <div class="field"><label>Designation</label><input id="f-tdesig" value="Lecturer" oninput="update()" /></div>
+          <div class="field"><label>Department</label><input id="f-tdept" value="Department of CSE"
+              oninput="update()" /></div>
+          <div class="field"><label>University</label><input id="f-tuni" value="Uttara University" oninput="update()" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="fgt">Submitted By</div>
+          <div class="field"><label>Your Name</label><input id="f-sname" value="Minhajul Islam" oninput="update()" />
+          </div>
+          <div class="field"><label>Student ID</label><input id="f-sid" value="2241081370" oninput="update()" /></div>
+          <div class="row2">
+            <div class="field"><label>Batch</label><input id="f-batch" value="61" oninput="update()" /></div>
+            <div class="field narrow"><label>Section</label><input id="f-sec" value="B" oninput="update()" /></div>
+          </div>
+          <div class="field"><label>Department</label><input id="f-sdept" value="Department of CSE"
+              oninput="update()" /></div>
+          <div class="field"><label>University</label><input id="f-suni" value="Uttara University" oninput="update()" />
+          </div>
+          <div class="field"><label>Semester</label><input id="f-semester" value="Spring 2025" oninput="update()" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MAIN PREVIEW -->
+    <div class="main">
+
+      <div class="page-badge">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <path d="M3 9h18M9 21V9" />
+        </svg>
+        UU Cover Generator
+      </div>
+
+      <div class="preview-label">
+        <div class="live-dot"></div>
+        <span>Live preview</span>
+      </div>
+
+      <div class="download-sec">
+        <div class="">
+          <span>Download as</span>
+        </div>
+
+        <div class="download-btns">
+          <button class="btn btn-blue" id="btn-pdf" onclick="downloadPDF()"> PDF</button>
+          <button class="btn btn-ghost" id="btn-img" onclick="downloadImg()"> PNG</button>
+        </div>
+      </div>
+
+
+
+      <div class="paper-wrap">
+        <div id="cover-page" class="cover"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function g(id) { return (document.getElementById(id)?.value || '').trim(); }
+
+    function fmtDate(val) {
+      if (!val) return '';
+      const d = new Date(val);
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    function update() {
+      const type = g('f-type') || 'Assignment';
+      const no = g('f-no') || '1';
+      const date = fmtDate(g('f-date'));
+      const topic = g('f-topic') || 'Topic Name';
+      const ctitle = g('f-ctitle') || 'Course Title';
+      const ccode = g('f-ccode') || 'CSE0000000';
+      const tname = g('f-tname') || 'Teacher Name';
+      const tdesig = g('f-tdesig') || 'Lecturer';
+      const tdept = g('f-tdept') || 'Department of CSE';
+      const tuni = g('f-tuni') || 'Uttara University';
+      const sname = g('f-sname') || 'Student Name';
+      const sid = g('f-sid') || '0000000000';
+      const batch = g('f-batch') || '61';
+      const sec = g('f-sec') || 'B';
+      const sdept = g('f-sdept') || 'Department of CSE';
+      const suni = g('f-suni') || 'Uttara University';
+      const sem = g('f-semester') || '';
+
+      const cp = document.getElementById('cover-page');
+      cp.innerHTML = `
+    <div class="inner">
+      <div class="logo-zone"><img id="logo" src="/uu_logo.png" /></div>
+      <div class="doc-type">${type} No. ${no}</div>
+      <div class="topic-name">${topic}</div>
+      <div class="course-info">${ctitle} &nbsp;·&nbsp; ${ccode}${sem ? ' &nbsp;·&nbsp; ' + sem : ''}</div>
+      <div class="thin-divider"></div>
+      <div class="sub-section">
+        <div class="sub-label">Submitted to</div>
+        <div class="sub-line"><b>${tname}</b></div>
+        <div class="sub-line">${tdesig}, ${tdept}</div>
+        <div class="sub-line">${tuni}</div>
+      </div>
+      <div class="thin-divider"></div>
+      <div class="sub-section">
+        <div class="sub-label">Submitted by</div>
+        <div class="sub-line"><b>${sname}</b></div>
+        <div class="sub-line">Student ID: ${sid}</div>
+        <div class="sub-line">Batch ${batch} (${sec})</div>
+        <div class="sub-line">${sdept}, ${suni}</div>
+      </div>
+      ${date ? `<div class="date-line">Date of Submission: ${date}</div>` : ''}
+    </div>`;
+    }
+
+    document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+    update();
+
+    function setLoading(on) {
+      document.getElementById('btn-pdf').disabled = on;
+      document.getElementById('btn-img').disabled = on;
+      document.getElementById('btn-pdf').textContent = on ? 'Wait...' : '⬇ PDF';
+    }
+
+    async function capture() {
+      return await html2canvas(document.getElementById('cover-page'), {
+        scale: 3, useCORS: true, backgroundColor: '#ffffff', logging: false
+      });
+    }
+
+    function filename() {
+      const type = (g('f-type') || 'Assignment').replace(/\s+/g, '_');
+      const no = g('f-no') || '1';
+      const topic = (g('f-topic') || 'Topic').replace(/\s+/g, '_').slice(0, 30);
+      return `${type}_${no}_${topic}`;
+    }
+
+    async function downloadPDF() {
+      setLoading(true);
+      try {
+        const canvas = await capture();
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+        pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 210, 297);
+        pdf.save(filename() + '.pdf');
+      } catch (e) { alert('Error: ' + e.message); }
+      setLoading(false);
+    }
+
+    async function downloadImg() {
+      setLoading(true);
+      try {
+        const canvas = await capture();
+        const a = document.createElement('a');
+        a.download = filename() + '.png';
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+      } catch (e) { alert('Error: ' + e.message); }
+      setLoading(false);
+    }
+  </script>
+</body>
+
+</html>

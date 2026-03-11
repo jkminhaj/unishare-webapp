@@ -6,9 +6,14 @@
 @tailwind utilities;
 
 
-body {
+html {
 
     font-family: 'Poppins';
-    /* background-color: #212121; */
+    background-color:#1d2733;
+
+}
+html {
+  background: #1d2733;
+  scroll-behavior: smooth;
 }
 
