@@ -55,7 +55,7 @@ export const router = createHashRouter([
   },
   {
     path: "/cover-generator",
-    element: <Protected_Route><Cover_Generator /></Protected_Route>
+    element: <Cover_Generator />
   },
 
 ]);
