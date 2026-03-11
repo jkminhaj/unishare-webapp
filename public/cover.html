@@ -443,6 +443,7 @@
     .cover .doc-type {
       font-family: 'EB Garamond', serif;
       font-size: clamp(11px, 2vw, 16px);
+      margin-top: 4%;
       color: #333;
       font-weight: 600;
       letter-spacing: 0.05em;
@@ -455,13 +456,14 @@
       color: #111;
       font-weight: 600;
       line-height: 1.3;
-      margin-bottom: 1%;
+      margin-top: 1%;
+      margin-bottom: 2%;
     }
     
     .cover .course-info {
       font-family: 'EB Garamond', serif;
       font-size: clamp(9px, 1.5vw, 12px);
-      color: #555;
+      color: #444444;
       margin-bottom: 3%;
     }
 
@@ -544,8 +546,8 @@
       </div>
 
       <div class="download-btns">
-        <button class="btn btn-blue" id="btn-pdf" onclick="downloadPDF()">⬇ PDF</button>
-        <button class="btn btn-ghost" id="btn-img" onclick="downloadImg()">🖼 PNG</button>
+        <button class="btn btn-blue" id="btn-pdf" onclick="downloadPDF()"> PDF</button>
+        <button class="btn btn-ghost" id="btn-img" onclick="downloadImg()"> PNG</button>
       </div>
 
       <div class="form-section">
@@ -681,11 +683,10 @@
       cp.innerHTML = `
     <div class="inner">
       <div class="logo-zone"><img id="logo" src="/uu_logo.png" /></div>
-      
       <div class="doc-type">${type} No. ${no}</div>
       <div class="topic-name">${topic}</div>
       <div class="course-info">${ctitle} &nbsp;·&nbsp; ${ccode}${sem ? ' &nbsp;·&nbsp; ' + sem : ''}</div>
-      <div class="divider"></div>
+      <div class="thin-divider"></div>
       <div class="sub-section">
         <div class="sub-label">Submitted to</div>
         <div class="sub-line"><b>${tname}</b></div>
