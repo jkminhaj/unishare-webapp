@@ -7,15 +7,12 @@ import { MdLockOutline } from "react-icons/md";
 import { GlobalContext } from "../../context/GlobalProvider";
 import toast, { Toaster } from "react-hot-toast";
 import MetaData from "../../config/MetaData";
-import { LuMailSearch } from "react-icons/lu";
 import axiosInstance from "../../config/axiosIntance";
-
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
-    const { user, log_out, login_user, connect_google, connect_facebook, globalLoading } = useContext(GlobalContext);
+    const { login_user, connect_google } = useContext(GlobalContext);
     const navigate = useNavigate();
-    const [isCheckingEmail, setIsCheckingEmail] = useState(false);
     const location = useLocation();
     const [error, setError] = useState(false);
     const from = location.state?.from || "/";
@@ -25,55 +22,22 @@ const Login = () => {
         if (timeoutRef.current) return;
         toast("Coming soon!", {
             icon: "🌟",
-            style: {
-                background: "#131920",
-                color: "#e2e8f0",
-                fontSize: "0.85rem",
-                padding: "12px 20px",
-                borderRadius: "12px",
-                border: "1px solid #2a3547",
-                maxWidth: "300px",
-            },
+            style: { background: "#131920", color: "#e2e8f0", fontSize: "0.85rem", padding: "12px 20px", borderRadius: "12px", border: "1px solid #2a3547", maxWidth: "300px" },
             duration: 3000,
         });
-        timeoutRef.current = setTimeout(() => {
-            timeoutRef.current = null;
-        }, 3000);
+        timeoutRef.current = setTimeout(() => { timeoutRef.current = null; }, 3000);
     };
 
     const handleGoogleLogin = async () => {
         try {
             setLoading(true);
-
-            // wait for google connection
             const result = await connect_google();
             navigate(from, { replace: true });
-            console.log("Connected to google");
-
             const user = result.user;
-
-            // wait for backend user creation
-            await axiosInstance.post("/api/users/create", {
-                name: user.displayName,
-                email: user.email,
-                photo: user.photoURL,
-            });
-
-            // console.log(res.status);
-            // // console.log(res.data.status);
-            // console.log(user.email.endsWith("@uttarauniversity.edu.bd"));
-
-            // if (!user.email.endsWith("@uttarauniversity.edu.bd")) {
-            //   log_out();
-            //   setError("Please use your university account");
-            //   console.log("Logged out due to invalid email domain");
-            // } else {
-            //   console.log("move further");
-            // }
-
+            await axiosInstance.post("/api/users/create", { name: user.displayName, email: user.email, photo: user.photoURL });
         } catch (error) {
-            if (error.message == "Firebase: Error (auth/popup-closed-by-user).") setError("Pop up closed , Please try again.")
-                else setError(error.message);
+            if (error.message == "Firebase: Error (auth/popup-closed-by-user).") setError("Pop up closed, please try again.");
+            else setError(error.message);
         } finally {
             setLoading(false);
         }
@@ -82,39 +46,20 @@ const Login = () => {
     const handleSubmit = e => {
         e.preventDefault();
         setLoading(true);
-
-        const form = e.target;
-        const email = form.email.value;
-        const password = form.password.value;
-        console.log(email, password);
+        const email = e.target.email.value;
+        const password = e.target.password.value;
 
         login_user(email, password)
-            .then((userCredential) => {
-                // Signed up 
-                const user = userCredential.user;
-                navigate(from, { replace: true });
-                setLoading(false);
-            })
+            .then(() => { navigate(from, { replace: true }); setLoading(false); })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
                 setLoading(false);
-                console.log(errorMessage)
-                if (errorMessage == "Firebase: Error (auth/invalid-credential).") setError("Incorrect email or password");
-                if (errorMessage == "Firebase: Error (auth/too-many-requests).") setError("Too many attempts. Try again later.");
-                if (errorMessage == "Firebase: Error (auth/network-request-failed).") setError("Please check your internet connection");
-                if (errorMessage == "Firebase: Error (auth/popup-blocked).") setError("Pop up blocked , Please refresh the page");
-                if (errorMessage == "Firebase: Error (auth/popup-closed-by-user).") setError("Pop up closed , Please try again.");
-                // ..
+                const m = error.message;
+                if (m == "Firebase: Error (auth/invalid-credential).")      setError("Incorrect email or password");
+                else if (m == "Firebase: Error (auth/too-many-requests).")  setError("Too many attempts. Try again later.");
+                else if (m == "Firebase: Error (auth/network-request-failed).") setError("Please check your internet connection");
+                else setError(m);
             });
-
-        // if (email == "test@gmail.com" && password == 1234) {
-        //     localStorage.setItem("user", email);
-        //     console.log(location);
-
-        // } else setError("Incorrect email or password");
-
-    }
+    };
 
     return (
         <div className="min-h-screen bg-[#1d2733] flex">
@@ -122,7 +67,6 @@ const Login = () => {
 
             {/* ── Left panel — desktop only ── */}
             <div className="hidden lg:flex flex-col justify-between w-[42%] bg-[#131920] p-12 border-r border-white/[0.05]">
-                {/* Logo */}
                 <div className="flex items-center gap-2.5">
                     <div className="w-8 h-8 rounded-lg bg-[#2399f0] flex items-center justify-center shrink-0">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -132,22 +76,19 @@ const Login = () => {
                     </div>
                     <span className="text-white font-bold text-lg tracking-tight">Unishare</span>
                 </div>
-
-                {/* Center text */}
                 <div>
-                    <p className="text-2xl font-bold text-white leading-snug mb-3 tracking-tight">
+                    <p className="text-2xl font-bold font-poppins text-white leading-snug mb-3 tracking-tight">
                         The place where students<br />
                         <span className="text-[#2399f0]">share, learn, and grow.</span>
                     </p>
                     <p className="text-sm text-slate-500 leading-relaxed">
-                        Join thousands of students already collaborating on projects, notes, and ideas.
+                        Join hundreds of students already collaborating on projects, notes, and ideas.
                     </p>
                 </div>
-
                 <p className="text-xs text-slate-700">© 2024 Unishare. All rights reserved.</p>
             </div>
 
-            {/* ── Right panel — form ── */}
+            {/* ── Right panel ── */}
             <div className="flex-1 flex items-center justify-center p-5 sm:p-10">
                 <div className="w-full max-w-[360px]">
 
@@ -163,122 +104,68 @@ const Login = () => {
                     </div>
 
                     {/* Heading */}
-                    {!isCheckingEmail && (
-                        <div className="mb-6">
-                            <h1 className="text-xl font-bold text-white tracking-tight mb-1">
-                                Welcome back
-                            </h1>
-                            <p className="text-sm text-slate-500">
-                                Don't have an account?{" "}
-                                <span
-                                    onClick={() => navigate("/register")}
-                                    className="text-[#2399f0] cursor-pointer hover:underline underline-offset-2"
-                                >
-                                    Sign up
-                                </span>
+                    <div className="mb-6">
+                        <h1 className="text-xl font-bold text-white tracking-tight mb-1">Welcome back</h1>
+                        <p className="text-sm text-slate-500">
+                            Don't have an account?{" "}
+                            <span onClick={() => navigate("/register")} className="text-[#2399f0] cursor-pointer hover:underline underline-offset-2">
+                                Sign up
+                            </span>
+                        </p>
+                    </div>
+
+                    {/* Form */}
+                    <form onSubmit={handleSubmit} className="space-y-2.5 mb-5">
+                        <div className="relative">
+                            <LuUser className="absolute left-3 top-[11px] text-slate-600 text-[13px]" />
+                            <input type="email" name="email" placeholder="Email" required
+                                className="w-full bg-[#131920] border border-white/[0.07] focus:border-[#2399f0] rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 outline-none transition-colors" />
+                        </div>
+
+                        <div className="relative">
+                            <MdLockOutline className="absolute left-3 top-[11px] text-slate-600 text-[13px]" />
+                            <input type="password" name="password" placeholder="Password" required
+                                className="w-full bg-[#131920] border border-white/[0.07] focus:border-[#2399f0] rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 outline-none transition-colors" />
+                        </div>
+
+                        <div className="flex justify-end pt-0.5">
+                            <button type="button" className="text-xs text-slate-600 hover:text-slate-400 transition-colors cursor-pointer">
+                                Forgot password?
+                            </button>
+                        </div>
+
+                        {error && (
+                            <p className="flex items-center gap-1.5 text-xs text-red-400 bg-red-400/[0.07] border border-red-400/10 rounded-lg px-3 py-2">
+                                <MdErrorOutline className="shrink-0" /> {error}
                             </p>
-                        </div>
-                    )}
+                        )}
 
-                    {/* ── Default form ── */}
-                    {!isCheckingEmail && (
-                        <>
-                            <form onSubmit={handleSubmit} className="space-y-2.5 mb-5">
+                        <button type="submit" disabled={loading}
+                            className="w-full bg-[#2399f0] hover:bg-[#1d8add] disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl py-2.5 transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                            {loading ? <span className="loading loading-spinner loading-xs" /> : "Login"}
+                        </button>
+                    </form>
 
-                                {/* Email */}
-                                <div className="relative">
-                                    <LuUser className="absolute left-3 top-[11px] text-slate-600 text-[13px]" />
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        defaultValue=""
-                                        placeholder="Email"
-                                        required
-                                        className="w-full bg-[#131920] border border-white/[0.07] focus:border-[#2399f0] rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 outline-none transition-colors"
-                                    />
-                                </div>
+                    <div className="flex items-center gap-3 mb-3">
+                        <div className="flex-1 h-px bg-white/[0.05]" />
+                        <span className="text-xs text-slate-600">or</span>
+                        <div className="flex-1 h-px bg-white/[0.05]" />
+                    </div>
 
-                                {/* Password */}
-                                <div className="relative">
-                                    <MdLockOutline className="absolute left-3 top-[11px] text-slate-600 text-[13px]" />
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        defaultValue=""
-                                        placeholder="Password"
-                                        required
-                                        className="w-full bg-[#131920] border border-white/[0.07] focus:border-[#2399f0] rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 outline-none transition-colors"
-                                    />
-                                </div>
+                    <div className="space-y-2">
+                        <button disabled={loading} onClick={handleGoogleLogin}
+                            className="w-full bg-transparent border border-white/[0.07] hover:border-white/[0.13] hover:bg-white/[0.03] disabled:opacity-40 disabled:cursor-not-allowed rounded-xl py-2.5 flex items-center justify-center gap-2.5 text-sm text-slate-400 transition-colors cursor-pointer">
+                            <FcGoogle className="text-base shrink-0" />
+                            Continue with <span className="font-medium text-slate-300">Google</span>
+                        </button>
 
-                                {/* Forgot */}
-                                <div className="flex justify-end pt-0.5">
-                                    <button
-                                        type="button"
-                                        className="text-xs text-slate-600 hover:text-slate-400 transition-colors cursor-pointer"
-                                    >
-                                        Forgot password?
-                                    </button>
-                                </div>
+                        <button onClick={handleFacebookLogin}
+                            className="w-full bg-transparent border border-white/[0.07] hover:border-white/[0.13] hover:bg-white/[0.03] rounded-xl py-2.5 flex items-center justify-center gap-2.5 text-sm text-slate-400 transition-colors cursor-pointer">
+                            <MdOutlineFacebook className="text-base text-[#2399f0] shrink-0" />
+                            Continue with <span className="font-medium text-slate-300">Facebook</span>
+                        </button>
+                    </div>
 
-                                {/* Error */}
-                                {error && (
-                                    <p className="flex items-center gap-1.5 text-xs text-red-400 bg-red-400/[0.07] border border-red-400/10 rounded-lg px-3 py-2">
-                                        <MdErrorOutline className="shrink-0" /> {error}
-                                    </p>
-                                )}
-
-                                {/* Submit */}
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="w-full bg-[#2399f0] hover:bg-[#1d8add] disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl py-2.5 transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                                >
-                                    {loading
-                                        ? <span className="loading loading-spinner loading-xs" />
-                                        : "Login"
-                                    }
-                                </button>
-                            </form>
-
-                            {/* Divider */}
-                            <div className="flex items-center gap-3 mb-3">
-                                <div className="flex-1 h-px bg-white/[0.05]" />
-                                <span className="text-xs text-slate-600">or</span>
-                                <div className="flex-1 h-px bg-white/[0.05]" />
-                            </div>
-
-                            {/* Social */}
-                            <div className="space-y-2">
-                                <button
-                                    disabled={loading}
-                                    onClick={() => { handleGoogleLogin() }}
-                                    className="w-full bg-transparent border border-white/[0.07] hover:border-white/[0.13] hover:bg-white/[0.03] disabled:opacity-40 disabled:cursor-not-allowed rounded-xl py-2.5 flex items-center justify-center gap-2.5 text-sm text-slate-400 transition-colors cursor-pointer"
-                                >
-                                    <FcGoogle className="text-base shrink-0" />
-                                    Continue with <span className="font-medium text-slate-300">Google</span>
-                                </button>
-
-                                <div
-                                    onClick={() => { handleFacebookLogin() }}
-                                    className="w-full bg-transparent border border-white/[0.07] hover:border-white/[0.13] hover:bg-white/[0.03] rounded-xl py-2.5 flex items-center justify-center gap-2.5 text-sm text-slate-400 transition-colors cursor-pointer"
-                                >
-                                    <MdOutlineFacebook className="text-base text-[#2399f0] shrink-0" />
-                                    Continue with <span className="font-medium text-slate-300">Facebook</span>
-                                </div>
-                            </div>
-                        </>
-                    )}
-
-                    {/* ── Checking email state ── */}
-                    {isCheckingEmail && (
-                        <div className="flex items-center gap-3 text-sm text-slate-500 py-4">
-                            Checking email
-                            <LuMailSearch className="animate-bounce text-base" />
-                        </div>
-                    )}
-
-                    {/* Terms */}
                     <p className="text-xs text-slate-700 mt-8 leading-relaxed">
                         By continuing you agree to our{" "}
                         <span className="text-slate-600 hover:text-slate-400 cursor-pointer transition-colors">Terms</span>

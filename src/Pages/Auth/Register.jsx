@@ -101,7 +101,7 @@ const Register = () => {
                         <span className="text-[#2399f0]">share, learn, and grow.</span>
                     </p>
                     <p className="text-sm text-slate-500 leading-relaxed">
-                        Join thousands of students already collaborating on projects, notes, and ideas.
+                        Join hundreds of students already collaborating on projects, notes, and ideas.
                     </p>
                 </div>
 
@@ -188,7 +188,7 @@ const Register = () => {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full bg-[#2399f0] hover:bg-[#1d8add] disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl py-2.5 transition-colors flex items-center justify-center gap-2 cursor-pointer mt-1"
+                                    className="w-full bg-[#2399f0] hover:bg-[#1d8add] disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl py-2.5 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                                 >
                                     {loading ? (
                                         <>
