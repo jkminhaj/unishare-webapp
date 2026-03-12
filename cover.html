@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #1d2733;
+      --card: #131920;
+      --card2: #252d42;
+      --border: #2e3650;
+      --blue: #2196f3;
+      --blue2: #1976d2;
+      --text: #f0f4ff;
+      --muted: #8896b3;
+      --accent: #2196f3;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      color: var(--text);
+    }
+
+    .nav {
+      background: #1d2733;
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-brand { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+
+    .nav-icon {
+      width: 38px; height: 38px; border-radius: 50%; background: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px; border: none; color: #fff; transition: background 0.2s;
+    }
+    .nav-icon:hover { background: var(--blue2); }
+
+    .nav-search {
+      background: #1d2733; border: 1px solid var(--border); border-radius: 8px;
+      padding: 8px 14px 8px 36px; font-size: 13px; color: var(--text);
+      font-family: 'Inter', sans-serif; outline: none; width: 200px; transition: border-color 0.2s;
+    }
+    .nav-search:focus { border-color: var(--blue); }
+
+    .search-wrap { position: relative; display: flex; align-items: center; }
+    .search-wrap svg { position: absolute; left: 10px; color: var(--muted); pointer-events: none; }
+
+    .nav-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, #4f7cff, #7c4fff);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px; cursor: pointer;
+    }
+
+    .layout { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: 300px; flex-shrink: 0; background: #1d2733;
+      border-right: 1px solid var(--border); overflow-y: auto;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .sidebar-header {
+      padding: 18px 16px 12px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .sidebar-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    .btn {
+      padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
+      cursor: pointer; border: none; font-family: 'Inter', sans-serif;
+      transition: all 0.18s; display: flex; align-items: center; gap: 5px;
+    }
+    .btn-blue { background: var(--blue); color: #fff; flex: 1; justify-content: center; }
+    .btn-blue:hover { background: var(--blue2); transform: translateY(-1px); }
+    .btn-ghost { background: var(--card2); color: var(--muted); border: 1px solid var(--border); flex: 1; justify-content: center; }
+    .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
+
+    .form-section { padding: 14px 16px; }
+
+    .field-group { margin-bottom: 18px; }
+
+    .fgt {
+      font-size: 10px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+    }
+    .fgt::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .field { margin-bottom: 8px; }
+    .field label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 3px; font-weight: 500; }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 8px 10px; background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; font-size: 12px; color: var(--text); outline: none;
+      font-family: 'Inter', sans-serif; transition: border-color 0.15s; resize: none;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--blue); }
+    .field select option { background: #1e2436; }
+
+    .row2 { display: flex; gap: 6px; }
+    .row2 .field { flex: 1; }
+    .row2 .field.narrow { flex: 0 0 62px; }
+
+    /* ── MORE / LESS TOGGLE ── */
+    .more-fields { overflow: hidden; max-height: 0; transition: max-height 0.35s ease; }
+    .more-fields.open { max-height: 600px; }
+
+    .btn-more {
+      width: 100%; padding: 7px 10px; background: transparent;
+      border: 1px dashed var(--border); border-radius: 8px;
+      font-size: 11px; font-weight: 600; color: var(--muted);
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+      transition: all 0.18s; margin-top: 2px;
+    }
+    .btn-more:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-more svg { transition: transform 0.25s; }
+    .btn-more.open svg { transform: rotate(180deg); }
+
+    /* ── MAIN ── */
+    .main { flex: 1; padding: 24px; overflow-y: auto; background: var(--bg); }
+    .main::-webkit-scrollbar { width: 4px; }
+    .main::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .page-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--blue); color: #fff; font-size: 11px; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; letter-spacing: 0.02em;
+    }
+    .page-badge svg { width: 13px; height: 13px; }
+
+    .preview-label { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+
+    .live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #22c55e; animation: blink 2s infinite; flex-shrink: 0;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .preview-label span { font-size: 12px; color: var(--muted); }
+
+    /* ── DOWNLOAD SECTION (improved UX) ── */
+    .download-sec {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      max-width: 340px;
+    }
+
+    .download-sec-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .download-btns {
+      display: flex;
+      gap: 8px;
+      flex: 1;
+    }
+
+    /* ── Download button states ── */
+    .dl-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.18s cubic-bezier(.4,0,.2,1);
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.02em;
+    }
+
+    .dl-btn-pdf {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+    .dl-btn-pdf:hover:not(:disabled) {
+      background: var(--blue2);
+      border-color: var(--blue2);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(33,150,243,0.35);
+    }
+
+    .dl-btn-png {
+      background: transparent;
+      color: var(--muted);
+      border-color: var(--border);
+    }
+    .dl-btn-png:hover:not(:disabled) {
+      color: var(--text);
+      border-color: #5a6a8a;
+      background: var(--card2);
+      transform: translateY(-1px);
+    }
+
+    .dl-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+    /* loading shimmer */
+    .dl-btn.loading::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+      animation: shimmer 1s infinite;
+    }
+    @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+    /* done tick */
+    .dl-btn.done-pdf { background: #16a34a; border-color: #16a34a; color: #fff; }
+    .dl-btn.done-png { background: transparent; border-color: #16a34a; color: #16a34a; }
+
+    .dl-btn-tooltip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f1623;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 5px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      border: 1px solid var(--border);
+    }
+    .dl-btn:hover .dl-btn-tooltip { opacity: 1; }
+
+    /* ── PAPER ── */
+    .paper-wrap {
+      background: white;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 4px 20px rgba(33,150,243,0.08);
+      border-radius: 6px; width: 100%; max-width: 500px; overflow: hidden;
+    }
+
+    .cover {
+      width: 100%; aspect-ratio: 794/1123; position: relative; overflow: hidden;
+      background: #ffffff; margin-bottom: 3%;
+    }
+    .cover .inner {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; padding: 7% 9%; text-align: center;
+    }
+
+    #logo { height: 7em; margin-top: 15px; }
+
+    .cover .uni-name {
+      font-family: 'EB Garamond', serif; font-size: clamp(17px,3.2vw,26px);
+      color: #111; letter-spacing: 0.01em; margin-bottom: 3px; font-weight: 600;
+    }
+    .cover .uni-tag { font-size: clamp(8px,1.4vw,11px); color: #555; font-family: 'EB Garamond', serif; font-style: italic; }
+    .cover .divider { width: 60%; height: 2px; background: #222; margin: 3% auto; }
+    .cover .thin-divider { width: 45%; height: 1px; background: #ccc; margin: 2.5% auto; }
+    .cover .doc-type { font-family: 'EB Garamond', serif; font-size: clamp(11px,2vw,16px); margin-top: 4%; color: #333; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 1%; }
+    .cover .topic-name { font-family: 'EB Garamond', serif; font-size: clamp(14px,3.2vw,24px); color: #111; font-weight: 600; line-height: 1.3; margin-top: 1%; margin-bottom: 2%; }
+    .cover .course-info { font-family: 'EB Garamond', serif; font-size: clamp(9px,1.5vw,12px); color: #444444; margin-bottom: 3%; }
+    .cover .sub-section { width: 80%; text-align: center; margin-bottom: 3%; }
+    .cover .sub-label { font-family: 'EB Garamond', serif; font-size: clamp(9px,1.5vw,13px); font-weight: 700; color: #111; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .cover .sub-line { font-family: 'EB Garamond', serif; font-size: clamp(9px,1.6vw,13px); color: #333; line-height: 1.9; }
+    .cover .sub-line b { font-weight: 600; color: #111; }
+    .cover .date-line { font-family: 'EB Garamond', serif; font-size: clamp(9px,1.5vw,12px); color: #555; font-style: italic; margin-top: auto; padding-top: 2%; }
+
+    @media(max-width:820px) {
+      .layout { flex-direction: column; }
+      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+      .main { padding: 16px; }
+    }
+    @media(max-width:480px) {
+      .nav-search { width: 130px; }
+      .paper-wrap { max-width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Cover Generator</span>
+      </div>
+
+      <div class="form-section">
+
+        <!-- DOCUMENT -->
+        <div class="field-group">
+          <div class="fgt">Document</div>
+          <div class="row2">
+            <div class="field">
+              <label>Type</label>
+              <select id="f-type" onchange="update()">
+                <option>Assignment</option>
+                <option>Lab Report</option>
+                <option>Bonus Task</option>
+                <option>Quiz</option>
+                <option>Project Report</option>
+                <option>Term Paper</option>
+              </select>
+            </div>
+            <div class="field narrow">
+              <label>No. <span style="color:#555;font-size:10px">(opt)</span></label>
+              <input id="f-no" value="1" oninput="update()" placeholder="—" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Submission Date</label>
+            <input id="f-date" type="date" oninput="update()" />
+          </div>
+        </div>
+
+        <!-- TOPIC -->
+        <div class="field-group">
+          <div class="fgt">Topic</div>
+          <div class="field">
+            <label>Topic Name</label>
+            <input id="f-topic" value="Binary Search Trees and Graph Traversal" oninput="update()" style="font-weight:600;" />
+          </div>
+        </div>
+
+        <!-- COURSE -->
+        <div class="field-group">
+          <div class="fgt">Course</div>
+          <div class="field">
+            <label>Course Title</label>
+            <input id="f-ctitle" value="Data Structures and Algorithms" oninput="update()" />
+          </div>
+          <div class="field">
+            <label>Course Code</label>
+            <input id="f-ccode" value="CSE0613307" oninput="update()" />
+          </div>
+        </div>
+
+        <!-- SUBMITTED TO -->
+        <div class="field-group">
+          <div class="fgt">Submitted To</div>
+          <div class="field"><label>Teacher Name</label><input id="f-tname" value="Pranta Banik" oninput="update()" /></div>
+          <div class="field"><label>Designation</label><input id="f-tdesig" value="Lecturer" oninput="update()" /></div>
+
+          <!-- hidden fields: teacher dept + uni -->
+          <div class="more-fields" id="more-teacher">
+            <div class="field"><label>Department</label><input id="f-tdept" value="Department of CSE" oninput="update()" /></div>
+            <div class="field"><label>University</label><input id="f-tuni" value="Uttara University" oninput="update()" /></div>
+          </div>
+          <button class="btn-more" id="toggle-teacher" onclick="toggleMore('teacher')">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            More details
+          </button>
+        </div>
+
+        <!-- SUBMITTED BY -->
+        <div class="field-group">
+          <div class="fgt">Submitted By</div>
+          <div class="field"><label>Your Name</label><input id="f-sname" value="Minhajul Islam" oninput="update()" /></div>
+          <div class="field"><label>Student ID</label><input id="f-sid" value="2241081370" oninput="update()" /></div>
+
+          <!-- hidden fields: batch, section, dept, uni, semester -->
+          <div class="more-fields" id="more-student">
+            <div class="row2">
+              <div class="field"><label>Batch</label><input id="f-batch" value="61" oninput="update()" /></div>
+              <div class="field narrow"><label>Section</label><input id="f-sec" value="B" oninput="update()" /></div>
+            </div>
+            <div class="field"><label>Department</label><input id="f-sdept" value="Department of CSE" oninput="update()" /></div>
+            <div class="field"><label>University</label><input id="f-suni" value="Uttara University" oninput="update()" /></div>
+            <div class="field">
+              <label>Semester <span style="color:#555;font-size:10px">(opt)</span></label>
+              <input id="f-semester" value="Spring 2025" oninput="update()" placeholder="—" />
+            </div>
+          </div>
+          <button class="btn-more" id="toggle-student" onclick="toggleMore('student')">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            More details
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MAIN PREVIEW -->
+    <div class="main">
+
+      <div class="page-badge">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <path d="M3 9h18M9 21V9" />
+        </svg>
+        UU Cover Generator
+      </div>
+
+      <div class="preview-label">
+        <div class="live-dot"></div>
+        <span>Live preview</span>
+      </div>
+
+      <!-- IMPROVED DOWNLOAD SECTION -->
+      <div class="download-sec">
+        <span class="download-sec-label">Download as</span>
+        <div class="download-btns">
+          <button class="dl-btn dl-btn-pdf" id="btn-pdf" onclick="downloadPDF()">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            PDF
+            <span class="dl-btn-tooltip">Save as PDF document</span>
+          </button>
+          <button class="dl-btn dl-btn-png" id="btn-img" onclick="downloadImg()">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            PNG
+            <span class="dl-btn-tooltip">Save as image file</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="paper-wrap">
+        <div id="cover-page" class="cover"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    /* ── HELPERS ── */
+    function g(id) { return (document.getElementById(id)?.value || '').trim(); }
+    function s(id, val) { const el = document.getElementById(id); if (el) el.value = val; }
+
+    function fmtDate(val) {
+      if (!val) return '';
+      const d = new Date(val);
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    /* ── LOCAL STORAGE ── */
+    const LS_KEY = 'uu_cover_data';
+    const FIELDS = ['f-type','f-no','f-date','f-topic','f-ctitle','f-ccode',
+                    'f-tname','f-tdesig','f-tdept','f-tuni',
+                    'f-sname','f-sid','f-batch','f-sec','f-sdept','f-suni','f-semester'];
+
+    function saveToLS() {
+      const data = {};
+      FIELDS.forEach(id => { data[id] = document.getElementById(id)?.value || ''; });
+      localStorage.setItem(LS_KEY, JSON.stringify(data));
+    }
+
+    function loadFromLS() {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        FIELDS.forEach(id => {
+          if (data[id] !== undefined && data[id] !== null) {
+            s(id, data[id]);
+          }
+        });
+        return true;
+      } catch(e) { return false; }
+    }
+
+    /* ── MORE / LESS TOGGLE ── */
+    function toggleMore(section) {
+      const fields = document.getElementById('more-' + section);
+      const btn = document.getElementById('toggle-' + section);
+      const isOpen = fields.classList.toggle('open');
+      btn.classList.toggle('open', isOpen);
+      btn.innerHTML = isOpen
+        ? `<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg> Less details`
+        : `<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg> More details`;
+    }
+
+    /* ── COVER RENDER ── */
+    function update() {
+      const type = g('f-type') || 'Assignment';
+      const no = g('f-no');
+      const docLabel = no ? `${type} No. ${no}` : type;
+      const date = fmtDate(g('f-date'));
+      const topic = g('f-topic') || 'Topic Name';
+      const ctitle = g('f-ctitle') || 'Course Title';
+      const ccode = g('f-ccode') || 'CSE0000000';
+      const tname = g('f-tname') || 'Teacher Name';
+      const tdesig = g('f-tdesig') || 'Lecturer';
+      const tdept = g('f-tdept') || 'Department of CSE';
+      const tuni = g('f-tuni') || 'Uttara University';
+      const sname = g('f-sname') || 'Student Name';
+      const sid = g('f-sid') || '0000000000';
+      const batch = g('f-batch') || '';
+      const sec = g('f-sec') || '';
+      const sdept = g('f-sdept') || 'Department of CSE';
+      const suni = g('f-suni') || 'Uttara University';
+      const sem = g('f-semester');
+
+      const batchLine = (batch || sec) ? `Batch ${batch}${sec ? ' (' + sec + ')' : ''}` : '';
+
+      const cp = document.getElementById('cover-page');
+      cp.innerHTML = `
+        <div class="inner">
+          <div class="logo-zone"><img id="logo" src="/uu_logo.png" /></div>
+          <div class="doc-type">${docLabel}</div>
+          <div class="topic-name">${topic}</div>
+          <div class="course-info">${ctitle} &nbsp;·&nbsp; ${ccode}${sem ? ' &nbsp;·&nbsp; ' + sem : ''}</div>
+          <div class="thin-divider"></div>
+          <div class="sub-section">
+            <div class="sub-label">Submitted to</div>
+            <div class="sub-line"><b>${tname}</b></div>
+            <div class="sub-line">${tdesig}, ${tdept}</div>
+            <div class="sub-line">${tuni}</div>
+          </div>
+          <div class="thin-divider"></div>
+          <div class="sub-section">
+            <div class="sub-label">Submitted by</div>
+            <div class="sub-line"><b>${sname}</b></div>
+            <div class="sub-line">Student ID: ${sid}</div>
+            ${batchLine ? `<div class="sub-line">${batchLine}</div>` : ''}
+            <div class="sub-line">${sdept}, ${suni}</div>
+          </div>
+          ${date ? `<div class="date-line">Date of Submission: ${date}</div>` : ''}
+        </div>`;
+    }
+
+    /* ── DOWNLOAD STATES ── */
+    function setLoadingState(on) {
+      const pdfBtn = document.getElementById('btn-pdf');
+      const imgBtn = document.getElementById('btn-img');
+      pdfBtn.disabled = on;
+      imgBtn.disabled = on;
+      if (on) {
+        pdfBtn.classList.add('loading');
+        imgBtn.classList.add('loading');
+      } else {
+        pdfBtn.classList.remove('loading');
+        imgBtn.classList.remove('loading');
+      }
+    }
+
+    function showDone(which) {
+      const btn = document.getElementById(which === 'pdf' ? 'btn-pdf' : 'btn-img');
+      const cls = which === 'pdf' ? 'done-pdf' : 'done-png';
+      btn.classList.add(cls);
+      const orig = btn.innerHTML;
+      btn.innerHTML = `<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Saved!`;
+      setTimeout(() => {
+        btn.classList.remove(cls);
+        btn.innerHTML = orig;
+      }, 2000);
+    }
+
+    async function capture() {
+      return await html2canvas(document.getElementById('cover-page'), {
+        scale: 3, useCORS: true, backgroundColor: '#ffffff', logging: false
+      });
+    }
+
+    function filename() {
+      const type = (g('f-type') || 'Assignment').replace(/\s+/g, '_');
+      const no = g('f-no');
+      const topic = (g('f-topic') || 'Topic').replace(/\s+/g, '_').slice(0, 30);
+      return no ? `${type}_${no}_${topic}` : `${type}_${topic}`;
+    }
+
+    async function downloadPDF() {
+      setLoadingState(true);
+      try {
+        const canvas = await capture();
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+        pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 210, 297);
+        pdf.save(filename() + '.pdf');
+        saveToLS();
+        showDone('pdf');
+      } catch(e) { alert('Error: ' + e.message); }
+      setLoadingState(false);
+    }
+
+    async function downloadImg() {
+      setLoadingState(true);
+      try {
+        const canvas = await capture();
+        const a = document.createElement('a');
+        a.download = filename() + '.png';
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+        saveToLS();
+        showDone('png');
+      } catch(e) { alert('Error: ' + e.message); }
+      setLoadingState(false);
+    }
+
+    /* ── INIT ── */
+    // Set today's date as default first
+    document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+
+    // Then try loading from localStorage (will override defaults if data exists)
+    const loaded = loadFromLS();
+
+    // If localStorage had data and the hidden sections have values, auto-open them
+    if (loaded) {
+      ['teacher', 'student'].forEach(section => {
+        const fields = document.getElementById('more-' + section);
+        const inputs = fields.querySelectorAll('input');
+        const hasData = Array.from(inputs).some(el => el.value.trim() !== '');
+        if (hasData) {
+          fields.classList.add('open');
+          const btn = document.getElementById('toggle-' + section);
+          btn.classList.add('open');
+          btn.innerHTML = `<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg> Less details`;
+        }
+      });
+    }
+
+    update();
+  </script>
+</body>
+</html>
