@@ -10,6 +10,7 @@ import Question_Bank_Home from "../Pages/Question_Bank/Question_Bank_Home";
 import Question_Bank_Details from "../Pages/Question_Bank/Question_Bank_Details";
 import Cover_Generator from "../tools/Cover_Generator";
 import Register from "../Pages/Auth/Register";
+import All_Users from "../Pages/All_Users/All_Users";
 
 export const router = createHashRouter([
   {
@@ -43,6 +44,10 @@ export const router = createHashRouter([
       {
         path: "/labDetails/:id",
         element: <Protected_Route><Course_Metarial_Details /></Protected_Route>
+      },
+      {
+        path: "/users",
+        element: <Protected_Route><All_Users /></Protected_Route>
       },
       {
         path: "/upload",

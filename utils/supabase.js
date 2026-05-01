@@ -26,7 +26,7 @@ const uploadToSupabase = async (file) => {
       return null;
     }
 
-    const fileUrl = `${supabaseUrl}/storage/v1/object/public/${BUCKET_NAME}/${filePath}`;
+    const fileUrl = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${filePath}`;
     console.log('File uploaded successfully. File URL:', fileUrl);
 
     return fileUrl;

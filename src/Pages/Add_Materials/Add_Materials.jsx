@@ -361,10 +361,10 @@ const Add_Materials = ({ courseId, setRefetch, refetch }) => {
                         </label>
 
                         {selectedFiles.length > 0 && (
-                            <div className="mt-3 space-y-1 text-sm text-gray-700">
+                            <div className="mt-3 space-y-1 text-sm">
                                 <strong className="block font-normal mb-1">Selected Files :</strong>
                                 {selectedFiles.map((file, index) => (
-                                    <div key={index} className="truncate ml-2">
+                                    <div key={index} className="truncate ml-2 text-blue-400">
                                         {file.name}
                                     </div>
                                 ))}

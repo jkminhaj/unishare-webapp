@@ -5,6 +5,7 @@ import axiosInstance from "../config/axiosIntance";
 export const GlobalContext = createContext(null);
 const GlobalProvider = ({ children }) => {
     const [globalLoading , setGlobalLoading] = useState(false);
+    const [breadcrumb, setBreadcrumb] = useState([]); 
     const [user , setUser] = useState(null);
     // Authentication
     const auth = getAuth(app) ;
@@ -73,7 +74,7 @@ const GlobalProvider = ({ children }) => {
         
 
     // pass data in global context
-    const data = {  user , connect_facebook , globalLoading , setGlobalLoading , connect_google , create_user , login_user , log_out };
+    const data = {  user , connect_facebook , globalLoading , setGlobalLoading , connect_google , create_user , login_user , log_out , breadcrumb, setBreadcrumb };
     return (
         <GlobalContext.Provider value={data}>
             {children}
