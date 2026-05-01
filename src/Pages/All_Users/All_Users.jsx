@@ -3,7 +3,6 @@ import axiosInstance from "../../config/axiosIntance";
 import { FiSearch } from "react-icons/fi";
 import { GlobalContext } from "../../context/GlobalProvider";
 
-/* ─── helpers ───────────────────────────────────────────────────── */
 function extractUser(line) {
     const prefixSet = new Set(["MD","MD.","MUHAMMAD","MOHAMMAD","MOHAMED","MOHAMMED","MST","MST.","MOSAMMAT","AL","AL-","AL."]);
     const normalize = w => w.replace(/[\.\-]/g,"").toUpperCase().trim();
@@ -26,7 +25,7 @@ function fmtDate(iso) {
     return new Date(iso).toLocaleDateString("en-GB",{ day:"2-digit", month:"short", year:"numeric" });
 }
 
-/* ─── constants ─────────────────────────────────────────────────── */
+
 const AVATAR_PALETTE = ["#2399f0","#8b5cf6","#14b8a6","#f59e0b","#FF595A","#34C759"];
 const MEDAL = { 1:"🥇", 2:"🥈", 3:"🥉" };
 const MEMBER_FILTERS = ["all","student","cr","developer"];
@@ -46,7 +45,6 @@ function avatarColor(name="") {
 }
 function initials(name="") { return name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase(); }
 
-/* ─── Avatar ────────────────────────────────────────────────────── */
 const Avatar = ({ user, size="w-9 h-9" }) => {
     const bg = avatarColor(user.name);
     return user.photo
@@ -59,7 +57,7 @@ const Avatar = ({ user, size="w-9 h-9" }) => {
           </div>;
 };
 
-/* ─── RoleBadge ─────────────────────────────────────────────────── */
+
 const RoleBadge = ({ role }) => {
     const cfg = ROLE_BADGE[role] || ROLE_BADGE.student;
     return (
@@ -69,7 +67,7 @@ const RoleBadge = ({ role }) => {
     );
 };
 
-/* ─── MemberRow ─────────────────────────────────────────────────── */
+
 const MemberRow = ({ user, rank, isDeveloper }) => {
     const parsed  = extractUser(`${user.name} ${user.studentId||user.username||""}`);
     const deptCls = DEPT_COLOR[user.department] || "text-slate-500";
@@ -101,7 +99,6 @@ const MemberRow = ({ user, rank, isDeveloper }) => {
     );
 };
 
-/* ─── RankRow ───────────────────────────────────────────────────── */
 const RankRow = ({ user, position }) => {
     const total  = totalContrib(user);
     const a      = user.contribution?.assignments?.length ?? 0;
@@ -148,7 +145,7 @@ const RankRow = ({ user, position }) => {
     );
 };
 
-/* ─── Skeleton ──────────────────────────────────────────────────── */
+
 const SkeletonRow = () => (
     <div className="flex items-center gap-3 px-5 py-[10px] border-b border-white/[.035] animate-pulse">
         <div className="w-5 h-3 rounded bg-[#1a2535]" />
@@ -161,7 +158,7 @@ const SkeletonRow = () => (
     </div>
 );
 
-/* ─── Page ──────────────────────────────────────────────────────── */
+
 export default function All_Users() {
     const [loading, setLoading] = useState(true);
     const [users,   setUsers]   = useState([]);
@@ -218,7 +215,7 @@ export default function All_Users() {
                 .fade-up { animation:fadeUp .2s ease both; }
             `}</style>
 
-            {/* ── Header ── */}
+            {/* Header */}
             <div className="flex flex-wrap items-center justify-between gap-4 mb-5 flex-shrink-0">
                 <div>
                     <h1 className="text-xl font-semibold text-[#e0ecf5] tracking-tight m-0">University Users</h1>
@@ -255,7 +252,7 @@ export default function All_Users() {
                 )}
             </div>
 
-            {/* ── Tabs ── */}
+            {/* Tabs */}
             <div className="flex gap-[3px] mb-4 flex-shrink-0 bg-[#0a1219] rounded-xl p-[3px] w-fit">
                 {[["members","Members"],["ranking","Ranking"]].map(([key,lbl])=>(
                     <button key={key} onClick={()=>setTab(key)}
@@ -269,7 +266,7 @@ export default function All_Users() {
                 ))}
             </div>
 
-            {/* ── Role filters ── */}
+            {/* Role filters */}
             {tab === "members" && (
                 <div className="flex flex-wrap gap-2 mb-4 flex-shrink-0">
                     {MEMBER_FILTERS.map(f => (
@@ -290,7 +287,7 @@ export default function All_Users() {
                 </div>
             )}
 
-            {/* ── List ── */}
+            {/* List */}
             <div className="no-scroll flex-1 overflow-y-auto rounded-2xl min-h-0
                             bg-[#0b1620] border border-white/[.05]">
                 {loading ? (
