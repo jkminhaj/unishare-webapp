@@ -150,7 +150,6 @@ const Course_Metarial_Details = () => {
                                         </>
                                 }
                                 <li onClick={() => { handleCopy() }}><a className="flex  hover:bg-[#2399f0] items-center gap-2"><FiLink /> Copy link</a></li>
-                                <li onClick={() => { handleMaterialDelete() }}><a className="flex items-center gap-2"><AiOutlineDelete /> {delLoading ? "Deleting.." : "Delete"}</a></li>
                             </ul>
                         </div>
                     </div>

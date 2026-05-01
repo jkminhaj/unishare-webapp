@@ -228,9 +228,7 @@ export default function All_Users() {
                 {tab === "members" && (
                     <div className={`flex items-center gap-2 rounded-2xl px-4 py-[9px] min-w-[220px]
                                      transition-all duration-200
-                                     ${focused
-                                        ? "bg-[#2399f0]/[.06] border border-[#2399f0]/40 shadow-[0_0_0_3px_rgba(35,153,240,.07)]"
-                                        : "bg-[#0d1722] border border-white/[.06]"}`}>
+                                    bg-[#0d1722] border border-white/[.06]`}>
                         <FiSearch className={`text-sm flex-shrink-0 transition-colors duration-200
                                               ${focused ? "text-[#2399f0]" : "text-slate-600"}`} />
                         <input
@@ -288,13 +286,13 @@ export default function All_Users() {
             )}
 
             {/* List */}
-            <div className="no-scroll flex-1 overflow-y-auto rounded-2xl min-h-0
+            <div className="no-scroll flex-1 overflow-y-auto py-2 rounded-2xl min-h-0
                             bg-[#0b1620] border border-white/[.05]">
                 {loading ? (
                     [...Array(7)].map((_,i)=><SkeletonRow key={i}/>)
                 ) : tab==="members" ? (
                     filteredMembers.length===0 ? (
-                        <div className="flex flex-col items-center justify-center h-44 gap-3">
+                        <div className="flex flex-col items-center mt-32 justify-center h-44 gap-3">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
                                  stroke="#1e3040" strokeWidth="1.5">
                                 <circle cx="12" cy="8" r="4"/>

@@ -105,7 +105,7 @@ const Register = () => {
                     </p>
                 </div>
 
-                <p className="text-xs text-slate-700">© 2024 Unishare. All rights reserved.</p>
+                <p className="text-xs text-slate-700">© 2026 Unishare. All rights reserved.</p>
             </div>
 
             {/* ── Right panel — form ── */}

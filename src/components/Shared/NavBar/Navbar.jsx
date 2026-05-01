@@ -3,16 +3,18 @@ import { FaUser, FaQuestion, FaBookOpen, FaUsers } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { GoBellFill } from "react-icons/go";
 import { TbLogout2 } from "react-icons/tb";
-import { FaRegFilePdf, FaGraduationCap, FaOrcid  } from "react-icons/fa6";
+import { FaRegFilePdf, FaGraduationCap, FaOrcid } from "react-icons/fa6";
 import { MdDashboard } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../../context/GlobalProvider";
 import extractUser from "../../../Helper/ExtractUser";
+import { FaAngleRight } from "react-icons/fa";
+
 
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const { log_out, user , breadcrumb } = useContext(GlobalContext);
+    const { log_out, user, breadcrumb } = useContext(GlobalContext);
     const [loading, setLoading] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
@@ -35,7 +37,7 @@ const Navbar = () => {
             : user.displayName
         : "Demo User";
 
-    
+
     // Extract student ID / roll from displayName if it contains digits
     const studentId = user?.displayName && isUniName(user.displayName)
         ? extractUser(user.displayName)?.id || "N/A"
@@ -57,15 +59,25 @@ const Navbar = () => {
             <div className="w-11/12 md:w-10/12 mx-auto flex items-center justify-between">
 
                 {/* Logo */}
-                <div className="flex items-center gap-5">
+                <div className="flex items-center gap-3">
                     <NavLink to="/" className="text-2xl hover:underline text-white  tracking-wide">
                         Uni Share
                     </NavLink>
+                    <FaAngleRight className="text-white"/>
+                    <NavLink to="/#" className="text-sm hover:underline text-gray-400">
+                        Java Materials
+                    </NavLink>
+                    <FaAngleRight className="text-white"/>
+                    <NavLink to="/#" className="text-sm hover:underline text-gray-400">
+                        OOP Concepts
+                    </NavLink>
                 </div>
 
+                
                 {/* Breadcrumb bar */}
                 {breadcrumb.length > 0 && (
                     <div className="w-11/12 md:w-10/12 mx-auto flex items-center gap-1 pt-1 pb-0.5 text-xs text-gray-400 overflow-x-auto whitespace-nowrap scrollbar-hide">
+                        
                         {breadcrumb.map((crumb, i) => (
                             <span key={i} className="flex items-center gap-1">
                                 {i > 0 && <span className="text-gray-600 select-none">›</span>}
@@ -181,7 +193,7 @@ const Navbar = () => {
                                             </span>
                                             {studentId && (
                                                 <span className="flex items-center gap-1 bg-[#ffffff08] border border-[#ffffff15] text-gray-300 text-[11px] font-medium px-2 py-0.5 rounded-full">
-                                                    <FaOrcid  className="text-xs" />
+                                                    <FaOrcid className="text-xs" />
                                                     {studentId}
                                                 </span>
                                             )}
@@ -195,7 +207,7 @@ const Navbar = () => {
                                             label="Users"
                                             onClick={() => { navigate("/users"); setDropdownOpen(false); }}
                                         />
-                                        
+
                                         {/* <MenuItem
                                             icon={<FaQuestion />}
                                             label="Question Bank"
