@@ -40,10 +40,7 @@ const Cover_Generator = () => {
               animation: "slideDown 0.6s cubic-bezier(0.34,1.56,0.64,1) both",
             }}
           >
-            <span
-              className="w-1.5 h-1.5 rounded-full bg-green-400"
-              style={{ animation: "pulse 2s infinite" }}
-            />
+            
             Uttara University Cover Generator
           </div>
 
@@ -94,7 +91,7 @@ const Cover_Generator = () => {
             onMouseEnter={(e) => {
               e.currentTarget.style.background = "#1976d2";
               e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow = "0 8px 32px rgba(33,150,243,0.4)";
+              // e.currentTarget.style.boxShadow = "0 8px 32px rgba(33,150,243,0.4)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = "#2196f3";

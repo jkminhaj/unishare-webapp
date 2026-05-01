@@ -63,14 +63,14 @@ const Navbar = () => {
                     <NavLink to="/" className="text-2xl hover:underline text-white  tracking-wide">
                         Uni Share
                     </NavLink>
-                    <FaAngleRight className="text-white"/>
+                    {/* <FaAngleRight className="text-white"/>
                     <NavLink to="/#" className="text-sm hover:underline text-gray-400">
                         Java Materials
                     </NavLink>
                     <FaAngleRight className="text-white"/>
                     <NavLink to="/#" className="text-sm hover:underline text-gray-400">
                         OOP Concepts
-                    </NavLink>
+                    </NavLink> */}
                 </div>
 
                 
