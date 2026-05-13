@@ -5,30 +5,29 @@ import { Link } from "react-router-dom";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import Skeleton_CourseCard from "../Skeletons/Skeleton_CourseCard";
 import Add_Course from "./Add_Course";
+import Create_Course_Modal from "../Modals/Create_Course_Modal";
 
 
 const AllCourses = () => {
     const [loading, setLoading] = useState(true);
     const [courses, setCourses] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
-
-    useEffect(() => {
-
-        const fetchCourses = async () => {
-            try {
-                const response = await axiosInstance.get("/api/courses/get_all_courses");
-                setCourses(response.data.courses);
-                // console.log(response.data.courses);
-            } catch (err) {
-                console.log("Courses fetching error : ", err);
-            } finally {
-                setLoading(false);
-            }
+    const fetchCourses = async () => {
+        try {
+            const response = await axiosInstance.get("/api/courses/get_all_courses");
+            setCourses(response.data.courses);
+            // console.log(response.data.courses);
+        } catch (err) {
+            console.log("Courses fetching error : ", err);
+        } finally {
+            setLoading(false);
         }
-
+    }
+    useEffect(() => {
         fetchCourses();
     }, [])
-    
+
     return (
         <div className="pb-5">
             {/* <p className="text-center md:text-2xl animate-pulse text-red-400 my-3">Website Under Construction</p> */}
@@ -47,7 +46,7 @@ const AllCourses = () => {
                 {
                     !loading ?
                         courses.slice().reverse().map(course => {
-                            return <CourseCard course={course} key={course._id} />;
+                            return <CourseCard refetch={() => { fetchCourses() }} course={course} key={course._id} />;
                         })
                         :
                         Array.from({ length: 10 }).map((_, index) => (
@@ -56,7 +55,8 @@ const AllCourses = () => {
                 }
 
                 {/* add more course  */}
-                {!loading && <Add_Course />}
+                {!loading && <Add_Course setShowModal={setShowModal} />}
+                <Create_Course_Modal open={showModal} onClose={() => { setShowModal(false) }} refetch={() => { fetchCourses() }} />
             </div>
         </div>
     );

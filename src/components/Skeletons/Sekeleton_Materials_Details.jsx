@@ -6,7 +6,7 @@ const Sekeleton_Materials_Details = () => {
                 <div className="h-8 w-2/3 bg-[#131920] rounded" />
             </div>
 
-            <div className="mt-3 mb-5 h-4 w-full bg-[#131920] rounded" />
+            {/* <div className="mt-3 mb-5 h-4 w-full bg-[#131920] rounded" /> */}
             <div className="mt-2 mb-5 h-4 w-4/5 bg-[#131920] rounded" />
 
             <div className="flex justify-between items-center">
@@ -18,11 +18,11 @@ const Sekeleton_Materials_Details = () => {
             </div>
 
             <hr className="my-4 border-[#131920]" />
-
-            <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
+            <div className="h-4 w-28 bg-[#131920] rounded mb-4" />
+            <div className="">
                 {[1].map((_, idx) => (
                     <div key={idx} className="bg-[#131920] p-2 rounded-xl w-full">
-                        <div className="h-10 md:h-16 w-2/3 rounded mx-auto" />
+                        <div className="h-10 md:h-14 w-2/3 rounded mx-auto" />
                     </div>
                 ))}
             </div>

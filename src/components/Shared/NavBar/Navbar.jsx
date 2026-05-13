@@ -5,20 +5,20 @@ import { GoBellFill } from "react-icons/go";
 import { TbLogout2 } from "react-icons/tb";
 import { FaRegFilePdf, FaGraduationCap, FaOrcid } from "react-icons/fa6";
 import { MdDashboard } from "react-icons/md";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../../context/GlobalProvider";
 import extractUser from "../../../Helper/ExtractUser";
 import { FaAngleRight } from "react-icons/fa";
+import { HiSpeakerphone } from "react-icons/hi";
 
 
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const { log_out, user, breadcrumb } = useContext(GlobalContext);
+    const { log_out, user , isHome, isCourse, isMaterial } = useContext(GlobalContext);
     const [loading, setLoading] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
-
     const handleSignOut = () => {
         setLoading(true);
         log_out();
@@ -53,6 +53,8 @@ const Navbar = () => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+    
+   
 
     return (
         <div className="py-2 fixed top-0 z-50 w-full bg-[#1d2733] text-gray-800 shadow-gray-50-200 mb-4 shadow-xl border-b border-[#9999990c]">
@@ -60,41 +62,59 @@ const Navbar = () => {
 
                 {/* Logo */}
                 <div className="flex items-center gap-3">
-                    <NavLink to="/" className="text-2xl hover:underline text-white  tracking-wide">
+
+                    {/* Logo / Home */}
+                    <NavLink
+                        to="/"
+                        className="text-2xl hover:underline text-white tracking-wide"
+                    >
                         Uni Share
                     </NavLink>
-                    {/* <FaAngleRight className="text-white"/>
-                    <NavLink to="/#" className="text-sm hover:underline text-gray-400">
-                        Java Materials
-                    </NavLink>
-                    <FaAngleRight className="text-white"/>
-                    <NavLink to="/#" className="text-sm hover:underline text-gray-400">
-                        OOP Concepts
-                    </NavLink> */}
+
+                    {/* Course Page */}
+                    {isCourse && (
+                        <>
+                            <FaAngleRight className="text-white" />
+
+                            <NavLink
+                                to="#"
+                                className="text-sm hover:underline text-gray-400"
+                            >
+                                {/* {courseName} */}
+                                Course Name
+                            </NavLink>
+                        </>
+                    )}
+
+                    {/* Material Page */}
+                    {isMaterial && (
+                        <>
+                            <FaAngleRight className="text-white" />
+
+                            <NavLink
+                                to="#"
+                                className="text-sm hover:underline text-gray-400"
+                            >
+                                {/* {courseName} */}
+                                Course Name
+                            </NavLink>
+
+                            <FaAngleRight className="text-white" />
+
+                            <NavLink
+                                to="#"
+                                className="text-sm hover:underline text-gray-400"
+                            >
+                                {/* {materialName} */}
+                                Material Name
+                            </NavLink>
+                        </>
+                    )}
                 </div>
 
-                
+
                 {/* Breadcrumb bar */}
-                {breadcrumb.length > 0 && (
-                    <div className="w-11/12 md:w-10/12 mx-auto flex items-center gap-1 pt-1 pb-0.5 text-xs text-gray-400 overflow-x-auto whitespace-nowrap scrollbar-hide">
-                        
-                        {breadcrumb.map((crumb, i) => (
-                            <span key={i} className="flex items-center gap-1">
-                                {i > 0 && <span className="text-gray-600 select-none">›</span>}
-                                {i < breadcrumb.length - 1 ? (
-                                    <span
-                                        onClick={() => navigate(crumb.path)}
-                                        className="cursor-pointer hover:text-[#2399f0] transition-colors"
-                                    >
-                                        {crumb.label}
-                                    </span>
-                                ) : (
-                                    <span className="text-white font-medium truncate max-w-[180px]">{crumb.label}</span>
-                                )}
-                            </span>
-                        ))}
-                    </div>
-                )}
+                
 
                 {/* Right section */}
                 <div className="flex items-center gap-3">
@@ -119,8 +139,8 @@ const Navbar = () => {
                     </div>
 
                     {/* Notifications */}
-                    <div className="bg-[#2399f0] flex items-center rounded-2xl p-2" title="Notifications">
-                        <GoBellFill className="text-xl text-white" />
+                    <div className="bg-[#2399f0] cursor-pointer flex items-center rounded-2xl p-2" title="Announcement on telegram">
+                        <HiSpeakerphone className="text-xl text-white" />
                     </div>
 
                     {/* User Dropdown */}

@@ -10,10 +10,11 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { FiEdit3, FiLink } from "react-icons/fi";
 import { MdContentCopy } from "react-icons/md";
 import extractUser from "../../Helper/ExtractUser";
-import { FaFilePdf } from "react-icons/fa";
+import { FaFilePdf, FaGoogleDrive } from "react-icons/fa";
 import { TbMessageReport } from "react-icons/tb";
-
-
+import { HiOutlineDocumentText } from "react-icons/hi2";
+import { FiExternalLink } from "react-icons/fi";
+import drivelogo from "../../../public/drive_logo.webp";
 
 const materialtype = (str) => {
     if (str.includes("assignment")) {
@@ -180,37 +181,46 @@ const Course_Metarial_Details = () => {
 
 
                     <hr className="my-4 border-gray-600" />
-                    <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <p className="text-sm font-base text-[#9fb3c8] mb-3 uppercase tracking-wide">
+                        Attachments
+                    </p>
+
+                    <div className="space-y-3">
                         {materialData?.data?.map((item, indx) => (
                             <a
                                 key={indx}
                                 href={item.viewLink}
                                 target="_blank"
-                                className="flex bg-[#131920] cursor-pointer rounded-xl overflow-hidden15 hover:shadow-sm transition"
+                                rel="noreferrer"
+                                className="flex items-center justify-between  border border-gray-600 rounded-2xl px-3 py-2 hover:bg-[#1b314783] transition-all duration-200 group"
                             >
-                                {/* Left Side with bg image */}
-                                {
-                                    item.thumbnailLink ?
-                                        <img
-                                            referrerPolicy="no-referrer"
-                                            src={"https://img.icons8.com/ios11/512/228BE6/document.png" || item.thumbnailLink}
-                                            className="w-1/2 max-h-16 md:max-h-20  md:h-24 rounded-l-xl md:max-w-20 bg-cover bg-center"
-                                        // style={{ backgroundImage: `url(${item?.thumbnailLink || "/fallback.jpg"})` }}
-                                        >
-                                        </img>
-                                        :
-                                        <div className={`w-1/2 h-16 md:max-h-20 flex justify-center items-center md:h-24 rounded-l-xl text-white ${typeColors[type]}`}>
-                                            <p className="text-xl font-semibold">PDF</p>
-                                        </div>
-                                }
+                                {/* Left Side */}
+                                <div className="flex items-center gap-4 overflow-hidden">
 
-                                {/* Right Side with text */}
-                                <div className="w-1/2 flex items-center justify-center p-2">
-                                    <a
-                                        className="text-sm  hover:text-blue-600 transition"
-                                    >
-                                        Doc {indx + 1}
-                                    </a>
+                                    {/* Drive Logo */}
+                                    <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shrink-0 overflow-hidden">
+                                        <img
+                                            src={drivelogo}
+                                            alt="Google Drive"
+                                            className="w-5 h-5 object-contain"
+                                        />
+                                    </div>
+
+                                    {/* Text */}
+                                    <div className="overflow-hidden">
+                                        <p className="text-gray-300 font-semibold truncate">
+                                            Doc {indx + 1}
+                                        </p>
+
+                                        <span className="text-[#aabed3] text-sm truncate block">
+                                            Google Drive File
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Right Icon */}
+                                <div className="text-[#7f93aa] group-hover:text-white transition shrink-0">
+                                    <FiExternalLink className="text-xl" />
                                 </div>
                             </a>
                         ))}

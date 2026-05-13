@@ -1,80 +1,91 @@
 import { createContext, useEffect, useState } from "react";
-import {app} from "../../firebase.config";
+import { app } from "../../firebase.config";
 import { createUserWithEmailAndPassword, FacebookAuthProvider, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import axiosInstance from "../config/axiosIntance";
+import { useLocation } from "react-router-dom";
 export const GlobalContext = createContext(null);
 const GlobalProvider = ({ children }) => {
-    const [globalLoading , setGlobalLoading] = useState(false);
-    const [breadcrumb, setBreadcrumb] = useState([]); 
-    const [user , setUser] = useState(null);
+    const [globalLoading, setGlobalLoading] = useState(false);
+    const [role ,setRole] = useState(null);
+    // const { pathname : path } = useLocation();
+    const path = window.location.pathname;
+    const [user, setUser] = useState(null);
     // Authentication
-    const auth = getAuth(app) ;
+    const auth = getAuth(app);
     const google_provider = new GoogleAuthProvider();
     const facebook_provider = new FacebookAuthProvider();
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         const cacheUser = localStorage.getItem("user");
         if (cacheUser) setUser(JSON.parse(cacheUser));
-    },[]);
-
-    const connect_google =()=>{
+    }, []);
+   
+    const connect_google = () => {
         setGlobalLoading(true);
-        return signInWithPopup(auth , google_provider);
+        return signInWithPopup(auth, google_provider);
     }
-    const connect_facebook =()=>{
+    const connect_facebook = () => {
         setGlobalLoading(true);
-        return signInWithPopup(auth , facebook_provider);
+        return signInWithPopup(auth, facebook_provider);
     }
-    const create_user =(email,password)=>{
+    const create_user = (email, password) => {
         setGlobalLoading(true);
-        return createUserWithEmailAndPassword(auth,email,password);
+        return createUserWithEmailAndPassword(auth, email, password);
     }
-    const login_user =(email,password)=>{
+    const login_user = (email, password) => {
         setGlobalLoading(true);
-        return signInWithEmailAndPassword(auth,email,password);
+        return signInWithEmailAndPassword(auth, email, password);
     }
-    const log_out =()=>{
+    const log_out = () => {
         setGlobalLoading(true);
         return signOut(auth);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         // holds the user
-        const unsubscirbe = onAuthStateChanged(auth,currentUser=>{
+        const unsubscirbe = onAuthStateChanged(auth, currentUser => {
             setGlobalLoading(true);
             setUser(currentUser);
-            const userData = {displayName : currentUser?.displayName , photoURL : currentUser?.photoURL , email : currentUser?.email }
-            localStorage.setItem("user",JSON.stringify(userData));
+            
+            const userData = { displayName: currentUser?.displayName, photoURL: currentUser?.photoURL, email: currentUser?.email }
+            localStorage.setItem("user", JSON.stringify(userData));
 
-            if(currentUser){
+            if (currentUser) {
                 // issue a token
-                axiosInstance.post(`/api/users/generate_token`,{email:currentUser?.email || user?.email},{withCredentials:true})
-                .then(res=>{
-                    console.log("Token response : ",res.data);
-                })
+                axiosInstance.post(`/api/users/generate_token`, { email: currentUser?.email || user?.email }, { withCredentials: true })
+                    .then(res => {
+                        console.log("Token response : ", res.data);
+                    })
                 console.log(userData);
                 setGlobalLoading(false);
-            }else{
+            } else {
                 // remove the token
                 localStorage.removeItem("user");
-                axiosInstance.post('/api/users/log_out',{email:currentUser?.email || user?.email},{withCredentials:true})
-                .then(res=>{
-                    console.log("Log out res : ",res.data);
-                })
+                axiosInstance.post('/api/users/log_out', { email: currentUser?.email || user?.email }, { withCredentials: true })
+                    .then(res => {
+                        console.log("Log out res : ", res.data);
+                    })
                 console.log("no user");
                 setGlobalLoading(false);
             }
         });
 
-        return ()=>{
+        return () => {
             unsubscirbe();
         }
 
-    },[])
-        
+    }, []);
+
+    const isHome = path === "/";
+    const isCourse = path.startsWith("/course/");
+    const isMaterial =
+        path.startsWith("/noteDetails/") ||
+        path.startsWith("/labDetails/") ||
+        path.startsWith("/assignmentDetails/");
+
 
     // pass data in global context
-    const data = {  user , connect_facebook , globalLoading , setGlobalLoading , connect_google , create_user , login_user , log_out , breadcrumb, setBreadcrumb };
+    const data = { user, connect_facebook, globalLoading, setGlobalLoading, connect_google, create_user, login_user, log_out, isHome, isCourse, isMaterial };
     return (
         <GlobalContext.Provider value={data}>
             {children}

@@ -140,7 +140,7 @@ const Course_Details = () => {
                                     <div className=" pr-2">
                                         {
                                             assignments &&
-                                            assignments.map((item, idx) => {
+                                            assignments.toReversed().map((item, idx) => {
                                                 return (
                                                     <div
 
@@ -164,7 +164,7 @@ const Course_Details = () => {
                                         }
                                         {
                                             labs &&
-                                            labs.map((item, idx) => {
+                                            labs.toReversed().map((item, idx) => {
                                                 return (
                                                     <div
 
@@ -187,7 +187,7 @@ const Course_Details = () => {
                                         }
                                         {
                                             notes &&
-                                            notes.map((item, idx) => {
+                                            notes.toReversed().map((item, idx) => {
                                                 return (
                                                     <div
                                                         onClick={() => { handleMaterialDetails("noteDetails", item) }}
